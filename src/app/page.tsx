@@ -29,7 +29,7 @@ export default function Home() {
               key={index}
               className="pl-1 md:basis-1/2 lg:basis-full"
             >
-              <div className="p-1">
+              <div className="p-0">
                 <Card>
                   <CardContent className="flex flex-col aspect-square items-center justify-center p-0 w-full">
                     <Image
@@ -50,9 +50,9 @@ export default function Home() {
         <div className="flex">
           <Input
             placeholder="Cari menu..."
-            className="h-12 w-full  lg:w-[250px] font-medium"
+            className="h-10 w-full  lg:w-[250px] font-medium"
           />
-          <Button variant="outline" className="h-12 ml-2">
+          <Button variant="outline" className="h-10 ml-2 p-2">
             <ListFilter size={24} />
           </Button>
         </div>
@@ -75,7 +75,7 @@ export default function Home() {
         <Separator className="my-2" />
         <h4 className="font-bold text-lg text-gray-600">Rekomendasi</h4>
         <Separator className="my-2" />
-        <div className="w-full grid grid-cols-2 gap-6">
+        <div className="w-full grid grid-cols-2 gap-x-4 gap-y-6">
           {Array.from({ length: 12 }).map((_, index) => (
             <Card key={index} className="border-0 bg-inherit shadow-none">
               <CardHeader className="text-lg font-semibold p-0 rounded-sm shadow-none">
