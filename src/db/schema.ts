@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import { integer, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("users", {
@@ -20,6 +21,8 @@ export const categoriesTable = pgTable("categories", {
   updatedAt: timestamp("updated_at")
     .$onUpdate(() => new Date()),
 });
+
+
 export const productsTable = pgTable("products", {
   id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
   name: text("name").notNull(),
@@ -60,6 +63,24 @@ export const cartTable = pgTable("carts", {
     .notNull()
     .$onUpdate(() => new Date()),
 });
+
+// Relation
+export const categoriesRelation = relations(categoriesTable, ({ many }) => ({
+  products: many(productsTable)
+}));
+export const productsRelation = relations(productsTable, ({ one }) => ({
+  category: one(categoriesTable,{
+    fields: [productsTable.categoryId],
+    references: [categoriesTable.id]
+  })
+}));
+export const ordersRelation = relations(ordersTable, ({ many }) => ({
+  carts: many(cartTable)
+}));
+export const cartsRelation = relations(cartTable, ({ one }) => ({
+  product: one(productsTable),
+  order: one(ordersTable)
+}));
 
 export type InsertUser = typeof usersTable.$inferInsert;
 export type SelectUser = typeof usersTable.$inferSelect;

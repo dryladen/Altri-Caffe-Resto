@@ -19,7 +19,11 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { db } from "@/db";
 export default async function Home() {
-  const categories = await db.query.categoriesTable.findMany();
+  const categories = await db.query.categoriesTable.findMany({
+    with: {
+      products: true
+    },
+  });
   const products = await db.query.productsTable.findMany();
   return (
     <div className="md:px-60">
@@ -48,7 +52,7 @@ export default async function Home() {
         </CarouselContent>
       </Carousel>
       <div className="flex flex-col py-4">
-        <h2 className="font-bold text-2xl mb-2">Pilih Menu</h2>
+        <h2 className="font-bold text-2xl mb-2 text-amber-700">Pilih Menu</h2>
         <div className="flex">
           <Input
             placeholder="Cari menu..."
@@ -74,15 +78,15 @@ export default async function Home() {
           </div>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
-        {categories.map((categorie) => (
+        {categories.map((categorie) => categorie.products.length > 0 && (
           <div key={categorie.id}>
             <Separator className="my-2" />
-            <h4 className="font-bold text-lg text-gray-600">
+            <h4 className="font-bold text-lg text-amber-700 mb-4">
               {categorie.name}
             </h4>
-            <Separator className="my-2" />
+            {/* <Separator className="my-2" /> */}
             <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-6">
-              {products.map(
+              {categorie.products.map(
                 (item) =>
                   item.categoryId === categorie.id && (
                     <Card
@@ -106,13 +110,14 @@ export default async function Home() {
                           {new Intl.NumberFormat("id-ID", {
                             style: "currency",
                             currency: "IDR",
+                            maximumSignificantDigits: 1
                           }).format(item.price)}
                         </span>
                       </CardContent>
                       <CardFooter className="flex justify-between w-full p-0">
                         <Button
                           variant={"outline"}
-                          className="w-full flex gap-2 py-1 h-fit text-blue-600 border-blue-600 rounded-full"
+                          className="w-full flex gap-2 py-1 h-fit text-amber-700 border-amber-700 rounded-lg"
                         >
                           <ShoppingCart size={16} />
                           <span className="font-bold p-0">Tambah</span>
