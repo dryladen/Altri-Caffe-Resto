@@ -1,11 +1,11 @@
-import { integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { integer, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
 export const usersTable = pgTable("users", {
   id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
   name: text("name").notNull(),
   email: text("email").unique().notNull(),
-  phone: text("phone").notNull(),
   password: text("password").notNull(),
+  phone: text("phone").notNull(),
   role: text("role").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at")
@@ -14,19 +14,18 @@ export const usersTable = pgTable("users", {
 });
 
 export const categoriesTable = pgTable("categories", {
-  id: integer("id").primaryKey(),
+  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
   name: text("name").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at")
     .$onUpdate(() => new Date()),
 });
-
 export const productsTable = pgTable("products", {
-  id: integer("id").primaryKey(),
+  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
   name: text("name").notNull(),
   description: text("description").notNull(),
   price: integer("price").notNull(),
-  status: text("status").notNull(),
+  password: text("status").notNull(),
   categoryId: integer("category_id")
     .notNull()
     .references(() => categoriesTable.id),
@@ -36,17 +35,18 @@ export const productsTable = pgTable("products", {
 });
 
 export const ordersTable = pgTable("orders", {
-  id: integer("id").primaryKey(),
+  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
   username: text("username").notNull(),
   phone: text("phone").notNull(),
   status: text("status").notNull(),
+  totalPayment: integer("total_payment").notNull(),
   paymentMethode: text("payment_methode").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at")
     .$onUpdate(() => new Date()),
 });
 
-export const cartTable = pgTable("cart", {
+export const cartTable = pgTable("carts", {
   id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
   productId: integer("product_id")
     .notNull()
