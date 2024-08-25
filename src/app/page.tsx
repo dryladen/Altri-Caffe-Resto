@@ -13,13 +13,14 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { start } from "repl";
 import { Button } from "@/components/ui/button";
 import { ListFilter, ShoppingCart } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-export default function Home() {
+import { db } from "@/db";
+export default async function Home() {
+  const categories = await db.query.categoriesTable.findMany();
+  const products = await db.query.productsTable.findMany();
   return (
     <div className="md:px-60">
       <Carousel opts={{ align: "start", loop: true }} className="w-full h-full">
@@ -59,90 +60,70 @@ export default function Home() {
         </div>
         <ScrollArea className="w-full whitespace-nowrap rounded-md ">
           <div className="flex py-4 gap-2">
-            {Array.from({ length: 6 }).map((_, index) => (
+            {categories.map((item) => (
               <Button
-                key={index}
+                key={item.name}
                 variant="outline"
                 className="flex items-center gap-1 p-2"
               >
                 <span className="font-medium font-sans text-sm p-0">
-                  Menu {index + 1}
+                  {item.name}
                 </span>
               </Button>
             ))}
           </div>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
-        <Separator className="my-2" />
-        <h4 className="font-bold text-lg text-gray-600">Rekomendasi</h4>
-        <Separator className="my-2" />
-        <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-6">
-          {Array.from({ length: 4 }).map((_, index) => (
-            <Card key={index} className="border-0 bg-inherit shadow-none">
-              <CardHeader className="text-lg font-semibold p-0 rounded-sm shadow-none">
-                <Image
-                  src={"https://picsum.photos/200/300"}
-                  alt=""
-                  width={200}
-                  height={300}
-                  className="rounded-md w-full"
-                />
-              </CardHeader>
-              <CardContent className="flex flex-col items-start p-0 py-2">
-                <span className="text-xs font-semibold text-foreground">
-                  Menu Rekomendasi {index + 1}
-                </span>
-                <span className="font-medium font-sans text-sm">
-                  Rp. 50.000,00
-                </span>
-              </CardContent>
-              <CardFooter className="flex justify-between w-full p-0">
-                <Button
-                  variant={"outline"}
-                  className="w-full flex gap-2 py-1 h-fit text-blue-600 border-blue-600 rounded-full"
-                >
-                  <ShoppingCart size={16} />
-                  <span className="font-bold p-0">Tambah</span>
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-        <Separator className="my-2" />
-        <h4 className="font-bold text-lg text-gray-600">Makanan</h4>
-        <Separator className="my-2" />
-        <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-6">
-          {Array.from({ length: 4 }).map((_, index) => (
-            <Card key={index} className="border-0 bg-inherit shadow-none">
-              <CardHeader className="text-lg font-semibold p-0 rounded-sm shadow-none">
-                <Image
-                  src={"https://picsum.photos/200/300"}
-                  alt=""
-                  width={200}
-                  height={300}
-                  className="rounded-md w-full"
-                />
-              </CardHeader>
-              <CardContent className="flex flex-col items-start p-0 py-2">
-                <span className="text-xs font-semibold text-foreground">
-                  Makanan {index + 1}
-                </span>
-                <span className="font-medium font-sans text-sm">
-                  Rp. 50.000,00
-                </span>
-              </CardContent>
-              <CardFooter className="flex justify-between w-full p-0">
-                <Button
-                  variant={"outline"}
-                  className="w-full flex gap-2 py-1 h-fit text-blue-600 border-blue-600 rounded-full"
-                >
-                  <ShoppingCart size={16} />
-                  <span className="font-bold p-0">Tambah</span>
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
+        {categories.map((categorie) => (
+          <div key={categorie.id}>
+            <Separator className="my-2" />
+            <h4 className="font-bold text-lg text-gray-600">
+              {categorie.name}
+            </h4>
+            <Separator className="my-2" />
+            <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-6">
+              {products.map(
+                (item) =>
+                  item.categoryId === categorie.id && (
+                    <Card
+                      key={item.id}
+                      className="border-0 bg-inherit shadow-none"
+                    >
+                      <CardHeader className="text-lg font-semibold p-0 rounded-sm shadow-none">
+                        <Image
+                          src={"https://picsum.photos/200/300"}
+                          alt=""
+                          width={200}
+                          height={300}
+                          className="rounded-md w-full"
+                        />
+                      </CardHeader>
+                      <CardContent className="flex flex-col items-start p-0 py-2">
+                        <span className="text-xs font-semibold text-foreground">
+                          {item.name}
+                        </span>
+                        <span className="font-medium font-sans text-sm">
+                          {new Intl.NumberFormat("id-ID", {
+                            style: "currency",
+                            currency: "IDR",
+                          }).format(item.price)}
+                        </span>
+                      </CardContent>
+                      <CardFooter className="flex justify-between w-full p-0">
+                        <Button
+                          variant={"outline"}
+                          className="w-full flex gap-2 py-1 h-fit text-blue-600 border-blue-600 rounded-full"
+                        >
+                          <ShoppingCart size={16} />
+                          <span className="font-bold p-0">Tambah</span>
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                  )
+              )}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
