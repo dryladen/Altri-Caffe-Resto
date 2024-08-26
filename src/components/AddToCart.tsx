@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -22,18 +21,19 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { Cart } from "@/types/dataTypes";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 type AddToCartProps = {
-  product : Cart
+  carts: Cart[];
+  setCarts: React.Dispatch<React.SetStateAction<Cart[]>>;
+  product: Cart;
 };
 
-export function AddToCart({ product }: AddToCartProps) {
-  const [carts, setCarts] = useState<Cart[]>([]);
-  useEffect(() => {
+export function AddToCart({ carts, setCarts, product }: AddToCartProps) {
+  function updateCart() {
     const cart = localStorage.getItem("carts");
     setCarts(cart ? JSON.parse(cart) : []);
-  }, []);
+  }
   const [open, setOpen] = useState(false);
   const [note, setNote] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -145,6 +145,7 @@ export function AddToCart({ product }: AddToCartProps) {
             <Button
               onClick={() => {
                 addToCart();
+                updateCart();
                 setOpen(false);
               }}
               variant="outline"
