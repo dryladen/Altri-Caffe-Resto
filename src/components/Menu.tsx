@@ -1,0 +1,157 @@
+"use client"
+import React, { useEffect } from "react";
+import Image from "next/image";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { ListFilter, ShoppingCart } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+
+type categoriesProp = {
+  categories : {
+    id: number;
+    name: string;
+    createdAt: Date;
+    updatedAt: Date | null;
+    products: {
+      id: number;
+      name: string;
+      password: string;
+      createdAt: Date;
+      updatedAt: Date | null;
+      description: string;
+      price: number;
+      categoryId: number;
+    }[];
+  }[];
+}
+
+
+
+const Menu = ({categories} : categoriesProp) => {
+  return (
+    <div className="md:px-60">
+      <Carousel opts={{ align: "start", loop: true }} className="w-full h-full">
+        <CarouselContent className="-ml-1">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <CarouselItem
+              key={index}
+              className="pl-1 md:basis-1/2 lg:basis-full"
+            >
+              <div className="p-0 h-fit">
+                <Card className="p-0 rounded-md">
+                  <CardContent className="flex flex-col items-center justify-center p-0 w-full">
+                    <Image
+                      src={"https://picsum.photos/600/243"}
+                      alt=""
+                      width={333}
+                      height={343}
+                      className="w-full rounded-md"
+                    />
+                  </CardContent>
+                </Card>
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
+      <div className="flex flex-col py-4">
+        <h2 className="font-bold text-2xl mb-2 text-amber-700">Pilih Menu</h2>
+        <div className="flex">
+          <Input
+            placeholder="Cari menu..."
+            className="h-10 w-full  lg:w-[250px] font-medium"
+          />
+          <Button variant="outline" className="h-10 ml-2 p-2">
+            <ListFilter size={24} />
+          </Button>
+        </div>
+        <ScrollArea className="w-full whitespace-nowrap rounded-md ">
+          <div className="flex py-4 gap-2">
+            {categories.map((item: any) => (
+              <Button
+                key={item.name}
+                variant="outline"
+                className="flex items-center gap-1 p-2"
+              >
+                <span className="font-medium font-sans text-sm p-0">
+                  {item.name}
+                </span>
+              </Button>
+            ))}
+          </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+        {categories.map(
+          (categorie: any) =>
+            categorie.products.length > 0 && (
+              <div key={categorie.id}>
+                <Separator className="my-2" />
+                <h4 className="font-bold text-lg text-amber-700 mb-4">
+                  {categorie.name}
+                </h4>
+                {/* <Separator className="my-2" /> */}
+                <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-6">
+                  {categorie.products.map(
+                    (item: any) =>
+                      item.categoryId === categorie.id && (
+                        <Card
+                          key={item.id}
+                          className="border-0 bg-inherit shadow-none"
+                        >
+                          <CardHeader className="text-lg font-semibold p-0 rounded-sm shadow-none">
+                            <Image
+                              src={"https://picsum.photos/200/300"}
+                              alt=""
+                              width={200}
+                              height={300}
+                              className="rounded-md w-full"
+                            />
+                          </CardHeader>
+                          <CardContent className="flex flex-col items-start p-0 py-2">
+                            <span className="text-xs font-semibold text-foreground">
+                              {item.name}
+                            </span>
+                            <span className="font-medium font-sans text-sm">
+                              {new Intl.NumberFormat("id-ID", {
+                                style: "currency",
+                                currency: "IDR",
+                                maximumSignificantDigits: 1,
+                              }).format(item.price)}
+                            </span>
+                          </CardContent>
+                          <CardFooter className="flex justify-between w-full p-0">
+                            <Button
+                              variant={"outline"}
+                              className="w-full flex gap-2 py-1 h-fit text-amber-700 border-amber-700 rounded-lg"
+                            >
+                              <ShoppingCart size={16} />
+                              <span className="font-bold p-0">Tambah</span>
+                            </Button>
+                          </CardFooter>
+                        </Card>
+                      )
+                  )}
+                </div>
+              </div>
+            )
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Menu;
