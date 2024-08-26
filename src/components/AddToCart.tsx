@@ -1,6 +1,4 @@
-import * as React from "react";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -23,11 +21,53 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
+import { Cart } from "@/types/dataTypes";
+import { useEffect, useState } from "react";
 
-export function AddToCart({ product }: { product: any }) {
-  const [open, setOpen] = React.useState(false);
-  const [note, setNote] = React.useState("");
-  const [quantity, setQuantity] = React.useState(1);
+type AddToCartProps = {
+  product : Cart
+};
+
+export function AddToCart({ product }: AddToCartProps) {
+  const [carts, setCarts] = useState<Cart[]>([]);
+  useEffect(() => {
+    const cart = localStorage.getItem("carts");
+    setCarts(cart ? JSON.parse(cart) : []);
+  }, []);
+  const [open, setOpen] = useState(false);
+  const [note, setNote] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  function addToCart() {
+    // add cart to local storage, if cart already exist, update the quantity
+    const cart = carts.find((cart) => cart.id === product.id);
+    if (cart) {
+      const newCart = {
+        ...cart,
+        note: note,
+        quantity: quantity,
+        totalPrice: quantity * product.price,
+      };
+      setCarts(carts.map((cart) => (cart.id === product.id ? newCart : cart)));
+      localStorage.setItem(
+        "carts",
+        JSON.stringify(
+          carts.map((cart) => (cart.id === product.id ? newCart : cart))
+        )
+      );
+    } else {
+      const newCart = {
+        id: product.id,
+        name: product.name,
+        description: product.description,
+        note: note,
+        quantity: quantity,
+        price: product.price,
+        totalPrice: quantity * product.price,
+      };
+      setCarts([...carts, newCart]);
+      localStorage.setItem("carts", JSON.stringify([...carts, newCart]));
+    }
+  }
   return (
     <>
       <Drawer open={open} onOpenChange={setOpen}>
@@ -56,7 +96,20 @@ export function AddToCart({ product }: { product: any }) {
             </DrawerTitle>
             <DrawerDescription>{product.description}</DrawerDescription>
           </DrawerHeader>
-          <ProfileForm className="px-4" />
+          <div className="grid gap-1 px-4 pb-4">
+            <div className="py-1">
+              <Label htmlFor="note">Catatan</Label>
+              <span className="block text-[10px] py-0">(Opsional)</span>
+            </div>
+            <Input
+              type="text"
+              id="note"
+              className="focus-visible:ring-offset-0 focus-visible:ring-0"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              placeholder="Contoh: Jangan terlalu pedas"
+            />
+          </div>
           <DrawerFooter className="pt-4 border-t-8">
             <div className="grid grid-cols-2 pb-4">
               <Label className="flex items-center text-lg">
@@ -73,9 +126,12 @@ export function AddToCart({ product }: { product: any }) {
                 </Button>
                 <Input
                   type="number"
-                  className="font-bold text-xl border-0 focus-visible:ring-offset-0 focus-visible:ring-0"
+                  className="text-center font-bold text-xl border-0 focus-visible:ring-offset-0 focus-visible:ring-0"
                   value={quantity}
-                  onChange={(e) => e.target.valueAsNumber > 0 && setQuantity(e.target.valueAsNumber)}
+                  onChange={(e) =>
+                    e.target.valueAsNumber > 0 &&
+                    setQuantity(e.target.valueAsNumber)
+                  }
                 />
                 <Button
                   onClick={() => setQuantity(quantity + 1)}
@@ -86,7 +142,14 @@ export function AddToCart({ product }: { product: any }) {
                 </Button>
               </div>
             </div>
-            <Button variant="outline" className="border-amber-700 rounded-full">
+            <Button
+              onClick={() => {
+                addToCart();
+                setOpen(false);
+              }}
+              variant="outline"
+              className="border-amber-700 rounded-full"
+            >
               {`Tambah Pesanan ${new Intl.NumberFormat("id-ID", {
                 style: "currency",
                 currency: "IDR",
@@ -97,23 +160,5 @@ export function AddToCart({ product }: { product: any }) {
         </DrawerContent>
       </Drawer>
     </>
-  );
-}
-
-function ProfileForm({ className }: React.ComponentProps<"form">) {
-  return (
-    <form className={cn("grid items-start gap-4 mb-4", className)}>
-      <div className="grid gap-1">
-        <div>
-          <Label htmlFor="note">Catatan</Label>
-          <span className="block text-[10px] py-0">(Opsional)</span>
-        </div>
-        <Input
-          type="text"
-          id="note"
-          placeholder="Contoh: Jangan terlalu pedas"
-        />
-      </div>
-    </form>
   );
 }

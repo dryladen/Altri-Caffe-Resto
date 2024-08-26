@@ -19,46 +19,12 @@ import { Button } from "@/components/ui/button";
 import { ListFilter, ShoppingCart } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Cart } from "@/types/cart";
+import { Cart, Categories } from "@/types/dataTypes";
 import { AddToCart } from "./AddToCart";
-type categoriesProp = {
-  categories: {
-    id: number;
-    name: string;
-    createdAt: Date;
-    updatedAt: Date | null;
-    products: {
-      id: number;
-      name: string;
-      status: string;
-      createdAt: Date;
-      updatedAt: Date | null;
-      description: string;
-      price: number;
-      categoryId: number;
-    }[];
-  }[];
-};
 
-const Menu = ({ categories }: categoriesProp) => {
-  const [carts, setCarts] = useState<Cart[]>([]);
-  useEffect(() => {
-    const cart = localStorage.getItem("carts");
-    setCarts(cart ? JSON.parse(cart) : []);
-  }, []);
 
-  // function updateOrder(){
-  //   const order = localStorage.getItem("order");
-  //   setCarts(order ? JSON.parse(order) : []);
-  // }
-
-  function addToCart(product: any) {
-    if (!carts.some((item) => item.id === product.id)) {
-      carts.push(product);
-    }
-    localStorage.setItem("carts", JSON.stringify(carts));
-  }
-
+const Menu = ({ categories }: Categories) => {
+  
   return (
     <div className="md:px-60">
       <Carousel opts={{ align: "start", loop: true }} className="w-full h-full">
@@ -87,14 +53,6 @@ const Menu = ({ categories }: categoriesProp) => {
       </Carousel>
       <div className="flex flex-col py-4">
         <h2 className="font-bold text-2xl mb-2 text-amber-700">Pilih Menu</h2>
-        <div>
-          {carts.map((item) => (
-            <div key={item.id} className="flex justify-between">
-              <span>{item.name}</span>
-              <span>{item.price}</span>
-            </div>
-          ))}
-        </div>
         <div className="flex">
           <Input
             placeholder="Cari menu..."
@@ -159,7 +117,9 @@ const Menu = ({ categories }: categoriesProp) => {
                             </span>
                           </CardContent>
                           <CardFooter className="flex justify-between w-full p-0">
-                            <AddToCart product={item} />
+                            <AddToCart
+                              product={item}
+                            />
                           </CardFooter>
                         </Card>
                       )
