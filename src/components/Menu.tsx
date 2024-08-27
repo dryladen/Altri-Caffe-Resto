@@ -85,7 +85,7 @@ const Menu = ({ categories }: Categories) => {
                             {new Intl.NumberFormat("id-ID", {
                               style: "currency",
                               currency: "IDR",
-                              maximumSignificantDigits: 1,
+                              maximumSignificantDigits: 6,
                             }).format(item.price)}
                           </span>
                         </CardContent>

@@ -1,5 +1,6 @@
 import { Cart } from "@/types/dataTypes";
 import { Dot, ShoppingCart } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 type OrdersProps = {
@@ -10,23 +11,26 @@ const Orders = ({ carts }: OrdersProps) => {
   if (carts.length === 0) {
     return null;
   } else {
-    const prices = carts.map((product) => product.totalPrice);
-    const total = prices.reduce((acc, curr) => acc + curr);
+    const total = carts
+      .map((product) => product.totalPrice)
+      .reduce((acc, curr) => acc + curr);
     return (
       <div className="flex rounded-full mt-4 sticky bottom-4 shadow-md  bg-white z-50">
         <div className="flex text-amber-600 gap-2 items-center px-4 py-2 w-full">
           <ShoppingCart size={18} strokeWidth={3} />
-          <div className="flex text-sm items-center">
-            <span className="font-bold p-0">{carts.length} Item</span>
-            <Dot size={12} strokeWidth={5} />
-            <span className="font-bold p-0">
-              {new Intl.NumberFormat("id-ID", {
-                style: "currency",
-                currency: "IDR",
-                maximumSignificantDigits: 6,
-              }).format(total)}
-            </span>
-          </div>
+          <Link href="/cart">
+            <div className="flex text-sm items-center">
+              <span className="font-bold p-0">{carts.length} Item</span>
+              <Dot size={12} strokeWidth={5} />
+              <span className="font-bold p-0">
+                {new Intl.NumberFormat("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                  maximumSignificantDigits: 6,
+                }).format(total)}
+              </span>
+            </div>
+          </Link>
         </div>
         <div className="flex items-center py-2 px-4 rounded-r-full bg-amber-600 text-white">
           <span>Checkout</span>
