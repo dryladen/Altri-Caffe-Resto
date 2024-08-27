@@ -19,7 +19,7 @@ const CartPage = () => {
       <div className="flex flex-col items-center justify-center h-screen">
         <h1 className="text-2xl font-bold">Keranjang Kosong</h1>
         <Link href="/">
-          <Button className="mt-4 bg-amber-600">Kembali Belanja</Button>
+          <Button className="mt-4 bg-amber-600 hover:bg-amber-500">Kembali Belanja</Button>
         </Link>
       </div>
     );
@@ -28,7 +28,7 @@ const CartPage = () => {
       .map((product) => product.totalPrice)
       .reduce((acc, curr) => acc + curr);
     return (
-      <div className="flex flex-col w- gap-4">
+      <div className="flex flex-col w- gap-4 pb-16">
         <div className="flex items-center gap-4 p-2 w-full">
           <Link className="" href="/">
             <ArrowLeft size={24} />
@@ -54,7 +54,7 @@ const CartPage = () => {
           ))}
         </div>
         <Link
-          className="flex rounded-full mt-4 sticky bottom-4 shadow-md  bg-amber-600 z-50"
+          className="flex rounded-full mt-4 fixed right-4 left-4 bottom-4 shadow-md  bg-amber-600 z-50"
           href="/checkout"
         >
           <div className="flex text-white gap-2 items-center px-4 py-2 w-full">

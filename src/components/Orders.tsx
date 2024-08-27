@@ -32,9 +32,12 @@ const Orders = ({ carts }: OrdersProps) => {
             </div>
           </Link>
         </div>
-        <div className="flex items-center py-2 px-4 rounded-r-full bg-amber-600 text-white">
+        <Link
+          className="flex items-center py-2 px-4 rounded-r-full bg-amber-600 text-white"
+          href="/checkout"
+        >
           <span>Checkout</span>
-        </div>
+        </Link>
       </div>
     );
   }
