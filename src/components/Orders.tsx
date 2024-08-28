@@ -15,8 +15,8 @@ const Orders = ({ carts }: OrdersProps) => {
       .map((product) => product.totalPrice)
       .reduce((acc, curr) => acc + curr);
     return (
-      <div className="flex rounded-full mt-4 sticky bottom-4 shadow-md py-1 bg-white z-50">
-        <div className="flex text-amber-600 gap-2 items-center px-4 py-2 w-full">
+      <div className="flex rounded-full mt-4 sticky bottom-4 shadow-md bg-white z-50">
+        <div className="flex text-amber-600 gap-2 items-center px-4 py-3 w-full">
           <ShoppingCart size={18} strokeWidth={3} />
           <Link href="/cart">
             <div className="flex items-center">
