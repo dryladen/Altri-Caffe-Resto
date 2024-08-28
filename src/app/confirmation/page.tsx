@@ -1,9 +1,7 @@
-import React from 'react'
+import Konfirmasi from "./components/Konfirmasi";
 
 const page = () => {
-  return (
-    <div>page</div>
-  )
-}
+  return <Konfirmasi />;
+};
 
-export default page
+export default page;
