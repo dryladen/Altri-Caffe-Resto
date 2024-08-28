@@ -25,7 +25,7 @@ const AddCustomer = () => {
 
   function handleCheckout() {
     localStorage.setItem("customer", JSON.stringify({ name, phone, table }));
-    router.push("/checkout/payment");
+    router.push("/confirmation");
   }
   return (
     <div>

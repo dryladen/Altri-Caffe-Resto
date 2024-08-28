@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Minus, Plus, ShoppingCart } from "lucide-react";
+import { Minus, NotepadText, Plus, ShoppingCart } from "lucide-react";
 import { Cart } from "@/types/dataTypes";
 import React, { useEffect, useState } from "react";
 
@@ -37,6 +37,7 @@ export function AddToCart({ carts, setCarts, product }: AddToCartProps) {
   const [open, setOpen] = useState(false);
   const [note, setNote] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [text_length, setTextLength] = useState(0);
   function addToCart() {
     // add cart to local storage, if cart already exist, update the quantity
     const cart = carts.find((cart) => cart.id === product.id);
@@ -101,14 +102,23 @@ export function AddToCart({ carts, setCarts, product }: AddToCartProps) {
               <Label htmlFor="note">Catatan</Label>
               <span className="block text-[10px] py-0">(Opsional)</span>
             </div>
-            <Input
-              type="text"
-              id="note"
-              className="focus-visible:ring-offset-0 focus-visible:ring-0"
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-              placeholder="Contoh: Jangan terlalu pedas"
-            />
+            <div className="flex items-center focus-within:ring-offset-0 focus-within:ring-1 px-2 rounded-md border-2 border-gray-100 focus-within:ring-amber-600">
+              <NotepadText size={21} className="text-gray-400" />
+              <Input
+                type="text"
+                slot="input"
+                id="note"
+                className="focus-visible:ring-offset-0 focus-visible:ring-0 border-0"
+                value={note}
+                onChange={(e) => {
+                  e.target.value.length <= 150 &&
+                    (setNote(e.target.value),
+                    setTextLength(e.target.value.length));
+                }}
+                placeholder="Contoh: Jangan terlalu pedas"
+              />
+            </div>
+            <span className="text-end text-xs">{text_length}/150</span>
           </div>
           <DrawerFooter className="pt-4 border-t-8">
             <div className="grid grid-cols-2 pb-4">
