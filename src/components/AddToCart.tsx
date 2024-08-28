@@ -21,15 +21,21 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Minus, NotepadText, Plus, ShoppingCart } from "lucide-react";
 import { Cart } from "@/types/dataTypes";
-import React, { useEffect, useState } from "react";
+import React, { Children, useEffect, useState } from "react";
 
 type AddToCartProps = {
   carts: Cart[];
   setCarts: React.Dispatch<React.SetStateAction<Cart[]>>;
   product: Cart;
+  children: React.ReactNode;
 };
 
-export function AddToCart({ carts, setCarts, product }: AddToCartProps) {
+export function AddToCart({
+  carts,
+  setCarts,
+  product,
+  children,
+}: AddToCartProps) {
   function updateCart() {
     const cart = localStorage.getItem("carts");
     setCarts(cart ? JSON.parse(cart) : []);
@@ -72,15 +78,7 @@ export function AddToCart({ carts, setCarts, product }: AddToCartProps) {
   return (
     <>
       <Drawer open={open} onOpenChange={setOpen}>
-        <DrawerTrigger asChild>
-          <Button
-            variant={"outline"}
-            className="w-full flex gap-2 py-1 h-fit text-amber-700 border-amber-700 rounded-lg"
-          >
-            <ShoppingCart size={16} />
-            <span className="font-bold p-0">Tambah</span>
-          </Button>
-        </DrawerTrigger>
+        <DrawerTrigger asChild>{children}</DrawerTrigger>
         <DrawerContent>
           <DrawerHeader className="text-left">
             <DrawerTitle>
@@ -158,8 +156,8 @@ export function AddToCart({ carts, setCarts, product }: AddToCartProps) {
                 updateCart();
                 setOpen(false);
               }}
-              variant="outline"
-              className="border-amber-700 rounded-full"
+              variant="default"
+              className="border-amber-700 rounded-full py-6 text-md bg-amber-600 hover:bg-gray-500"
             >
               {`Tambah Pesanan ${new Intl.NumberFormat("id-ID", {
                 style: "currency",

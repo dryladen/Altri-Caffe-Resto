@@ -12,6 +12,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { AddToCart } from "@/components/AddToCart";
 
 type CartItemProps = {
   carts: Cart[];
@@ -38,7 +39,9 @@ const CartItem = ({ cart, carts, setCarts }: CartItemProps) => {
           </span>
         )}
         <div className="flex gap-6 pt-2 text-sm  font-bold">
-          <span className="text-amber-600">Ubah</span>
+          <AddToCart carts={carts} setCarts={setCarts} product={cart} children={
+            <span className="text-amber-600">Ubah</span>
+          } />
           <AlertDialog>
             <AlertDialogTrigger className="p-0 h-fit items-end border-0 bg-white hover:bg-white">
               <span className="text-red-500">Hapus</span>
