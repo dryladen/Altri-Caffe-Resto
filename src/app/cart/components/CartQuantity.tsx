@@ -45,7 +45,7 @@ const CartQuantity = ({ carts, setCarts, cart }: CartProps) => {
     localStorage.setItem("carts", JSON.stringify(newCarts));
   }
   return (
-    <div className="col-span-2 flex flex-col justify-between w-60">
+    <div className="col-span-2 flex flex-col justify-between w-full">
       <div className="flex flex-col">
         <span className="text-sm font-bold">{cart.name}</span>
         <span className="text-sm">
@@ -57,7 +57,7 @@ const CartQuantity = ({ carts, setCarts, cart }: CartProps) => {
         </span>
       </div>
       <div className="flex justify-between gap-14 items-end">
-        <div className="flex w-full pt-2">
+        <div className="flex pt-2">
           <Button
             disabled={quantity <= 1}
             variant="outline"
@@ -68,7 +68,7 @@ const CartQuantity = ({ carts, setCarts, cart }: CartProps) => {
           </Button>
           <Input
             type="number"
-            className="text-center p-0 h-fit font-bold text-xl border-0 focus-visible:ring-offset-0 focus-visible:ring-0"
+            className="text-center w-16 p-0 h-fit font-bold text-xl border-0 focus-visible:ring-offset-0 focus-visible:ring-0"
             value={quantity}
             onChange={(e) =>
               e.target.valueAsNumber > 0 && setQuantity(e.target.valueAsNumber)
