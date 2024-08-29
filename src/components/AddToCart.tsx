@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Minus, NotepadText, Plus, ShoppingCart } from "lucide-react";
 import { Cart, Product } from "@/types/dataTypes";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 type AddToCartProps = {
   getCarts: () => void;
@@ -35,14 +35,18 @@ export function AddToCart({
   const [note, setNote] = useState("");
   const [quantity, setQuantity] = useState(1);
 
-  useEffect(() => {
+  const updateInput = useCallback(() => {
     carts.map((c) => {
       if (c.id === product.id) {
         setQuantity(c.quantity);
         setNote(c.note);
       }
     });
-  }, [open]);
+  }, [carts, product]);
+
+  useEffect(() => {
+    updateInput();
+  }, [updateInput]);
 
   function addToCart() {
     const newCart = {

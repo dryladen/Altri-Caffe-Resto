@@ -21,9 +21,12 @@ const Konfirmasi = () => {
   });
   const router = useRouter();
   const [carts, setCarts] = useState<Cart[]>([]);
-  const getCarts = useCallback(() => {
+
+  const getOrder = useCallback(() => {
     const cart = localStorage.getItem("carts");
+    const dataCustomer = localStorage.getItem("customer");
     setCarts(cart ? JSON.parse(cart) : []);
+    setCustomer(dataCustomer ? JSON.parse(dataCustomer) : {});
   }, []);
 
   const updateCarts = useCallback(
@@ -43,15 +46,8 @@ const Konfirmasi = () => {
   );
 
   useEffect(() => {
-    getCarts();
-  }, [getCarts]);
-
-  useEffect(() => {
-    const cart = localStorage.getItem("carts");
-    const dataCustomer = localStorage.getItem("customer");
-    setCarts(cart ? JSON.parse(cart) : []);
-    setCustomer(dataCustomer ? JSON.parse(dataCustomer) : {});
-  }, []);
+    getOrder();
+  }, [getOrder]);
 
   function createOrder() {
     router.push("/receipt");
@@ -109,7 +105,8 @@ const Konfirmasi = () => {
                 key={item.id}
                 cart={item}
                 carts={carts}
-                setCarts={setCarts}
+                getOrder={getOrder}
+                updateCarts={updateCarts}
               />
             ))}
           </div>

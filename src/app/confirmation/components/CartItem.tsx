@@ -16,15 +16,16 @@ import { AddToCart } from "@/components/AddToCart";
 
 type CartItemProps = {
   carts: Cart[];
-  setCarts: React.Dispatch<React.SetStateAction<Cart[]>>;
+  getOrder: () => void;
+  updateCarts: (cart: Cart) => void;
   cart: Cart;
 };
 
-const CartItem = ({ cart, carts, setCarts }: CartItemProps) => {
+const CartItem = ({ cart, carts, getOrder, updateCarts }: CartItemProps) => {
   function deleteItem() {
     const newCarts = carts.filter((c) => c.id !== cart.id);
-    setCarts(newCarts);
     localStorage.setItem("carts", JSON.stringify(newCarts));
+    getOrder();
   }
   return (
     <div className="flex items-start gap-2">
@@ -39,7 +40,12 @@ const CartItem = ({ cart, carts, setCarts }: CartItemProps) => {
           </span>
         )}
         <div className="flex gap-6 pt-2 text-sm  font-bold">
-          <AddToCart carts={carts} setCarts={setCarts} product={cart}>
+          <AddToCart
+            carts={carts}
+            getCarts={getOrder}
+            updateCarts={updateCarts}
+            product={cart}
+          >
             <span className="text-amber-600">Ubah</span>
           </AddToCart>
           <AlertDialog>
