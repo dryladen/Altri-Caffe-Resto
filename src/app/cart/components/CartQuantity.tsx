@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Cart } from "@/types/dataTypes";
 import { Minus, Plus, Trash2 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,33 +17,24 @@ import {
 
 type CartProps = {
   carts: Cart[];
-  updateCarts: () => void;
-  cart: Cart;
+  getCart: () => void;
+  updateCarts: (cart: Cart) => void;
+  data: Cart;
 };
-const CartQuantity = ({ carts, updateCarts, cart }: CartProps) => {
-  const [quantity, setQuantity] = useState(cart.quantity);
-  const [totalPrice, setTotalPrice] = useState(cart.price * quantity);
-
-  useEffect(() => {
-    localStorage.setItem(
-      "carts",
-      JSON.stringify(
-        carts.map((c) =>
-          c.id === cart.id ? { ...c, quantity, totalPrice } : c
-        )
-      )
-    );
-    updateCarts;
-  });
+const CartQuantity = ({ carts, getCart, updateCarts, data }: CartProps) => {
+  const [quantity, setQuantity] = useState(data.quantity);
+  const [totalPrice, setTotalPrice] = useState(data.price * quantity);
 
   function deleteItem() {
-    const newCarts = carts.filter((c) => c.id !== cart.id);
+    const newCarts = carts.filter((c) => c.id !== data.id);
     localStorage.setItem("carts", JSON.stringify(newCarts));
+    getCart();
   }
+
   return (
     <div className="col-span-2 flex flex-col justify-between w-full">
       <div className="flex flex-col">
-        <span className="text-sm font-bold">{cart.name}</span>
+        <span className="text-sm font-bold">{data.name}</span>
         <span className="text-sm">
           {new Intl.NumberFormat("id-ID", {
             style: "currency",
@@ -61,7 +52,12 @@ const CartQuantity = ({ carts, updateCarts, cart }: CartProps) => {
             onClick={() => {
               if (quantity > 1) {
                 setQuantity(quantity - 1);
-                setTotalPrice(cart.price * (quantity - 1));
+                setTotalPrice(data.price * (quantity - 1));
+                updateCarts({
+                  ...data,
+                  quantity: quantity - 1,
+                  totalPrice: data.price * (quantity - 1),
+                });
               }
             }}
           >
@@ -74,7 +70,12 @@ const CartQuantity = ({ carts, updateCarts, cart }: CartProps) => {
             onChange={(e) => {
               if (e.target.valueAsNumber > 0) {
                 setQuantity(e.target.valueAsNumber);
-                setTotalPrice(cart.price * e.target.valueAsNumber);
+                setTotalPrice(data.price * e.target.valueAsNumber);
+                updateCarts({
+                  ...data,
+                  quantity: e.target.valueAsNumber,
+                  totalPrice: data.price * e.target.valueAsNumber,
+                });
               }
             }}
           />
@@ -83,7 +84,12 @@ const CartQuantity = ({ carts, updateCarts, cart }: CartProps) => {
             className="rounded-full px-2 h-fit border-amber-700"
             onClick={() => {
               setQuantity(quantity + 1);
-              setTotalPrice(cart.price * (quantity + 1));
+              setTotalPrice(data.price * (quantity + 1));
+              updateCarts({
+                ...data,
+                quantity: quantity + 1,
+                totalPrice: data.price * (quantity + 1),
+              });
             }}
           >
             <Plus size={12} strokeWidth={3} />

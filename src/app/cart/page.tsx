@@ -10,15 +10,25 @@ import { Button } from "@/components/ui/button";
 const CartPage = () => {
   const [carts, setCarts] = useState<Cart[]>([]);
 
-  const updateCarts = useCallback(() => {
+  const getCarts = useCallback(() => {
     const cart = localStorage.getItem("carts");
     setCarts(cart ? JSON.parse(cart) : []);
   }, []);
 
-  useEffect(() => {
-    updateCarts();
-  }, [updateCarts]);
+  const updateCarts = useCallback(
+    (cart: Cart) => {
+      localStorage.setItem(
+        "carts",
+        JSON.stringify(carts.map((c) => (c.id === cart.id ? cart : c)))
+      );
+      setCarts(carts.map((c) => (c.id === cart.id ? cart : c)));
+    },
+    [carts]
+  );
 
+  useEffect(() => {
+    getCarts();
+  }, [getCarts]);
   if (carts.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-screen p-4">
@@ -31,9 +41,7 @@ const CartPage = () => {
       </div>
     );
   } else {
-    const total = carts
-      .map((product) => product.totalPrice)
-      .reduce((acc, curr) => acc + curr);
+    const total = carts.reduce((acc, cart) => acc + cart.totalPrice, 0);
     return (
       <div className="flex flex-col w- gap-4 pb-16 p-4">
         <div className="flex items-center gap-4 p-2 w-full">
@@ -59,8 +67,9 @@ const CartPage = () => {
                 />
                 <CartQuantity
                   carts={carts}
+                  getCart={getCarts}
                   updateCarts={updateCarts}
-                  cart={cart}
+                  data={cart}
                 />
               </div>
               {cart.note && (
