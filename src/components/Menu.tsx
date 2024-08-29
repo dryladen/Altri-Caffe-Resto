@@ -12,17 +12,44 @@ import { Button } from "@/components/ui/button";
 import { ListFilter, ShoppingCart } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Cart, Categories } from "@/types/dataTypes";
+import { Cart, Categories, Product } from "@/types/dataTypes";
 import { AddToCart } from "./AddToCart";
 import Orders from "./Orders";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { get } from "http";
 
-const Menu = ({ categories }: Categories) => {
+type MenuProps = {
+  categories: Categories[];
+};
+
+const Menu = ({ categories }: MenuProps) => {
   const [carts, setCarts] = useState<Cart[]>([]);
-  useEffect(() => {
+
+  const getCarts = useCallback(() => {
     const cart = localStorage.getItem("carts");
     setCarts(cart ? JSON.parse(cart) : []);
   }, []);
+
+  const updateCarts = useCallback(
+    (cart: Cart) => {
+      if (carts.find((c) => c.id === cart.id)) {
+        localStorage.setItem(
+          "carts",
+          JSON.stringify(carts.map((c) => (c.id === cart.id ? cart : c)))
+        );
+        setCarts(carts.map((c) => (c.id === cart.id ? cart : c)));
+      } else {
+        localStorage.setItem("carts", JSON.stringify([...carts, cart]));
+        setCarts([...carts, cart]);
+      }
+    },
+    [carts]
+  );
+
+  useEffect(() => {
+    getCarts();
+  }, [getCarts]);
+
   return (
     <div className="flex flex-col py-4">
       <h2 className="font-bold text-2xl mb-2 text-amber-700">Pilih Menu</h2>
@@ -37,7 +64,7 @@ const Menu = ({ categories }: Categories) => {
       </div>
       <ScrollArea className="w-full whitespace-nowrap rounded-md ">
         <div className="flex py-4 gap-2">
-          {categories.map((item: any) => (
+          {categories.map((item: Categories) => (
             <Button
               key={item.name}
               variant="outline"
@@ -52,17 +79,16 @@ const Menu = ({ categories }: Categories) => {
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
       {categories.map(
-        (categorie: any) =>
+        (categorie: Categories) =>
           categorie.products.length > 0 && (
             <div key={categorie.id}>
               <Separator className="my-2" />
               <h4 className="font-bold text-lg text-amber-700 mb-4">
                 {categorie.name}
               </h4>
-              {/* <Separator className="my-2" /> */}
               <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-6">
                 {categorie.products.map(
-                  (item: any) =>
+                  (item: Product) =>
                     item.categoryId === categorie.id && (
                       <Card
                         key={item.id}
@@ -91,9 +117,10 @@ const Menu = ({ categories }: Categories) => {
                         </CardContent>
                         <CardFooter className="flex justify-between w-full p-0">
                           <AddToCart
-                            carts={carts}
-                            setCarts={setCarts}
+                            getCarts={getCarts}
+                            updateCarts={updateCarts}
                             product={item}
+                            carts={carts}
                           >
                             <Button
                               variant={"outline"}

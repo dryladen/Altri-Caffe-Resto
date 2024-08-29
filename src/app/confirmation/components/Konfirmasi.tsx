@@ -5,7 +5,7 @@ import { Cart } from "@/types/dataTypes";
 import { ArrowLeft, Phone, User } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CartItem from "./CartItem";
 
 type Customer = {
@@ -21,6 +21,30 @@ const Konfirmasi = () => {
   });
   const router = useRouter();
   const [carts, setCarts] = useState<Cart[]>([]);
+  const getCarts = useCallback(() => {
+    const cart = localStorage.getItem("carts");
+    setCarts(cart ? JSON.parse(cart) : []);
+  }, []);
+
+  const updateCarts = useCallback(
+    (cart: Cart) => {
+      if (carts.find((c) => c.id === cart.id)) {
+        localStorage.setItem(
+          "carts",
+          JSON.stringify(carts.map((c) => (c.id === cart.id ? cart : c)))
+        );
+        setCarts(carts.map((c) => (c.id === cart.id ? cart : c)));
+      } else {
+        localStorage.setItem("carts", JSON.stringify([...carts, cart]));
+        setCarts([...carts, cart]);
+      }
+    },
+    [carts]
+  );
+
+  useEffect(() => {
+    getCarts();
+  }, [getCarts]);
 
   useEffect(() => {
     const cart = localStorage.getItem("carts");
