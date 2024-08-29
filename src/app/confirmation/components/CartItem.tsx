@@ -46,11 +46,11 @@ const CartItem = ({ cart, carts, getOrder, updateCarts }: CartItemProps) => {
             updateCarts={updateCarts}
             product={cart}
           >
-            <span className="text-amber-600">Ubah</span>
+            <span className="text-amber-600 cursor-pointer">Ubah</span>
           </AddToCart>
           <AlertDialog>
             <AlertDialogTrigger className="p-0 h-fit items-end border-0 bg-white hover:bg-white">
-              <span className="text-red-500">Hapus</span>
+              <span className="text-red-500 cursor-pointer">Hapus</span>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>

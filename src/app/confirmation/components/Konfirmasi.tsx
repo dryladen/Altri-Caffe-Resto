@@ -69,14 +69,14 @@ const Konfirmasi = () => {
       .map((product) => product.totalPrice)
       .reduce((acc, curr) => acc + curr);
     return (
-      <div className="bg-gray-100">
+      <div className="flex flex-col i gap-4 bg-gray-100 min-h-screen">
         <div className="flex items-center gap-4 w-full p-4 bg-white">
           <Link className="" href="/checkout">
             <ArrowLeft size={24} />
           </Link>
           <h1 className="font-semibold text-lg">Konfirmasi</h1>
         </div>
-        <div className="flex flex-col p-4 mx-4 my-4 border-[1px] shadow-sm rounded-md bg-white">
+        <div className="flex flex-col p-4 mx-4 border-[1px] shadow-sm rounded-md bg-white">
           <h2 className="text-lg font-semibold mb-4">Data Pelanggan</h2>
           <div className="flex justify-between flex-wrap text-wrap w-full text-gray-400 text-sm">
             <div className="flex gap-2 flex-wrap">
@@ -96,7 +96,7 @@ const Konfirmasi = () => {
             <span>+62{customer.phone}</span>
           </div>
         </div>
-        <div className="flex flex-col p-4 mx-4 my-4 border-[1px] shadow-sm rounded-md bg-white">
+        <div className="flex flex-col p-4 mx-4 grow border-[1px] shadow-sm rounded-md bg-white">
           <h2 className="text-lg font-semibold ">Rincian Pesanan</h2>
           <Separator className="mb-4 mt-2" />
           <div className="flex flex-col gap-4">
@@ -111,7 +111,7 @@ const Konfirmasi = () => {
             ))}
           </div>
         </div>
-        <div className="flex flex-col p-4 gap-4 sticky bottom-0 bg-white">
+        <div className="flex flex-col justify-start p-4 gap-4 sticky w-full bottom-0 bg-white">
           <div className="flex font-bold text-gray-700 text-lg justify-between">
             <h3>Total Harga</h3>
             <span>
