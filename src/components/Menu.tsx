@@ -94,16 +94,15 @@ const Menu = ({ categories }: Categories) => {
                             carts={carts}
                             setCarts={setCarts}
                             product={item}
-                            children={
-                              <Button
-                                variant={"outline"}
-                                className="w-full flex gap-2 py-1 h-fit text-amber-700 border-amber-700 rounded-lg"
-                              >
-                                <ShoppingCart size={16} />
-                                <span className="font-bold p-0">Tambah</span>
-                              </Button>
-                            }
-                          />
+                          >
+                            <Button
+                              variant={"outline"}
+                              className="w-full flex gap-2 py-1 h-fit text-amber-700 border-amber-700 rounded-lg"
+                            >
+                              <ShoppingCart size={16} />
+                              <span className="font-bold p-0">Tambah</span>
+                            </Button>
+                          </AddToCart>
                         </CardFooter>
                       </Card>
                     )

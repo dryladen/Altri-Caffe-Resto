@@ -14,21 +14,17 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { cn } from "@/lib/utils";
 
 type CartProps = {
   carts: Cart[];
-  setCarts: React.Dispatch<React.SetStateAction<Cart[]>>;
+  updateCarts: () => void;
   cart: Cart;
 };
-const CartQuantity = ({ carts, setCarts, cart }: CartProps) => {
+const CartQuantity = ({ carts, updateCarts, cart }: CartProps) => {
   const [quantity, setQuantity] = useState(cart.quantity);
   const [totalPrice, setTotalPrice] = useState(cart.price * quantity);
+
   useEffect(() => {
-    setTotalPrice(cart.price * quantity);
-    setCarts(
-      carts.map((c) => (c.id === cart.id ? { ...c, quantity, totalPrice } : c))
-    );
     localStorage.setItem(
       "carts",
       JSON.stringify(
@@ -37,11 +33,11 @@ const CartQuantity = ({ carts, setCarts, cart }: CartProps) => {
         )
       )
     );
-  }, [totalPrice, quantity]);
+    updateCarts;
+  });
 
   function deleteItem() {
     const newCarts = carts.filter((c) => c.id !== cart.id);
-    setCarts(newCarts);
     localStorage.setItem("carts", JSON.stringify(newCarts));
   }
   return (
@@ -62,7 +58,12 @@ const CartQuantity = ({ carts, setCarts, cart }: CartProps) => {
             disabled={quantity <= 1}
             variant="outline"
             className="px-2 h-fit rounded-full border-amber-700"
-            onClick={() => quantity > 1 && setQuantity(quantity - 1)}
+            onClick={() => {
+              if (quantity > 1) {
+                setQuantity(quantity - 1);
+                setTotalPrice(cart.price * (quantity - 1));
+              }
+            }}
           >
             <Minus size={12} strokeWidth={4} />
           </Button>
@@ -70,14 +71,20 @@ const CartQuantity = ({ carts, setCarts, cart }: CartProps) => {
             type="number"
             className="text-center w-16 p-0 h-fit font-bold text-xl border-0 focus-visible:ring-offset-0 focus-visible:ring-0"
             value={quantity}
-            onChange={(e) =>
-              e.target.valueAsNumber > 0 && setQuantity(e.target.valueAsNumber)
-            }
+            onChange={(e) => {
+              if (e.target.valueAsNumber > 0) {
+                setQuantity(e.target.valueAsNumber);
+                setTotalPrice(cart.price * e.target.valueAsNumber);
+              }
+            }}
           />
           <Button
             variant="outline"
             className="rounded-full px-2 h-fit border-amber-700"
-            onClick={() => setQuantity(quantity + 1)}
+            onClick={() => {
+              setQuantity(quantity + 1);
+              setTotalPrice(cart.price * (quantity + 1));
+            }}
           >
             <Plus size={12} strokeWidth={3} />
           </Button>

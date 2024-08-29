@@ -3,16 +3,21 @@ import { Cart } from "@/types/dataTypes";
 import { ArrowLeft, Dot, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CartQuantity from "./components/CartQuantity";
 import { Button } from "@/components/ui/button";
 
 const CartPage = () => {
   const [carts, setCarts] = useState<Cart[]>([]);
-  useEffect(() => {
+
+  const updateCarts = useCallback(() => {
     const cart = localStorage.getItem("carts");
     setCarts(cart ? JSON.parse(cart) : []);
   }, []);
+
+  useEffect(() => {
+    updateCarts();
+  }, [updateCarts]);
 
   if (carts.length === 0) {
     return (
@@ -32,18 +37,18 @@ const CartPage = () => {
     return (
       <div className="flex flex-col w- gap-4 pb-16 p-4">
         <div className="flex items-center gap-4 p-2 w-full">
-          <Link className="" href="/">
+          <Link href="/">
             <ArrowLeft size={24} />
           </Link>
           <h1 className="font-bold text-xl">Keranjang</h1>
         </div>
         <div className="flex flex-col gap-4">
           {carts.map((cart) => (
-            <div className="flex flex-col shadow-md border w-full rounded-md p-4 ">
-              <div
-                key={cart.id}
-                className="flex gap-4 "
-              >
+            <div
+              key={cart.id}
+              className="flex flex-col shadow-md border w-full rounded-md p-4 "
+            >
+              <div className="flex gap-4 ">
                 <Image
                   className="rounded-md bg-gray-300"
                   src="https://picsum.photos/120/120"
@@ -52,10 +57,16 @@ const CartPage = () => {
                   height={120}
                   priority
                 />
-                <CartQuantity carts={carts} setCarts={setCarts} cart={cart} />
+                <CartQuantity
+                  carts={carts}
+                  updateCarts={updateCarts}
+                  cart={cart}
+                />
               </div>
               {cart.note && (
-                <span className="text-sm font-medium p-2 bg-gray-100 mt-4 rounded-sm text-gray-500">Note : {cart.note}</span>
+                <span className="text-sm font-medium p-2 bg-gray-100 mt-4 rounded-sm text-gray-500">
+                  Note : {cart.note}
+                </span>
               )}
             </div>
           ))}

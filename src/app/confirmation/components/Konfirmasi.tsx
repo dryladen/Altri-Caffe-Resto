@@ -21,12 +21,18 @@ const Konfirmasi = () => {
   });
   const router = useRouter();
   const [carts, setCarts] = useState<Cart[]>([]);
+
   useEffect(() => {
     const cart = localStorage.getItem("carts");
     const dataCustomer = localStorage.getItem("customer");
     setCarts(cart ? JSON.parse(cart) : []);
     setCustomer(dataCustomer ? JSON.parse(dataCustomer) : {});
   }, []);
+
+  function createOrder() {
+    router.push("/receipt");
+  }
+
   if (carts.length === 0 || customer.name === "-") {
     return (
       <div className="flex flex-col items-center justify-center h-screen p-4">
@@ -98,6 +104,7 @@ const Konfirmasi = () => {
           <Button
             className="flex rounded-full py-[10px] shadow-md h-fit bg-amber-600 z- hover:bg-gray-400"
             variant={"default"}
+            onClick={() => createOrder()}
           >
             <span className="font-semibold text-white text-lg">
               Konfirmasi Pesanan
