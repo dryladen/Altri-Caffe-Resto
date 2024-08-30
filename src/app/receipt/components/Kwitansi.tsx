@@ -210,7 +210,7 @@ const Kwitansi = () => {
           <Separator className="my-2" />
           <div className="flex justify-between text-gray-400 text-sm">
             <div className="flex gap-2">
-              <span>Total</span>
+              <span className="font-semibold">Total</span>
             </div>
             <span className="font-semibold text-lg text-gray-700">
               {new Intl.NumberFormat("id-ID", {

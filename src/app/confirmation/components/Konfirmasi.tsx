@@ -2,7 +2,14 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Cart } from "@/types/dataTypes";
-import { ArrowLeft, HandCoins, Phone, User } from "lucide-react";
+import {
+  ArrowLeft,
+  HandCoins,
+  NotebookTabs,
+  Phone,
+  Table,
+  User,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
@@ -83,23 +90,32 @@ const Konfirmasi = () => {
           <h1 className="font-semibold text-lg">Konfirmasi</h1>
         </div>
         <div className="flex flex-col p-4 mx-4 border-[1px] shadow-sm rounded-md bg-white">
-          <h2 className="text-lg font-semibold mb-4">Data Pelanggan</h2>
-          <div className="flex justify-between flex-wrap text-wrap w-full text-gray-400 text-sm">
-            <div className="flex gap-2 flex-wrap">
-              <User size={16} />
-              <span>Nama Lengkap</span>
+          <h2 className="text-lg font-semibold">Data Pelanggan</h2>
+          <Separator className="my-3" />
+          <div className="flex flex-col gap-3 ">
+            <div className="flex justify-between flex-wrap text-wrap w-full text-gray-400 text-sm">
+              <div className="flex gap-2 flex-wrap">
+                <User size={16} />
+                <span>Nama Lengkap</span>
+              </div>
+              <span className="flex text-wrap font-semibold text-gray-700 flex-wrap flex-col">
+                {customer.name}
+              </span>
             </div>
-            <span className="flex text-wrap flex-wrap flex-col">
-              {customer.name}
-            </span>
-          </div>
-          <Separator className="my-2" />
-          <div className="flex justify-between text-gray-400 text-sm">
-            <div className="flex gap-2">
-              <Phone size={16} />
-              <span>No Telepon</span>
+            <div className="flex justify-between text-gray-400 text-sm">
+              <div className="flex gap-2">
+                <Phone size={16} />
+                <span>No Telepon</span>
+              </div>
+              <span className="text-gray-700 font-semibold">+62{customer.phone}</span>
             </div>
-            <span>+62{customer.phone}</span>
+            <div className="flex justify-between text-gray-400 text-sm">
+              <div className="flex gap-2">
+                <NotebookTabs size={16} />
+                <span>No Meja</span>
+              </div>
+              <span className="font-semibold text-gray-700">{customer.table}</span>
+            </div>
           </div>
         </div>
         <div className="flex flex-col p-4 mx-4 grow border-[1px] shadow-sm rounded-md bg-white">
@@ -120,31 +136,45 @@ const Konfirmasi = () => {
         <div className="flex flex-col p-4 mx-4 grow border-[1px] shadow-sm rounded-md bg-white">
           <h2 className="text-lg font-semibold ">Metode Pembayaran</h2>
           <Separator className="mb-4 mt-2" />
-          <RadioGroup
-            defaultValue={customer.paymentMethod}
-          >
+          <RadioGroup defaultValue={customer.paymentMethod}>
             <div className="flex items-center justify-between space-x-2">
               <Label htmlFor="tunai" className="flex gap-2 items-center">
-                <Image src={"/tunai.webp"} width={72} height={72} alt="tunai" className="w-auto" />
+                <Image
+                  src={"/tunai.webp"}
+                  width={72}
+                  height={72}
+                  alt="tunai"
+                  className="w-auto"
+                />
                 <span>Tunai</span>
               </Label>
               <RadioGroupItem
                 className="text-amber-600 h-4 border-amber-600"
                 value="tunai"
                 id="tunai"
-                onClick={() => setCustomer({ ...customer, paymentMethod: "tunai" })}
+                onClick={() =>
+                  setCustomer({ ...customer, paymentMethod: "tunai" })
+                }
               />
             </div>
             <div className="flex items-center justify-between space-x-2">
               <Label htmlFor="qris" className="flex gap-2 items-center">
-                <Image src={"/qris.webp"} width={72} height={72} className="w-auto" alt="qris" />
+                <Image
+                  src={"/qris.webp"}
+                  width={72}
+                  height={72}
+                  className="w-auto"
+                  alt="qris"
+                />
                 <span>Scan QRIS</span>
               </Label>
               <RadioGroupItem
                 className="text-amber-600 h-4 border-amber-600"
                 value="qris"
                 id="qris"
-                onClick={() => setCustomer({ ...customer, paymentMethod: "qris" })}
+                onClick={() =>
+                  setCustomer({ ...customer, paymentMethod: "qris" })
+                }
               />
             </div>
           </RadioGroup>
