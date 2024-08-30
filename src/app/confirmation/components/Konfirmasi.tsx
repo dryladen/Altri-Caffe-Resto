@@ -125,7 +125,7 @@ const Konfirmasi = () => {
           >
             <div className="flex items-center justify-between space-x-2">
               <Label htmlFor="tunai" className="flex gap-2 items-center">
-                <Image src={"/tunai.webp"} width={64} height={64} alt="tunai" />
+                <Image src={"/tunai.webp"} width={72} height={72} alt="tunai" className="w-auto" />
                 <span>Tunai</span>
               </Label>
               <RadioGroupItem
@@ -137,7 +137,7 @@ const Konfirmasi = () => {
             </div>
             <div className="flex items-center justify-between space-x-2">
               <Label htmlFor="qris" className="flex gap-2 items-center">
-                <Image src={"/qris.webp"} width={64} height={64} alt="qris" />
+                <Image src={"/qris.webp"} width={72} height={72} className="w-auto" alt="qris" />
                 <span>Scan QRIS</span>
               </Label>
               <RadioGroupItem
