@@ -14,7 +14,16 @@ export type Categories = {
   name: string;
   createdAt: Date;
   updatedAt: Date | null;
-  products: Product[];
+  products: {
+    id: number;
+    name: string;
+    createdAt: Date;
+    updatedAt: Date | null;
+    description: string;
+    price: number;
+    status: string;
+    categoryId: number;
+  }[];
 };
 
 export type Product = {

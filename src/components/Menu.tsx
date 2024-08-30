@@ -19,7 +19,22 @@ import { useCallback, useEffect, useState } from "react";
 import { get } from "http";
 
 type MenuProps = {
-  categories: Categories[];
+  categories: {
+    id: number;
+    name: string;
+    createdAt: Date;
+    updatedAt: Date | null;
+    products: {
+      id: number;
+      name: string;
+      createdAt: Date;
+      updatedAt: Date | null;
+      description: string;
+      price: number;
+      status: string;
+      categoryId: number;
+    }[];
+  }[];
 };
 
 const Menu = ({ categories }: MenuProps) => {
@@ -88,7 +103,7 @@ const Menu = ({ categories }: MenuProps) => {
               </h4>
               <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-6">
                 {categorie.products.map(
-                  (item: Product) =>
+                  (item: any) =>
                     item.categoryId === categorie.id && (
                       <Card
                         key={item.id}

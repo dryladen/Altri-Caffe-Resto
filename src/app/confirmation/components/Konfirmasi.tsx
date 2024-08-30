@@ -15,12 +15,14 @@ type Customer = {
   name: string;
   phone: string;
   table: string;
+  paymentMethod: string;
 };
 const Konfirmasi = () => {
   const [customer, setCustomer] = useState<Customer>({
     name: "-",
     phone: "-",
     table: "-",
+    paymentMethod: "tunai",
   });
   const router = useRouter();
   const [carts, setCarts] = useState<Cart[]>([]);
@@ -29,7 +31,7 @@ const Konfirmasi = () => {
     const cart = localStorage.getItem("carts");
     const dataCustomer = localStorage.getItem("customer");
     setCarts(cart ? JSON.parse(cart) : []);
-    setCustomer(dataCustomer ? JSON.parse(dataCustomer) : {});
+    setCustomer(dataCustomer ? JSON.parse(dataCustomer) : customer);
   }, []);
 
   const updateCarts = useCallback(
@@ -53,6 +55,7 @@ const Konfirmasi = () => {
   }, [getOrder]);
 
   function createOrder() {
+    localStorage.setItem("customer", JSON.stringify(customer));
     router.push("/receipt");
   }
 
@@ -117,20 +120,32 @@ const Konfirmasi = () => {
         <div className="flex flex-col p-4 mx-4 grow border-[1px] shadow-sm rounded-md bg-white">
           <h2 className="text-lg font-semibold ">Metode Pembayaran</h2>
           <Separator className="mb-4 mt-2" />
-          <RadioGroup defaultValue="tunai">
+          <RadioGroup
+            defaultValue={customer.paymentMethod}
+          >
             <div className="flex items-center justify-between space-x-2">
               <Label htmlFor="tunai" className="flex gap-2 items-center">
-                <Image src={"/tunai.webp"} width={64} height={64} alt="tunai"/>
+                <Image src={"/tunai.webp"} width={64} height={64} alt="tunai" />
                 <span>Tunai</span>
               </Label>
-              <RadioGroupItem className="text-amber-600 h-4 border-amber-600" value="tunai" id="tunai" />
+              <RadioGroupItem
+                className="text-amber-600 h-4 border-amber-600"
+                value="tunai"
+                id="tunai"
+                onClick={() => setCustomer({ ...customer, paymentMethod: "tunai" })}
+              />
             </div>
             <div className="flex items-center justify-between space-x-2">
               <Label htmlFor="qris" className="flex gap-2 items-center">
-                <Image src={"/qris.webp"} width={64} height={64} alt="qris"/>
+                <Image src={"/qris.webp"} width={64} height={64} alt="qris" />
                 <span>Scan QRIS</span>
               </Label>
-              <RadioGroupItem className="text-amber-600 h-4 border-amber-600" value="qris" id="qris" />
+              <RadioGroupItem
+                className="text-amber-600 h-4 border-amber-600"
+                value="qris"
+                id="qris"
+                onClick={() => setCustomer({ ...customer, paymentMethod: "qris" })}
+              />
             </div>
           </RadioGroup>
         </div>

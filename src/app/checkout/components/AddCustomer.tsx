@@ -12,19 +12,24 @@ const AddCustomer = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState(0);
   const [table, setTable] = useState(0);
+  const [paymentMethod, setPaymentMethod] = useState("tunai");
 
   useEffect(() => {
     const customer = localStorage.getItem("customer");
     if (customer) {
-      const { name, phone, table } = JSON.parse(customer);
+      const { name, phone, table, paymentMethod } = JSON.parse(customer);
       setName(name);
       setPhone(phone);
       setTable(table);
+      setPaymentMethod(paymentMethod ? paymentMethod : "tunai");
     }
   }, []);
 
   function handleCheckout() {
-    localStorage.setItem("customer", JSON.stringify({ name, phone, table }));
+    localStorage.setItem(
+      "customer",
+      JSON.stringify({ name, phone, table, paymentMethod })
+    );
     router.push("/confirmation");
   }
   return (
@@ -65,7 +70,6 @@ const AddCustomer = () => {
               className="rounded-l-none text-md focus-visible:ring-0 focus-visible:ring-offset-0"
               value={phone == 0 ? "" : phone}
               onChange={(e) => setPhone(e.target.valueAsNumber)}
-              
             />
           </div>
           <span className="text-sm text-gray-400 mt-4">
