@@ -2,11 +2,14 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Cart } from "@/types/dataTypes";
-import { ArrowLeft, Phone, User } from "lucide-react";
-import Link from "next/link";
+import { ArrowLeft, HandCoins, Phone, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import CartItem from "./CartItem";
+import Link from "next/link";
+import Image from "next/image";
 
 type Customer = {
   name: string;
@@ -110,6 +113,26 @@ const Konfirmasi = () => {
               />
             ))}
           </div>
+        </div>
+        <div className="flex flex-col p-4 mx-4 grow border-[1px] shadow-sm rounded-md bg-white">
+          <h2 className="text-lg font-semibold ">Metode Pembayaran</h2>
+          <Separator className="mb-4 mt-2" />
+          <RadioGroup defaultValue="tunai">
+            <div className="flex items-center justify-between space-x-2">
+              <Label htmlFor="tunai" className="flex gap-2 items-center">
+                <Image src={"/tunai.webp"} width={64} height={64} alt="tunai"/>
+                <span>Tunai</span>
+              </Label>
+              <RadioGroupItem className="text-amber-600 h-4 border-amber-600" value="tunai" id="tunai" />
+            </div>
+            <div className="flex items-center justify-between space-x-2">
+              <Label htmlFor="qris" className="flex gap-2 items-center">
+                <Image src={"/qris.webp"} width={64} height={64} alt="qris"/>
+                <span>Scan QRIS</span>
+              </Label>
+              <RadioGroupItem className="text-amber-600 h-4 border-amber-600" value="qris" id="qris" />
+            </div>
+          </RadioGroup>
         </div>
         <div className="flex flex-col justify-start p-4 gap-4 sticky w-full bottom-0 bg-white">
           <div className="flex font-bold text-gray-700 text-lg justify-between">
