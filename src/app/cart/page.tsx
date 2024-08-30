@@ -43,7 +43,7 @@ const CartPage = () => {
   } else {
     const total = carts.reduce((acc, cart) => acc + cart.totalPrice, 0);
     return (
-      <div className="flex flex-col gap-4 p-4">
+      <div className="flex flex-col gap-4 p-4 min-h-screen">
         <div className="flex items-center gap-4 p-2 w-full">
           <Link href="/">
             <ArrowLeft size={24} />
@@ -81,7 +81,7 @@ const CartPage = () => {
           ))}
         </div>
         <Link
-          className="flex rounded-full mt-4 sticky right-4 left-4 bottom-4 shadow-md  bg-amber-600 z-50 py-1"
+          className="flex rounded-full mt-4 sticky  right-4 left-4 bottom-4 shadow-md bg-amber-600 z-50 py-1"
           href="/checkout"
         >
           <div className="flex text-white gap-2 items-center px-4 py-2 w-full">
