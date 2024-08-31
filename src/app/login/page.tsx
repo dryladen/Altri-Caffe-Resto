@@ -1,17 +1,65 @@
-import { login, signup, googleLogin, signOut } from "./actions"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { login, googleLogin, signOut } from "./actions";
+export const description =
+  "A login form with email and password. There's an option to login with Google and a link to sign up if you don't have an account.";
 
-export default function LoginPage() {
+export default function LoginForm() {
   return (
-    <form>
-      <label htmlFor="email">Email:</label>
-      <input id="email" name="email" type="email" required />
-      <label htmlFor="password">Password:</label>
-      <input id="password" name="password" type="password" required />
-      <button formAction={login}>Log in</button>
-      <button formAction={googleLogin}>Log in with Google</button>
-      <button formAction={signup}>Sign up</button>
-      <button formAction={signOut}>Sign out</button>
-
-    </form>
-  )
+    <Card className="mx-auto my-auto max-w-sm">
+      <CardHeader>
+        <CardTitle className="text-2xl">Login</CardTitle>
+        <CardDescription>
+          Enter your email below to login to your account
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form>
+          <div className="grid gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="email">Email</Label>
+              <Input id="email" type="email" placeholder="m@example.com" />
+            </div>
+            <div className="grid gap-2">
+              <div className="flex items-center">
+                <Label htmlFor="password">Password</Label>
+                {/* <Link
+                  href="#"
+                  className="ml-auto inline-block text-sm underline"
+                >
+                  Forgot your password?
+                </Link> */}
+              </div>
+              <Input id="password" name="password" type="password" />
+            </div>
+            <Button formAction={login} className="w-full">
+              Login
+            </Button>
+            <Button
+              formAction={googleLogin}
+              variant="outline"
+              className="w-full"
+            >
+              Login with Google
+            </Button>
+          </div>
+          <div className="mt-4 text-sm flex gap-2 justify-end items-center">
+            Already Login?
+            <Button formAction={signOut} className="underline">
+              Sign Out
+            </Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
+  );
 }
