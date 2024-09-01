@@ -1,118 +1,55 @@
+"use client"
 import React from "react";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
 import Link from "next/link";
-import { Home, LineChart, Package, Package2, PanelLeft, Search, Settings, ShoppingCart, Users2 } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "./ui/button";
 import Image from "next/image";
+import { navigation } from "@/lib/navigation";
+import { usePathname } from "next/navigation";
 const SideBar = () => {
+  const pathname = usePathname();
   return (
     <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
-      <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
+      <nav className="flex flex-col grow items-center gap-4 px-2 sm:py-5">
         <Link
           href="#"
-          className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
+          className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 p-1 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
         >
-          <Package2 className="h-4 w-4 transition-all group-hover:scale-110" />
-          <span className="sr-only">Acme Inc</span>
+          <Image src="/logo.png" alt="logo" className="transition-all group-hover:scale-110 w-auto" width={64} height={64} />
+          <span className="sr-only">Altri Caffe & Resto</span>
         </Link>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Link
-              href="#"
-              className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-            >
-              <Home className="h-5 w-5" />
-              <span className="sr-only">Dashboard</span>
-            </Link>
-          </TooltipTrigger>
-          <TooltipContent side="right">Dashboard</TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Link
-              href="#"
-              className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-            >
-              <ShoppingCart className="h-5 w-5" />
-              <span className="sr-only">Orders</span>
-            </Link>
-          </TooltipTrigger>
-          <TooltipContent side="right">Orders</TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Link
-              href="#"
-              className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-            >
-              <Package className="h-5 w-5" />
-              <span className="sr-only">Products</span>
-            </Link>
-          </TooltipTrigger>
-          <TooltipContent side="right">Products</TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Link
-              href="#"
-              className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-            >
-              <Users2 className="h-5 w-5" />
-              <span className="sr-only">Customers</span>
-            </Link>
-          </TooltipTrigger>
-          <TooltipContent side="right">Customers</TooltipContent>
-        </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Link
-              href="#"
-              className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-            >
-              <LineChart className="h-5 w-5" />
-              <span className="sr-only">Analytics</span>
-            </Link>
-          </TooltipTrigger>
-          <TooltipContent side="right">Analytics</TooltipContent>
-        </Tooltip>
+        {navigation.map((item) => (
+          <Tooltip key={item.name}>
+            <TooltipTrigger asChild>
+              <Link
+                href={item.href}
+                className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors md:h-8 md:w-8 ${pathname === item.href ? "text-white bg-primary" : "text-muted-foreground"}`}
+              >
+                <item.icon className="h-5 w-5  hover:scale-[1.15]" />
+                <span className="sr-only">{item.name}</span>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="right">{item.name}</TooltipContent>
+          </Tooltip>
+        ))}
       </nav>
-      <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
+      {/* <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
         <Tooltip>
           <TooltipTrigger asChild>
             <Link
-              href="#"
+              href="/settings"
               className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
             >
               <Settings className="h-5 w-5" />
-              <span className="sr-only">Settings</span>
+              <span className="sr-only">Pengaturan</span>
             </Link>
           </TooltipTrigger>
-          <TooltipContent side="right">Settings</TooltipContent>
+          <TooltipContent side="right">Pengaturan</TooltipContent>
         </Tooltip>
-      </nav>
+      </nav> */}
     </aside>
   );
 };

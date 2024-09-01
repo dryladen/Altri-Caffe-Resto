@@ -111,10 +111,10 @@ export default function AccountForm({ user }: { user: User | null }) {
         uid={user?.id ?? null}
         url={avatar_url}
         size={150}
-        onUpload={(url) => {
-          setAvatarUrl(url);
-          updateProfile({ fullname, username, website, avatar_url: url });
-        }}
+        // onUpload={(url) => {
+        //   setAvatarUrl(url);
+        //   updateProfile({ fullname, username, website, avatar_url: url });
+        // }}
       />
       <div>
         <button
