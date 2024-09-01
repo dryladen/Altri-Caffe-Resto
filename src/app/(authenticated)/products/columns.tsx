@@ -2,41 +2,56 @@
 
 import { SelectProduct } from "@/db/schema";
 import { ColumnDef } from "@tanstack/react-table";
-
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
+import { MoreHorizontal } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { DataTableColumnHeader } from "@/components/datatable/data-table-column-header";
 
 export const columns: ColumnDef<SelectProduct>[] = [
   {
-    header: () => <div className="hidden sm:flex">ID</div>,
+    header: "ID",
     accessorKey: "id",
     cell: ({ row }) => {
-      return <span className="hidden sm:flex">{row.getValue("id")}</span>;
+      return <span>{row.getValue("id")}</span>;
     },
-    
   },
   {
-    header: "Nama",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title={"Nama"} />
+    ),
     accessorKey: "name",
   },
   {
-    header: () => <div className="hidden sm:flex">Status</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title={"Status"} />
+    ),
     accessorKey: "status",
     cell: ({ row }) => {
-      return <span className="hidden sm:flex">{row.getValue("status")}</span>;
+      return <span>{row.getValue("status")}</span>;
     },
   },
   {
-    header: () => <div className="hidden sm:flex">Deskripsi</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title={"Deskripsi"} />
+    ),
     accessorKey: "description",
     cell: ({ row }) => {
       return (
-        <span className="hidden sm:flex">{row.getValue("description")}</span>
+        <span>{row.getValue("description")}</span>
       );
     },
   },
   {
-    header: "Harga",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title={"Harga"} />
+    ),
     accessorKey: "price",
     cell: ({ row }) => {
       const price = new Intl.NumberFormat("id-ID", {
@@ -48,14 +63,20 @@ export const columns: ColumnDef<SelectProduct>[] = [
     },
   },
   {
-    header: () => <div className="hidden sm:flex">Kategori</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title={"Kategori"} />
+    ),
     accessorKey: "categoryId",
     cell: ({ row }) => {
-      return <span className="hidden sm:flex">{row.getValue("categoryId")}</span>;
+      return (
+        <span>{row.getValue("categoryId")}</span>
+      );
     },
   },
   {
-    header: () => <div className="hidden sm:flex">Dibuat Pada</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title={"Dibuat pada"} />
+    ),
     accessorKey: "createdAt",
     cell: ({ row }) => {
       const createdAt = new Date(row.getValue("createdAt"));
@@ -65,7 +86,29 @@ export const columns: ColumnDef<SelectProduct>[] = [
         month: "long",
         day: "numeric",
       });
-      return <span className="hidden sm:flex">{formattedDate}</span>;
+      return <span>{formattedDate}</span>;
+    },
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem>Copy payment ID</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>View customer</DropdownMenuItem>
+            <DropdownMenuItem>View payment details</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
     },
   },
 ];
