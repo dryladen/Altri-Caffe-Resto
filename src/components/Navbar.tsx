@@ -33,7 +33,6 @@ const Navbar = ({ user }: { user: User | null }) => {
   const [avatar_url, setAvatarUrl] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
 
-
   const getProfile = useCallback(async () => {
     try {
       const { data, error, status } = await supabase
@@ -73,10 +72,16 @@ const Navbar = ({ user }: { user: User | null }) => {
           <nav className="grid gap-4 text-lg font-medium">
             <Link
               href="#"
-              className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
+              className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 p-1 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
             >
-              <Package2 className="h-5 w-5 transition-all group-hover:scale-110" />
-              <span className="sr-only">Acme Inc</span>
+              <Image
+                src="/logo.png"
+                alt="logo"
+                className="transition-all group-hover:scale-110 w-auto"
+                width={64}
+                height={64}
+              />
+              <span className="sr-only">Altri Caffe & Resto</span>
             </Link>
             {navigation.map((item) => (
               <Link
@@ -121,18 +126,16 @@ const Navbar = ({ user }: { user: User | null }) => {
             size="icon"
             className="overflow-hidden rounded-full relative ml-auto"
           >
-            <Avatar
-              uid={user?.id ?? null}
-              url={avatar_url}
-              size={42}
-            />
+            <Avatar uid={user?.id ?? null} url={avatar_url} size={42} />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel><div className="flex flex-col">
-            <span className="capitalize">{username}</span>
-            <span className="text-gray-500 text-sm">{user?.email}</span>
-            </div></DropdownMenuLabel>
+          <DropdownMenuLabel>
+            <div className="flex flex-col">
+              <span className="capitalize">{username}</span>
+              <span className="text-gray-500 text-sm">{user?.email}</span>
+            </div>
+          </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem>Profile</DropdownMenuItem>
           <DropdownMenuSeparator />
