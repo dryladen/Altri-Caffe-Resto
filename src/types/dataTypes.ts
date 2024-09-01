@@ -27,12 +27,12 @@ export type Categories = {
 };
 
 export type Product = {
-  id: string;
+  id: number;
   name: string;
-  status: string;
   createdAt: Date;
   updatedAt: Date | null;
   description: string;
   price: number;
+  status: string;
   categoryId: number;
 };

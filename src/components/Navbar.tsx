@@ -1,5 +1,5 @@
 "use client";
-import { Package2, PanelLeft } from "lucide-react";
+import { PanelLeft } from "lucide-react";
 import Image from "next/image";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
