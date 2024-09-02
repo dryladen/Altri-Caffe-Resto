@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
+import { Toaster } from "@/components/ui/toaster";
 // import { ClerkProvider } from "@clerk/nextjs";
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
         <main className="flex min-h-screen w-full flex-col bg-muted/40 relative">
           <TooltipProvider>{children}</TooltipProvider>
         </main>
+        <Toaster />
       </body>
     </html>
     // </ClerkProvider>

@@ -55,14 +55,14 @@ export function ResponsiveDialog({
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerContent className='p-4'>
-        <DrawerHeader className="text-left">
+        <DrawerHeader className="text-left px-0 py-4">
           <DrawerTitle>{title}</DrawerTitle>
           {description && <DialogDescription>{description}</DialogDescription>}
         </DrawerHeader>
         {children}
-        <DrawerFooter className="pt-2">
+        <DrawerFooter className="pt-2 px-0">
           <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
+            <Button variant="outline">Batal</Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
