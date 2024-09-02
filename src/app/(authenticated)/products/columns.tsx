@@ -27,6 +27,10 @@ export const columns: ColumnDef<SelectProduct>[] = [
       <DataTableColumnHeader column={column} title={"Nama"} />
     ),
     accessorKey: "name",
+    meta: { Comment: "Nama produk" },
+    cell: ({ row }) => {
+      return <span>{row.getValue("name")}</span>;
+    },
   },
   {
     header: ({ column }) => (

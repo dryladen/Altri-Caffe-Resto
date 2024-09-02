@@ -122,7 +122,7 @@ export function DataTable<TData, TValue>({
           {children}
         </div>
         <div className="rounded-md ">
-          <Table>
+          <Table className="relative">
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
@@ -130,11 +130,11 @@ export function DataTable<TData, TValue>({
                     return (
                       <TableHead
                         key={header.id}
-                        className={`${
-                          header.column.columnDef.header !== "Nama" &&
-                          header.column.columnDef.header !== "Harga" &&
-                          "hidden sm:table-cell"
-                        }`}
+                        // className={`${
+                        //   header.column.columnDef.header !== "Nama" &&
+                        //   header.column.columnDef.header !== "Harga" &&
+                        //   "hidden sm:table-cell"
+                        // }`}
                       >
                         {header.isPlaceholder
                           ? null
@@ -158,11 +158,13 @@ export function DataTable<TData, TValue>({
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
                         key={cell.id}
-                        className={`${
-                          cell.column.columnDef.header !== "Nama" &&
-                          cell.column.columnDef.header !== "Harga" &&
-                          "hidden sm:table-cell"
-                        }`}
+                        className="has-[:not(.hidden)]"
+
+                        // className={`${
+                        //   cell.column.columnDef.header !== "Nama" &&
+                        //   cell.column.columnDef.header !== "Harga" &&
+                        //   "hidden sm:table-cell"
+                        // }`}
                       >
                         {flexRender(
                           cell.column.columnDef.cell,
@@ -187,7 +189,7 @@ export function DataTable<TData, TValue>({
         </div>
         <div className="flex items-center justify-end space-x-2 py-4">
           <div className="text-xs text-muted-foreground">
-            Data <strong>1-{table.getRowModel().rows?.length}</strong> dari {" "}
+            Data <strong>1-{table.getRowModel().rows?.length}</strong> dari{" "}
             <strong>{table.getRowCount()}</strong> data
           </div>
           <Button
