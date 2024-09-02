@@ -1,20 +1,25 @@
-import { Column } from '@tanstack/react-table'
+import { Column } from "@tanstack/react-table";
 
-import { cn } from '@/lib/utils'
+import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { ArrowDownIcon, ArrowUpDown, ArrowUpIcon, EyeOffIcon } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+} from "@/components/ui/dropdown-menu";
+import {
+  ArrowDownIcon,
+  ArrowUpDown,
+  ArrowUpIcon,
+  EyeOffIcon,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface DataTableColumnHeaderProps<TData, TValue>
   extends React.HTMLAttributes<HTMLDivElement> {
-  column: Column<TData, TValue>
-  title: string
+  column: Column<TData, TValue>;
+  title: string;
 }
 
 export function DataTableColumnHeader<TData, TValue>({
@@ -23,21 +28,22 @@ export function DataTableColumnHeader<TData, TValue>({
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
   if (!column.getCanSort()) {
-    return <div className={cn(className)}>{title}</div>
+    return <div className={cn(className)}>{title}</div>;
   }
 
   return (
-    <div className={cn('space-x-2', className)}>
+    <div className={cn("space-x-2", className)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
             size="sm"
-            className="-ml-3 h-8 data-[state=open]:bg-accent">
+            className="-ml-3 h-8 data-[state=open]:bg-accent"
+          >
             <span>{title}</span>
-            {column.getIsSorted() === 'desc' ? (
+            {column.getIsSorted() === "desc" ? (
               <ArrowDownIcon className="ml-2 h-4 w-4" />
-            ) : column.getIsSorted() === 'asc' ? (
+            ) : column.getIsSorted() === "asc" ? (
               <ArrowUpIcon className="ml-2 h-4 w-4" />
             ) : (
               <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -61,5 +67,5 @@ export function DataTableColumnHeader<TData, TValue>({
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
-  )
+  );
 }

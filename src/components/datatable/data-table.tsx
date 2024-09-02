@@ -31,6 +31,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import * as React from "react";
 import { Eye } from "lucide-react";
+import { cn } from "@/lib/utils";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -130,11 +131,7 @@ export function DataTable<TData, TValue>({
                     return (
                       <TableHead
                         key={header.id}
-                        // className={`${
-                        //   header.column.columnDef.header !== "Nama" &&
-                        //   header.column.columnDef.header !== "Harga" &&
-                        //   "hidden sm:table-cell"
-                        // }`}
+                        className={cn(header.column.columnDef.meta?.className)}
                       >
                         {header.isPlaceholder
                           ? null
@@ -158,13 +155,7 @@ export function DataTable<TData, TValue>({
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
                         key={cell.id}
-                        className="has-[:not(.hidden)]"
-
-                        // className={`${
-                        //   cell.column.columnDef.header !== "Nama" &&
-                        //   cell.column.columnDef.header !== "Harga" &&
-                        //   "hidden sm:table-cell"
-                        // }`}
+                        className={cn(cell.column.columnDef.meta?.className)}
                       >
                         {flexRender(
                           cell.column.columnDef.cell,

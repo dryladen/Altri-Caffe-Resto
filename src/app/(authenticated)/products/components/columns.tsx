@@ -1,5 +1,4 @@
 "use client";
-
 import { SelectProduct } from "@/db/schema";
 import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
@@ -18,6 +17,7 @@ export const columns: ColumnDef<SelectProduct>[] = [
   {
     header: "ID",
     accessorKey: "id",
+    meta: { className: "hidden sm:table-cell" },
     cell: ({ row }) => {
       return <span>{row.getValue("id")}</span>;
     },
@@ -27,7 +27,6 @@ export const columns: ColumnDef<SelectProduct>[] = [
       <DataTableColumnHeader column={column} title={"Nama"} />
     ),
     accessorKey: "name",
-    meta: { Comment: "Nama produk" },
     cell: ({ row }) => {
       return <span>{row.getValue("name")}</span>;
     },
@@ -37,6 +36,7 @@ export const columns: ColumnDef<SelectProduct>[] = [
       <DataTableColumnHeader column={column} title={"Status"} />
     ),
     accessorKey: "status",
+    meta: { className: "hidden sm:table-cell" },
     cell: ({ row }) => {
       return <span>{row.getValue("status")}</span>;
     },
@@ -46,10 +46,9 @@ export const columns: ColumnDef<SelectProduct>[] = [
       <DataTableColumnHeader column={column} title={"Deskripsi"} />
     ),
     accessorKey: "description",
+    meta: { className: "hidden sm:table-cell" },
     cell: ({ row }) => {
-      return (
-        <span>{row.getValue("description")}</span>
-      );
+      return <span>{row.getValue("description")}</span>;
     },
   },
   {
@@ -71,10 +70,9 @@ export const columns: ColumnDef<SelectProduct>[] = [
       <DataTableColumnHeader column={column} title={"Kategori"} />
     ),
     accessorKey: "categoryId",
+    meta: { className: "hidden lg:table-cell" },
     cell: ({ row }) => {
-      return (
-        <span>{row.getValue("categoryId")}</span>
-      );
+      return <span>{row.getValue("categoryId")}</span>;
     },
   },
   {
@@ -82,6 +80,7 @@ export const columns: ColumnDef<SelectProduct>[] = [
       <DataTableColumnHeader column={column} title={"Dibuat pada"} />
     ),
     accessorKey: "createdAt",
+    meta: { className: "hidden lg:table-cell" },
     cell: ({ row }) => {
       const createdAt = new Date(row.getValue("createdAt"));
       const formattedDate = createdAt.toLocaleDateString("id-ID", {
