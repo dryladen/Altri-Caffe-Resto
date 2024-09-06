@@ -3,8 +3,9 @@ import { ResponsiveDialog } from "@/components/ResponsiveDialog";
 import React from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+
 import {
   Form,
   FormControl,
@@ -17,6 +18,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { description } from "../../layout";
 import { useToast } from "@/hooks/use-toast";
+import { db } from "@/db";
+import { productSchema, ProductSchema, productsTable } from "@/db/schema";
+import createProduct from "./action";
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
@@ -32,33 +36,27 @@ const formSchema = z.object({
         .positive({ message: "Harga tidak boleh kosong" })
         .int({ message: "Masukan angka" })
     ),
-  status: z.string().min(2,"Minimal 2 kata").max(50),
+  status: z.string().min(2, "Minimal 2 kata").max(50),
   categoryId: z.string().min(2).max(50),
 });
 const AddData = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { toast } = useToast();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<ProductSchema>({
+    resolver: zodResolver(productSchema),
     defaultValues: {
       name: "",
       description: "",
       price: 0,
       status: "",
-      categoryId: "",
+      categoryId: 1,
     },
   });
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-  }
+  const onSubmit: SubmitHandler<ProductSchema> = (data) => {
+    createProduct(data);
+    console.log(data);
+  };
   return (
     <>
       <ResponsiveDialog
@@ -142,7 +140,17 @@ const AddData = () => {
                 <FormItem>
                   <FormLabel>Kategori</FormLabel>
                   <FormControl>
-                    <Input placeholder="Contoh : 1" {...field} />
+                    <Input
+                      placeholder="Contoh : 1"
+                      {...field}
+                      value={field.value || ""} // avoid errors of uncontrolled vs controlled
+                      pattern="[0-9]*" // to receive only numbers without showing does weird arrows in the input
+                      onChange={
+                        (e) =>
+                          e.target.validity.valid &&
+                          field.onChange(e.target.value) // e.target.validity.valid is required for pattern to work
+                      }
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

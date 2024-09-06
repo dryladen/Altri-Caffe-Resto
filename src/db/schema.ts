@@ -1,5 +1,9 @@
+import { create } from "domain";
 import { relations } from "drizzle-orm";
 import { integer, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { createInsertSchema } from "drizzle-zod";
+import { z } from "zod";
+
 
 export const usersTable = pgTable("users", {
   id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
@@ -18,8 +22,7 @@ export const categoriesTable = pgTable("categories", {
   id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
   name: text("name").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at")
-    .$onUpdate(() => new Date()),
+  updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
 });
 
 
@@ -29,12 +32,9 @@ export const productsTable = pgTable("products", {
   description: text("description").notNull(),
   price: integer("price").notNull(),
   status: text("status").notNull(),
-  categoryId: integer("category_id")
-    .notNull()
-    .references(() => categoriesTable.id),
+  categoryId: integer("category_id").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at")
-    .$onUpdate(() => new Date()),
+  updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
 });
 
 export const ordersTable = pgTable("orders", {
@@ -69,7 +69,7 @@ export const categoriesRelation = relations(categoriesTable, ({ many }) => ({
   products: many(productsTable)
 }));
 export const productsRelation = relations(productsTable, ({ one }) => ({
-  category: one(categoriesTable,{
+  category: one(categoriesTable, {
     fields: [productsTable.categoryId],
     references: [categoriesTable.id]
   })
@@ -82,6 +82,35 @@ export const cartsRelation = relations(cartTable, ({ one }) => ({
   order: one(ordersTable)
 }));
 
+// type schema
+export const productSchema = createInsertSchema(productsTable, {
+  name: z.string().min(2).max(50),
+  description: z.string().min(2).max(50),
+  price: z
+    .number({ required_error: "Tentukan harga produk" })
+    .positive({ message: "Harga tidak boleh kosong" })
+    .int({ message: "Masukan angka" })
+    .or(z.string())
+    .pipe(
+      z.coerce
+        .number({ required_error: "Tentukan harga produk" })
+        .positive({ message: "Harga tidak boleh kosong" })
+        .int({ message: "Masukan angka" })
+    ),
+  status: z.string().min(2, "Minimal 2 kata").max(50),
+  categoryId: z
+    .number({ required_error: "Tentukan Kategori produk" })
+    .positive({ message: "Data tidak boleh kosong" })
+    .int({ message: "Masukan angka" })
+    .or(z.string())
+    .pipe(
+      z.coerce
+        .number({ required_error: "Tentukan harga produk" })
+        .positive({ message: "Data tidak boleh kosong" })
+        .int({ message: "Masukan angka" })
+    ),
+});
+export type ProductSchema = z.infer<typeof productSchema>;
 export type InsertUser = typeof usersTable.$inferInsert;
 export type SelectUser = typeof usersTable.$inferSelect;
 export type InsertCategory = typeof categoriesTable.$inferInsert;
