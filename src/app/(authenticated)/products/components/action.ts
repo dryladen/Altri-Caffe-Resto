@@ -32,3 +32,15 @@ export async function updateProduct(data: ProductSchema) {
     serverErrorMessage: "Error updating product"
   });
 }
+
+export async function deleteProduct(id: number) {
+	return executeAction({
+		actionFn: async () => {
+			await db.delete(productsTable).where(eq(productsTable.id, id));
+			revalidatePath("/admin/posts");
+		},
+		isProtected: true,
+		clientSuccessMessage: "Post deleted successfully",
+		serverErrorMessage: "deletePostById",
+	});
+}

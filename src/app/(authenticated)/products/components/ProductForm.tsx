@@ -29,7 +29,7 @@ const ProductForm = ({ defaultValues, categoriesData }: Props) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const form = useForm<ProductSchema>({
     resolver: zodResolver(productSchema),
-    defaultValues
+    defaultValues,
   });
 
   const onSubmit: SubmitHandler<ProductSchema> = async (data) => {
@@ -46,6 +46,7 @@ const ProductForm = ({ defaultValues, categoriesData }: Props) => {
     setIsOpen(false);
     router.push("/products");
   };
+
   return (
     <>
       <ResponsiveDialog
@@ -124,7 +125,6 @@ const ProductForm = ({ defaultValues, categoriesData }: Props) => {
               name="categoryId"
               label="Kategori"
             />
-
             <Button type="submit" className="w-full">
               Simpan
             </Button>
