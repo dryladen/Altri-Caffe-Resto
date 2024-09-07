@@ -49,7 +49,7 @@ const AddData = () => {
       description: "",
       price: 0,
       status: "",
-      categoryId: 1,
+      categoryId: 0,
     },
   });
 
