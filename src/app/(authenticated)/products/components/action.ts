@@ -1,7 +1,8 @@
 "use server"
 import { db } from '@/db';
-import { productSchema, ProductSchema, productsTable } from '@/db/schema';
+import { ProductSchema, productSchema, productsTable } from '@/db/schema/products';
 import { executeAction } from '@/db/utils/executeAction';
+import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
 export async function createProduct(data: ProductSchema) {
@@ -12,8 +13,22 @@ export async function createProduct(data: ProductSchema) {
       revalidatePath('/products');
     },
     isProtected: true,
-    clientSuccessMessage: "Product created successfully",
-    serverErrorMessage: "Error creating product"
+    clientSuccessMessage: "Produk berhasil ditambahkan",
+    serverErrorMessage: "Gagal menambahkan produk"
   });
+}
 
+export async function updateProduct(data: ProductSchema) {
+  return executeAction({
+    actionFn: async () => {
+      const validatedData = productSchema.parse(data);
+      if (validatedData.mode === "update") {
+        await db.update(productsTable).set(validatedData).where(eq(productsTable.id, +validatedData.id));
+      }
+      revalidatePath('/products');
+    },
+    isProtected: true,
+    clientSuccessMessage: "Product updated successfully",
+    serverErrorMessage: "Error updating product"
+  });
 }

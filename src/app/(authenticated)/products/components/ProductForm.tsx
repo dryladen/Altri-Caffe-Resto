@@ -1,65 +1,48 @@
 "use client";
 import { ResponsiveDialog } from "@/components/ResponsiveDialog";
 import React from "react";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { createProduct } from "./action";
+import { createProduct, updateProduct } from "./action";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { productSchema, ProductSchema } from "@/db/schema/products";
+import SelectBox from "@/components/SelectBox";
 
-const formSchema = z.object({
-  name: z.string().min(2).max(50),
-  description: z.string().min(2).max(50),
-  price: z
-    .number({ required_error: "Tentukan harga produk" })
-    .positive({ message: "Harga tidak boleh kosong" })
-    .int({ message: "Masukan angka" })
-    .or(z.string())
-    .pipe(
-      z.coerce
-        .number({ required_error: "Tentukan harga produk" })
-        .positive({ message: "Harga tidak boleh kosong" })
-        .int({ message: "Masukan angka" })
-    ),
-  status: z.string().min(2, "Minimal 2 kata").max(50),
-  categoryId: z.string().min(2).max(50),
-});
-const AddData = () => {
+type Props = {
+  defaultValues: ProductSchema;
+  categoriesData: { id: number; name: string }[] | null;
+};
+
+const ProductForm = ({ defaultValues, categoriesData }: Props) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = React.useState(false);
   const form = useForm<ProductSchema>({
     resolver: zodResolver(productSchema),
-    defaultValues: {
-      name: "",
-      description: "",
-      price: 0,
-      status: "available",
-      categoryId: 0,
-    },
+    defaultValues
   });
 
   const onSubmit: SubmitHandler<ProductSchema> = async (data) => {
-    let response = await createProduct(data);
-    toast(
-      {
-        title: response.message,
-        variant: response.success === true ? "default" : "destructive",
-      }
-    );
+    let response;
+    if (data.mode === "create") {
+      response = await createProduct(data);
+    } else {
+      response = await updateProduct(data);
+    }
+    toast({
+      title: response.message,
+      variant: response.success === true ? "default" : "destructive",
+    });
     setIsOpen(false);
     router.push("/products");
   };
@@ -68,8 +51,8 @@ const AddData = () => {
       <ResponsiveDialog
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        title="Add Data"
-        description="Silahkan masukan data yang ingin ditambahkan."
+        title="Tambah Produk"
+        description="Silahkan masukan produk yang ingin ditambahkan."
       >
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -126,41 +109,20 @@ const AddData = () => {
                 </FormItem>
               )}
             />
-            <FormField
+            <SelectBox
+              options={[
+                { id: "available", name: "Available" },
+                { id: "unavailable", name: "Unavailable" },
+              ]}
               control={form.control}
               name="status"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Status</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Contoh : Ready" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Status"
             />
-            <FormField
+            <SelectBox
+              options={categoriesData}
               control={form.control}
               name="categoryId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Kategori</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Contoh : 1"
-                      {...field}
-                      value={field.value || ""} // avoid errors of uncontrolled vs controlled
-                      pattern="[0-9]*" // to receive only numbers without showing does weird arrows in the input
-                      onChange={
-                        (e) =>
-                          e.target.validity.valid &&
-                          field.onChange(e.target.value) // e.target.validity.valid is required for pattern to work
-                      }
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Kategori"
             />
 
             <Button type="submit" className="w-full">
@@ -176,4 +138,4 @@ const AddData = () => {
   );
 };
 
-export default AddData;
+export default ProductForm;
