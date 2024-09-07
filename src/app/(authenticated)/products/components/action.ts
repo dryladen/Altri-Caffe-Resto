@@ -37,10 +37,10 @@ export async function deleteProduct(id: number) {
 	return executeAction({
 		actionFn: async () => {
 			await db.delete(productsTable).where(eq(productsTable.id, id));
-			revalidatePath("/admin/posts");
+			revalidatePath("/products");
 		},
 		isProtected: true,
-		clientSuccessMessage: "Post deleted successfully",
-		serverErrorMessage: "deletePostById",
+		clientSuccessMessage: "Product Berhasil dihapus",
+		serverErrorMessage: "Gagal menghapus product",
 	});
 }

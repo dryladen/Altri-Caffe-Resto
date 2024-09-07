@@ -23,6 +23,7 @@ import {
 import Link from "next/link";
 import { deleteProduct } from "./action";
 import { useState } from "react";
+import { toast } from "@/components/ui/use-toast";
 
 interface ActionColumnProps<TData>
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -45,7 +46,14 @@ export function ActionColumn<TData>({ row }: ActionColumnProps<TData>) {
             <AlertDialogCancel>Tidak</AlertDialogCancel>
             <AlertDialogAction
               className="bg-red-500"
-              onClick={async () => await deleteProduct(row.getValue("id"))}
+              onClick={async () => {
+                let response = await deleteProduct(row.getValue("id"));
+                toast({
+                  title: response.message,
+                  variant:
+                    response.success === true ? "default" : "destructive",
+                });
+              }}
             >
               Iya
             </AlertDialogAction>
@@ -74,9 +82,10 @@ export function ActionColumn<TData>({ row }: ActionColumnProps<TData>) {
           <DropdownMenuItem>
             <Button
               onClick={() => setDeleteOpen(true)}
-              className="px-0 py-1 h-fit items-end border-0 bg-white hover:bg-white"
+              className="px-0 py-1 h-fit border-0 bg-white hover:bg-white text-red-500"
             >
-              <Trash2 size={21} className="text-red-500" />
+              <Trash2 className="h-4 w-4 mr-2 " />
+              <span>Hapus</span>
             </Button>
           </DropdownMenuItem>
         </DropdownMenuContent>
