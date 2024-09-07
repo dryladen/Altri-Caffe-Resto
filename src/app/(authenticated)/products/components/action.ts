@@ -1,13 +1,19 @@
 "use server"
 import { db } from '@/db';
 import { productSchema, ProductSchema, productsTable } from '@/db/schema';
-import React from 'react'
+import { executeAction } from '@/db/utils/executeAction';
+import { revalidatePath } from 'next/cache';
 
-async function createProduct(data: ProductSchema) {
-  const validatedData = productSchema.parse(data);
-  
-  const response = await db.insert(productsTable).values(validatedData);
-  console.log(response);
+export async function createProduct(data: ProductSchema) {
+  return executeAction({
+    actionFn: async () => {
+      const validatedData = productSchema.parse(data);
+      await db.insert(productsTable).values(validatedData);
+      revalidatePath('/products');
+    },
+    isProtected: true,
+    clientSuccessMessage: "Product created successfully",
+    serverErrorMessage: "Error creating product"
+  });
+
 }
-
-export default createProduct;

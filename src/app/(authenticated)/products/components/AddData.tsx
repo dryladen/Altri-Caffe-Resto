@@ -16,11 +16,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { description } from "../../layout";
-import { useToast } from "@/hooks/use-toast";
-import { db } from "@/db";
-import { productSchema, ProductSchema, productsTable } from "@/db/schema";
-import createProduct from "./action";
+import { productSchema, ProductSchema } from "@/db/schema";
+import { createProduct } from "./action";
+import { toast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
@@ -40,8 +39,8 @@ const formSchema = z.object({
   categoryId: z.string().min(2).max(50),
 });
 const AddData = () => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = React.useState(false);
-  const { toast } = useToast();
   const form = useForm<ProductSchema>({
     resolver: zodResolver(productSchema),
     defaultValues: {
@@ -53,9 +52,17 @@ const AddData = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<ProductSchema> = (data) => {
-    createProduct(data);
-    console.log(data);
+  const onSubmit: SubmitHandler<ProductSchema> = async (data) => {
+    let response = await createProduct(data);
+    toast(
+      {
+        title: response.message,
+        variant: response.success === true ? "default" : "destructive",
+      }
+    );
+    console.log(response.message);
+    setIsOpen(false);
+    router.push("/products");
   };
   return (
     <>
