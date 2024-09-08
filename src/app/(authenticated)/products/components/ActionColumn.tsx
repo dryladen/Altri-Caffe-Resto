@@ -1,5 +1,5 @@
 import { Row } from "@tanstack/react-table";
-import { MoreHorizontal, ReceiptText, Trash2 } from "lucide-react";
+import { Delete, MoreHorizontal, ReceiptText, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -24,6 +24,7 @@ import Link from "next/link";
 import { deleteProduct } from "./action";
 import { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
+import DeleteDialog from "@/components/form-controller/DeleteDialog";
 
 interface ActionColumnProps<TData>
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -34,7 +35,18 @@ export function ActionColumn<TData>({ row }: ActionColumnProps<TData>) {
   const [deleteOpen, setDeleteOpen] = useState(false);
   return (
     <>
-      <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+      <DeleteDialog
+        deleteOpen={deleteOpen}
+        setDeleteOpen={setDeleteOpen}
+        actionFn={async () => {
+          let response = await deleteProduct(row.getValue("id"));
+          toast({
+            title: response.message,
+            variant: response.success === true ? "default" : "destructive",
+          });
+        }}
+      />
+      {/* <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Ingin menghapus item ini ?</AlertDialogTitle>
@@ -59,7 +71,7 @@ export function ActionColumn<TData>({ row }: ActionColumnProps<TData>) {
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
-      </AlertDialog>
+      </AlertDialog> */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">

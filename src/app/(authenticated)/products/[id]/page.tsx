@@ -20,7 +20,7 @@ export default async function page({ params }: ProductFormProps) {
   return (
     <>
       <FormDetails
-        idProduk={params.id}
+        productId={params.id}
         defaultValues={{
           mode: "update",
           id: getProduct.id,
