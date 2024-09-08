@@ -3,7 +3,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components/datatable/data-table-column-header";
 import { SelectProductModel } from "@/db/schema/products";
 import { ActionColumn } from "./ActionColumn";
-import { db } from "@/db";
 
 export const columns: ColumnDef<SelectProductModel>[] = [
   {

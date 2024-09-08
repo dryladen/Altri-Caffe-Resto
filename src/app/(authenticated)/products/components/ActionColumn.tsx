@@ -39,7 +39,7 @@ export function ActionColumn<TData>({ row }: ActionColumnProps<TData>) {
           <AlertDialogHeader>
             <AlertDialogTitle>Ingin menghapus item ini ?</AlertDialogTitle>
             <AlertDialogDescription>
-              Item ini akan dihapus dari keranjang
+              Yakin ingin menghapus produk ?
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="flex">
