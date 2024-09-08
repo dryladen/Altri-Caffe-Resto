@@ -1,7 +1,14 @@
 "use client";
 import { PanelLeft } from "lucide-react";
 import Image from "next/image";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -69,20 +76,26 @@ const Navbar = ({ user }: { user: User | null }) => {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="sm:max-w-xs">
-          <nav className="grid gap-4 text-lg font-medium">
-            <Link
-              href="#"
-              className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 p-1 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
-            >
-              <Image
-                src="/logo.png"
-                alt="logo"
-                className="transition-all group-hover:scale-110 w-auto"
-                width={64}
-                height={64}
-              />
-              <span className="sr-only">Altri Caffe & Resto</span>
-            </Link>
+          <SheetHeader>
+            <SheetTitle className="flex items-center gap-2 text-lg font-semibold">
+              <Link
+                href="#"
+                className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 p-1 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
+              >
+                <Image
+                  src="/logo.png"
+                  alt="logo"
+                  className="transition-all group-hover:scale-110 w-auto"
+                  width={64}
+                  height={64}
+                />
+                <span className="sr-only">Altri Caffe & Resto</span>
+              </Link>
+              Altri Caffe & Resto
+            </SheetTitle>
+            <SheetDescription className="text-start">Navigasi</SheetDescription>
+          </SheetHeader>
+          <nav className="grid gap-4 mt-4 text-lg font-medium">
             {navigation.map((item) => (
               <Link
                 key={item.name}

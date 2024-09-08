@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { productSchema, ProductSchema } from "@/db/schema/products";
 import SelectBox from "@/components/form-controller/SelectBox";
 import { Input } from "@/components/form-controller/input";
+import { Plus } from "lucide-react";
 
 type Props = {
   defaultValues: ProductSchema;
@@ -99,7 +100,8 @@ const ProductForm = ({ defaultValues, categoriesData }: Props) => {
         </Form>
       </ResponsiveDialog>
       <Button className="ml-4" onClick={() => setIsOpen(!isOpen)}>
-        Tambah Produk
+        <Plus size={16} />
+        <span className="hidden sm:flex">Tambah Produk</span>
       </Button>
     </>
   );

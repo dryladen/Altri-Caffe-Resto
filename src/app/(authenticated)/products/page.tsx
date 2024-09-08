@@ -12,7 +12,7 @@ const page = async () => {
         defaultValues={{
           mode: "create",
           name: "",
-          description: "",
+          description: "-",
           price: 0,
           status: "available",
           categoryId: 2,
