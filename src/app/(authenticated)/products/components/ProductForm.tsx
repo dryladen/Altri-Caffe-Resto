@@ -12,12 +12,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { createProduct, updateProduct } from "./action";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { productSchema, ProductSchema } from "@/db/schema/products";
-import SelectBox from "@/components/SelectBox";
+import SelectBox from "@/components/form-controller/SelectBox";
+import { Input } from "@/components/form-controller/input";
 
 type Props = {
   defaultValues: ProductSchema;
@@ -57,58 +57,25 @@ const ProductForm = ({ defaultValues, categoriesData }: Props) => {
       >
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
+            <Input
               control={form.control}
               name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nama</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Contoh : Nasi Goreng" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Nama"
+              placeholder="Contoh: Nasi Goreng"
             />
-            <FormField
+            <Input
               control={form.control}
               name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Deskripsi</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Contoh : Belum termasuk nasi"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Deskripsi"
+              placeholder="Contoh: Belum termasuk nasi"
             />
-            <FormField
+            <Input
               control={form.control}
               name="price"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Harga</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Contoh : 20000"
-                      inputMode="numeric" // display numeric keyboard on mobile
-                      {...field}
-                      value={field.value || ""} // avoid errors of uncontrolled vs controlled
-                      pattern="[0-9]*" // to receive only numbers without showing does weird arrows in the input
-                      onChange={
-                        (e) =>
-                          e.target.validity.valid &&
-                          field.onChange(e.target.value) // e.target.validity.valid is required for pattern to work
-                      }
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Harga"
+              placeholder="Contoh: 20000"
+              inputMode="numeric"
+              pattern="[0-9]*"
             />
             <SelectBox
               options={[
