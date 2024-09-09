@@ -1,12 +1,12 @@
-import { InferSelectModel, relations } from "drizzle-orm";
-import { integer, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { InferSelectModel, relations, sql } from "drizzle-orm";
+import { integer, pgEnum, pgTable, serial, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { cartTable } from "./carts";
 
 const statusEnum = pgEnum("status", ["pending", "proses", "done"]);
 export const ordersTable = pgTable("orders", {
-  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
+  id: serial("id").primaryKey(),
   username: text("username").notNull(),
   phone: text("phone").notNull(),
   status: statusEnum("status").notNull(),

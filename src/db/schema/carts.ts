@@ -1,18 +1,14 @@
-import { relations } from "drizzle-orm";
-import { integer, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
-import { z } from "zod";
+import { relations, sql } from "drizzle-orm";
+import { integer, pgTable, serial, timestamp } from "drizzle-orm/pg-core";
 import { productsTable } from "./products";
 import { ordersTable } from "./orders";
 
 export const cartTable = pgTable("carts", {
-  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
+  id: serial("id").primaryKey(),
   productId: integer("product_id")
-    .notNull()
-    .references(() => productsTable.id),
+    .notNull(),
   orderId: integer("order_id")
-    .notNull()
-    .references(() => ordersTable.id),
+    .notNull(),
   quantity: integer("quantity").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at")
@@ -21,7 +17,7 @@ export const cartTable = pgTable("carts", {
 });
 
 export const cartsRelation = relations(cartTable, ({ one }) => ({
-  product: one(productsTable),
-  order: one(ordersTable)
+  product: one(productsTable, { fields: [cartTable.productId], references: [productsTable.id] }),
+  order: one(ordersTable, { fields: [cartTable.orderId], references: [ordersTable.id] })
 }));
 

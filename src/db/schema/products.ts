@@ -1,8 +1,9 @@
-import { InferSelectModel, relations } from "drizzle-orm";
-import { integer, pgEnum, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { InferSelectModel, relations, sql } from "drizzle-orm";
+import { integer, pgEnum, pgTable, serial, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { categoriesTable } from "./categories";
+import { cartTable } from "./carts";
 
 const statusEnum = pgEnum("status", ["available", "unavailable"]);
 
@@ -17,11 +18,12 @@ export const productsTable = pgTable("products", {
   updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
 });
 
-export const productsRelation = relations(productsTable, ({ one }) => ({
+export const productsRelation = relations(productsTable, ({ one, many }) => ({
   category: one(categoriesTable, {
     fields: [productsTable.categoryId],
     references: [categoriesTable.id]
-  })
+  }),
+  carts: many(cartTable)
 }));
 
 const baseSchema = createInsertSchema(productsTable, {
@@ -39,20 +41,11 @@ const baseSchema = createInsertSchema(productsTable, {
     ),
   status: (schema) => schema.status,
   categoryId: (schema) => schema.categoryId
-    .positive({ message: "Data tidak boleh kosong" })
-    .int({ message: "Masukan angka" })
-    .or(z.string())
-    .pipe(
-      z.coerce
-        .number({ required_error: "Tentukan harga produk" })
-        .positive({ message: "Data tidak boleh kosong" })
-        .int({ message: "Masukan angka" })
-    ),
 })
 
 export const productSchema = z.union([
   z.object({
-    mode: z.literal("create"), 
+    mode: z.literal("create"),
     name: baseSchema.shape.name,
     description: baseSchema.shape.description,
     price: baseSchema.shape.price,

@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1724579559821,
-      "tag": "0000_organic_nightmare",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1724586174125,
-      "tag": "20240825114254_married_justin_hammer",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1724586304342,
-      "tag": "20240825114504_rich_rictor",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1724606219057,
-      "tag": "20240825171659_happy_kingpin",
+      "when": 1725871347512,
+      "tag": "20240909084227_spicy_siren",
       "breakpoints": true
     }
   ]
