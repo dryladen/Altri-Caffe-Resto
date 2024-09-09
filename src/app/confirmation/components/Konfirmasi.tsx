@@ -2,14 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Cart } from "@/types/dataTypes";
-import {
-  ArrowLeft,
-  HandCoins,
-  NotebookTabs,
-  Phone,
-  Table,
-  User,
-} from "lucide-react";
+import { ArrowLeft, NotebookTabs, Phone, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
@@ -54,7 +47,7 @@ const Konfirmasi = () => {
         setCarts([...carts, cart]);
       }
     },
-    [carts]
+    [carts, customer]
   );
 
   useEffect(() => {
@@ -107,14 +100,18 @@ const Konfirmasi = () => {
                 <Phone size={16} />
                 <span>No Telepon</span>
               </div>
-              <span className="text-gray-700 font-semibold">+62{customer.phone}</span>
+              <span className="text-gray-700 font-semibold">
+                +62{customer.phone}
+              </span>
             </div>
             <div className="flex justify-between text-gray-400 text-sm">
               <div className="flex gap-2">
                 <NotebookTabs size={16} />
                 <span>No Meja</span>
               </div>
-              <span className="font-semibold text-gray-700">{customer.table}</span>
+              <span className="font-semibold text-gray-700">
+                {customer.table}
+              </span>
             </div>
           </div>
         </div>

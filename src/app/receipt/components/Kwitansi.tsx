@@ -39,7 +39,7 @@ const Kwitansi = () => {
     const dataCustomer = localStorage.getItem("customer");
     setCarts(cart ? JSON.parse(cart) : []);
     setCustomer(dataCustomer ? JSON.parse(dataCustomer) : customer);
-  }, []);
+  }, [customer]);
 
   const updateCarts = useCallback(
     (cart: Cart) => {
