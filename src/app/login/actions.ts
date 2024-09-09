@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
+import { headers } from 'next/headers'
 
 export async function login(formData: FormData) {
   const supabase = createClient()
@@ -32,11 +33,11 @@ export async function signOut() {
 
 export async function googleLogin() {
   const supabase = createClient()
-
+  const origin = headers().get('origin')
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider : 'google',
     options: {
-      redirectTo: 'https://altricafeandresto.vercel.app/auth/callback',
+      redirectTo: `${origin}/auth/callback`,
       queryParams: {
         access_type: 'offline',
         prompt: 'consent',
