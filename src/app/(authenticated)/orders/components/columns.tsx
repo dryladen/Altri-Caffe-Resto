@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components/datatable/data-table-column-header";
 import { SelectOrderModel } from "@/db/schema/orders";
@@ -7,7 +7,7 @@ export const columns: ColumnDef<SelectOrderModel>[] = [
   {
     header: "ID",
     accessorKey: "id",
-    meta: { className: "hidden sm:table-cell" },
+    meta: { className: "hidden" },
     cell: ({ row }) => {
       return <span>{row.getValue("id")}</span>;
     },
@@ -16,9 +16,9 @@ export const columns: ColumnDef<SelectOrderModel>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title={"Nama"} />
     ),
-    accessorKey: "name",
+    accessorKey: "username",
     cell: ({ row }) => {
-      return <span>{row.getValue("name")}</span>;
+      return <span>{row.getValue("username")}</span>;
     },
   },
   {
@@ -31,38 +31,29 @@ export const columns: ColumnDef<SelectOrderModel>[] = [
       return <span>{row.getValue("status")}</span>;
     },
   },
+
   {
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={"Deskripsi"} />
+      <DataTableColumnHeader column={column} title={"Total"} />
     ),
-    accessorKey: "description",
-    meta: { className: "hidden sm:table-cell" },
-    cell: ({ row }) => {
-      return <span>{row.getValue("description")}</span>;
-    },
-  },
-  {
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={"Harga"} />
-    ),
-    accessorKey: "price",
+    accessorKey: "totalPayment",
     cell: ({ row }) => {
       const price = new Intl.NumberFormat("id-ID", {
         style: "currency",
         currency: "IDR",
         maximumSignificantDigits: 6,
-      }).format(row.getValue("price"));
+      }).format(row.getValue("totalPayment"));
       return price;
     },
   },
   {
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={"Kategori"} />
+      <DataTableColumnHeader column={column} title={"Metode Pembayaran"} />
     ),
-    accessorKey: "categoryId",
-    meta: { className: "hidden lg:table-cell" },
+    accessorKey: "paymentMethode",
+    meta: { className: "hidden sm:table-cell" },
     cell: ({ row }) => {
-      return <span>{row.getValue("categoryId")}</span>;
+      return <span className="capitalize">{row.getValue("paymentMethode")}</span>;
     },
   },
   {
