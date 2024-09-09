@@ -65,6 +65,8 @@ const Navbar = ({ user }: { user: User | null }) => {
   useEffect(() => {
     getProfile();
   }, [user, getProfile]);
+  const paths = usePathname();
+  const pathNames = paths.split("/").filter((path) => path);
 
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
@@ -115,6 +117,22 @@ const Navbar = ({ user }: { user: User | null }) => {
       </Sheet>
       <Breadcrumb className="hidden md:flex">
         <BreadcrumbList>
+          {pathNames.map((path, index) => (
+            <BreadcrumbItem key={path}>
+              <BreadcrumbLink asChild>
+                <Link
+                  href={`/${pathNames.slice(0, index + 1).join("/")}`}
+                >
+                  <span className="capitalize">{path}</span>
+                </Link>
+              </BreadcrumbLink>
+              {index !== pathNames.length - 1 && (
+                <BreadcrumbSeparator />
+              )}
+            </BreadcrumbItem>
+          ))}
+        </BreadcrumbList>
+        {/* <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
               <Link href="#">Dashboard</Link>
@@ -130,7 +148,7 @@ const Navbar = ({ user }: { user: User | null }) => {
           <BreadcrumbItem>
             <BreadcrumbPage>All Products</BreadcrumbPage>
           </BreadcrumbItem>
-        </BreadcrumbList>
+        </BreadcrumbList> */}
       </Breadcrumb>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
