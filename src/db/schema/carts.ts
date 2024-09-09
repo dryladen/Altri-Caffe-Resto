@@ -24,3 +24,4 @@ export const cartsRelation = relations(cartTable, ({ one }) => ({
   product: one(productsTable),
   order: one(ordersTable)
 }));
+
