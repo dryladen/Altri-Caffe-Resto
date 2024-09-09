@@ -67,10 +67,10 @@ const Navbar = ({ user }: { user: User | null }) => {
   }, [user, getProfile]);
   const paths = usePathname();
   const pathNames = paths.split("/").filter((path) => path);
-
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-      <Sheet>
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
           <Button size="icon" variant="outline" className="sm:hidden">
             <PanelLeft className="h-5 w-5" />
@@ -102,6 +102,7 @@ const Navbar = ({ user }: { user: User | null }) => {
               <Link
                 key={item.name}
                 href={item.href}
+                onClick={() => setIsOpen(false)}
                 className={`flex items-center gap-4 p-2.5 ${
                   pathname === item.href
                     ? "bg-primary text-primary-foreground"
@@ -118,37 +119,18 @@ const Navbar = ({ user }: { user: User | null }) => {
       <Breadcrumb className="hidden md:flex">
         <BreadcrumbList>
           {pathNames.map((path, index) => (
-            <BreadcrumbItem key={path}>
-              <BreadcrumbLink asChild>
-                <Link
-                  href={`/${pathNames.slice(0, index + 1).join("/")}`}
-                >
-                  <span className="capitalize">{path}</span>
-                </Link>
-              </BreadcrumbLink>
-              {index !== pathNames.length - 1 && (
-                <BreadcrumbSeparator />
-              )}
-            </BreadcrumbItem>
+            <div key={path} className="flex items-center">
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href={`/${pathNames.slice(0, index + 1).join("/")}`}>
+                    <span className="capitalize">{path}</span>
+                  </Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              {index !== pathNames.length - 1 && <BreadcrumbSeparator className="ml-3" />}
+            </div>
           ))}
         </BreadcrumbList>
-        {/* <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="#">Dashboard</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="#">Products</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>All Products</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList> */}
       </Breadcrumb>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

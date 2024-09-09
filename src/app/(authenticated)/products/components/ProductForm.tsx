@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 import { productSchema, ProductSchema } from "@/db/schema/products";
 import SelectBox from "@/components/form-controller/SelectBox";
 import { Input } from "@/components/form-controller/input";
-import { Plus, PlusCircle } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 
 type Props = {
   defaultValues: ProductSchema;

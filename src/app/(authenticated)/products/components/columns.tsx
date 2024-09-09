@@ -8,7 +8,7 @@ export const columns: ColumnDef<SelectProductModel>[] = [
   {
     header: "ID",
     accessorKey: "id",
-    meta: { className: "hidden sm:table-cell" },
+    meta: { className: "hidden" },
     cell: ({ row }) => {
       return <span>{row.getValue("id")}</span>;
     },

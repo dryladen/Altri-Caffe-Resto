@@ -46,32 +46,6 @@ export function ActionColumn<TData>({ row }: ActionColumnProps<TData>) {
           });
         }}
       />
-      {/* <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Ingin menghapus item ini ?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Yakin ingin menghapus produk ?
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter className="flex">
-            <AlertDialogCancel>Tidak</AlertDialogCancel>
-            <AlertDialogAction
-              className="bg-red-500"
-              onClick={async () => {
-                let response = await deleteProduct(row.getValue("id"));
-                toast({
-                  title: response.message,
-                  variant:
-                    response.success === true ? "default" : "destructive",
-                });
-              }}
-            >
-              Iya
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog> */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">

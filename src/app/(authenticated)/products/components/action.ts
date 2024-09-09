@@ -10,7 +10,6 @@ export async function createProduct(data: ProductSchema) {
     actionFn: async () => {
       const validatedData = productSchema.parse(data);
       await db.insert(productsTable).values(validatedData);
-      revalidatePath('/products');
     },
     isProtected: true,
     clientSuccessMessage: "Produk berhasil ditambahkan",
