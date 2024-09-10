@@ -1,34 +1,18 @@
 "use client";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Calendar,
-  File,
-  ListCheck,
-  ListFilter,
-  Phone,
-  PlusCircle,
-  User,
-} from "lucide-react";
+import { Calendar, File, Phone, PlusCircle, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getOrders } from "@/lib/queries";
-import { useRouter, useSearchParams } from "next/navigation";
+import OrderItem from "./OrderItem";
+import { Badge } from "@/components/ui/badge";
 
 export default function OrderMenu() {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("pending");
-  const { data, error, isLoading } = useQuery({
+  const { data, error } = useQuery({
     queryKey: ["orders"],
     queryFn: async () => {
       const order = await getOrders();
@@ -38,10 +22,14 @@ export default function OrderMenu() {
 
   const filtered = useMemo(() => {
     if (status && data) {
-      return data.filter((order) => order.status === status);
+      return data.filter(
+        (order) =>
+          order.status === status &&
+          order.username.toLowerCase().includes(search.toLowerCase())
+      );
     }
     return data;
-  }, [data, status]);
+  }, [data, status, search]);
 
   if (error) return <div>Error: {error.message}</div>;
   if (filtered && data)
@@ -49,7 +37,7 @@ export default function OrderMenu() {
       <Tabs defaultValue="pending">
         <div className="flex justify-between gap-2">
           <Input
-            placeholder={`Cari nama produk...`}
+            placeholder={`Cari nama pelanggan...`}
             type="text"
             value={search}
             onChange={(event) => setSearch(event.target.value)}
@@ -74,133 +62,37 @@ export default function OrderMenu() {
           <TabsList className="flex justify-evenly w-full bg-white shadow-md">
             <TabsTrigger onClick={() => setStatus("pending")} value="pending">
               <span>Konfirmasi</span>
-              <span className="hidden sm:flex rounded-sm py-1 px-2  ml-2 bg-primary text-white text-xs">
-                4
+              <span className="hidden sm:flex rounded-sm py-0 px-1.5 ml-2 bg-primary text-white text-[10px]">
+                {data.filter((order) => order.status === "pending").length}
               </span>
             </TabsTrigger>
             <TabsTrigger onClick={() => setStatus("proses")} value="proses">
               <span>Sedang Proses</span>
-              <span className="hidden sm:flex rounded-sm py-1 px-2  ml-2 bg-primary text-white text-xs">
-                2
+              <span className="hidden sm:flex rounded-sm py-0 px-1.5 ml-2 bg-primary text-white text-[10px]">
+                {data.filter((order) => order.status === "proses").length}
               </span>
             </TabsTrigger>
             <TabsTrigger onClick={() => setStatus("done")} value="done">
               <span>Selesai</span>
-              <span className="hidden sm:flex rounded-sm py-1 px-2  ml-2 bg-primary text-white text-xs">
-                7
+              <span className="hidden sm:flex rounded-sm py-0 px-1.5 ml-2 bg-primary text-white text-[10px]">
+                {data.filter((order) => order.status === "done").length}
               </span>
             </TabsTrigger>
           </TabsList>
         </div>
         <TabsContent value="pending" className="flex flex-col gap-4 mt-4">
           {filtered.map((order) => (
-            <div
-              key={order.username}
-              className="flex flex-col rounded-md bg-white shadow-md"
-            >
-              <div className="flex gap-2 rounded-t-md px-4 py-2 text-sm text-gray-800 bg-secondary items-center justify-end">
-                <Calendar className="h-4 w-4 text-primary" />
-                {new Date(order.createdAt).toLocaleDateString("id-ID", {
-                  weekday: "long",
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </div>
-              <div className="flex flex-col gap-1 p-4">
-                <div className="flex items-center gap-2">
-                  <User className="h-5 w-5 text-primary" />
-                  <h2 className="text-gray-800 text-lg font-bold">
-                    {order.username}
-                  </h2>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Phone className="h-5 w-5 text-primary" />
-                  <span className="text-sm text-gray-500">+{order.phone}</span>
-                </div>
-                <span className="text-primary text-2xl mt-2 font-bold">
-                  {new Intl.NumberFormat("id-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                    maximumSignificantDigits: 6,
-                  }).format(order.totalPayment)}
-                </span>
-              </div>
-            </div>
+            <OrderItem key={order.username} data={order} />
           ))}
         </TabsContent>
         <TabsContent value="proses" className="flex flex-col gap-4 mt-0">
           {filtered.map((order) => (
-            <div
-              key={order.username}
-              className="flex flex-col rounded-md bg-white shadow-md"
-            >
-              <div className="flex gap-2 rounded-t-md px-4 py-2 text-sm text-gray-800 bg-secondary items-center justify-end">
-                <Calendar className="h-4 w-4 text-primary" />
-                {new Date(order.createdAt).toLocaleDateString("id-ID", {
-                  weekday: "long",
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </div>
-              <div className="flex flex-col gap-1 p-4">
-                <div className="flex items-center gap-2">
-                  <User className="h-5 w-5 text-primary" />
-                  <h2 className="text-gray-800 text-lg font-bold">
-                    {order.username}
-                  </h2>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Phone className="h-5 w-5 text-primary" />
-                  <span className="text-sm text-gray-500">+{order.phone}</span>
-                </div>
-                <span className="text-primary text-2xl mt-2 font-bold">
-                  {new Intl.NumberFormat("id-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                    maximumSignificantDigits: 6,
-                  }).format(order.totalPayment)}
-                </span>
-              </div>
-            </div>
+            <OrderItem key={order.username} data={order} />
           ))}
         </TabsContent>
         <TabsContent value="done" className="flex flex-col gap-4 mt-0">
           {filtered.map((order) => (
-            <div
-              key={order.username}
-              className="flex flex-col rounded-md bg-white shadow-md"
-            >
-              <div className="flex gap-2 rounded-t-md px-4 py-2 text-sm text-gray-800 bg-secondary items-center justify-end">
-                <Calendar className="h-4 w-4 text-primary" />
-                {new Date(order.createdAt).toLocaleDateString("id-ID", {
-                  weekday: "long",
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </div>
-              <div className="flex flex-col gap-1 p-4">
-                <div className="flex items-center gap-2">
-                  <User className="h-5 w-5 text-primary" />
-                  <h2 className="text-gray-800 text-lg font-bold">
-                    {order.username}
-                  </h2>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Phone className="h-5 w-5 text-primary" />
-                  <span className="text-sm text-gray-500">+{order.phone}</span>
-                </div>
-                <span className="text-primary text-2xl mt-2 font-bold">
-                  {new Intl.NumberFormat("id-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                    maximumSignificantDigits: 6,
-                  }).format(order.totalPayment)}
-                </span>
-              </div>
-            </div>
+            <OrderItem key={order.username} data={order} />
           ))}
         </TabsContent>
       </Tabs>
