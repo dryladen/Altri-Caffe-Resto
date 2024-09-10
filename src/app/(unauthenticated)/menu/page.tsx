@@ -15,7 +15,7 @@ export default async function Home() {
     },
   });
   return (
-    <div className="md:px-60 p-4">
+    <div className="md:px-60 ">
       <Carousel opts={{ align: "start", loop: true }} className="w-full h-full">
         <CarouselContent className="-ml-1">
           {Array.from({ length: 5 }).map((_, index) => (

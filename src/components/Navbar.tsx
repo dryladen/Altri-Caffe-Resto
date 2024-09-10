@@ -69,7 +69,7 @@ const Navbar = ({ user }: { user: User | null }) => {
   const pathNames = paths.split("/").filter((path) => path);
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+    <header className="sticky bg-white shadow-sm py-2 top-0 z-30 flex h-14 items-center gap-4 border-b px-4 sm:static sm:h-auto sm:border-0 sm:px-6">
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
           <Button size="icon" variant="outline" className="sm:hidden">
@@ -97,7 +97,7 @@ const Navbar = ({ user }: { user: User | null }) => {
             </SheetTitle>
             <SheetDescription className="text-start">Navigasi</SheetDescription>
           </SheetHeader>
-          <nav className="grid gap-4 mt-4 text-lg font-medium">
+          <nav className="grid gap-4 mt-4 text-lg font-medium ">
             {navigation.map((item) => (
               <Link
                 key={item.name}
