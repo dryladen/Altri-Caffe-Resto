@@ -27,6 +27,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 export default function OrderMenu() {
   const [search, setSearch] = useState("");
+  const [status, setStatus] = useState("pending");
   const { data, error, isLoading } = useQuery({
     queryKey: ["orders"],
     queryFn: async () => {
@@ -36,13 +37,11 @@ export default function OrderMenu() {
   });
 
   const filtered = useMemo(() => {
-    if (search && data) {
-      return data.filter((order) =>
-        order.username.toLowerCase().includes(search.toLowerCase())
-      );
+    if (status && data) {
+      return data.filter((order) => order.status === status);
     }
     return data;
-  }, [data, search]);
+  }, [data, status]);
 
   if (error) return <div>Error: {error.message}</div>;
   if (filtered && data)
@@ -71,21 +70,21 @@ export default function OrderMenu() {
             </Button>
           </div>
         </div>
-        <div className="flex items-center w-full mt-4">
-          <TabsList className="flex justify-evenly w-full bg-white shadow-sm">
-            <TabsTrigger value="pending">
+        <div className="flex items-center w-full mt-6">
+          <TabsList className="flex justify-evenly w-full bg-white shadow-md">
+            <TabsTrigger onClick={() => setStatus("pending")} value="pending">
               <span>Konfirmasi</span>
               <span className="hidden sm:flex rounded-sm py-1 px-2  ml-2 bg-primary text-white text-xs">
                 4
               </span>
             </TabsTrigger>
-            <TabsTrigger value="proses">
+            <TabsTrigger onClick={() => setStatus("proses")} value="proses">
               <span>Sedang Proses</span>
               <span className="hidden sm:flex rounded-sm py-1 px-2  ml-2 bg-primary text-white text-xs">
                 2
               </span>
             </TabsTrigger>
-            <TabsTrigger value="done">
+            <TabsTrigger onClick={() => setStatus("done")} value="done">
               <span>Selesai</span>
               <span className="hidden sm:flex rounded-sm py-1 px-2  ml-2 bg-primary text-white text-xs">
                 7
@@ -93,7 +92,7 @@ export default function OrderMenu() {
             </TabsTrigger>
           </TabsList>
         </div>
-        <TabsContent value="pending" className="flex flex-col gap-4">
+        <TabsContent value="pending" className="flex flex-col gap-4 mt-4">
           {filtered.map((order) => (
             <div
               key={order.username}
@@ -130,7 +129,44 @@ export default function OrderMenu() {
             </div>
           ))}
         </TabsContent>
-        <TabsContent value="proses" className="flex flex-col gap-4">
+        <TabsContent value="proses" className="flex flex-col gap-4 mt-0">
+          {filtered.map((order) => (
+            <div
+              key={order.username}
+              className="flex flex-col rounded-md bg-white shadow-md"
+            >
+              <div className="flex gap-2 rounded-t-md px-4 py-2 text-sm text-gray-800 bg-secondary items-center justify-end">
+                <Calendar className="h-4 w-4 text-primary" />
+                {new Date(order.createdAt).toLocaleDateString("id-ID", {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </div>
+              <div className="flex flex-col gap-1 p-4">
+                <div className="flex items-center gap-2">
+                  <User className="h-5 w-5 text-primary" />
+                  <h2 className="text-gray-800 text-lg font-bold">
+                    {order.username}
+                  </h2>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Phone className="h-5 w-5 text-primary" />
+                  <span className="text-sm text-gray-500">+{order.phone}</span>
+                </div>
+                <span className="text-primary text-2xl mt-2 font-bold">
+                  {new Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                    maximumSignificantDigits: 6,
+                  }).format(order.totalPayment)}
+                </span>
+              </div>
+            </div>
+          ))}
+        </TabsContent>
+        <TabsContent value="done" className="flex flex-col gap-4 mt-0">
           {filtered.map((order) => (
             <div
               key={order.username}
