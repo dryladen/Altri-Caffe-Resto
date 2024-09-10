@@ -30,8 +30,8 @@ const OrderItem = ({ data }: Props) => {
           <Phone size={16} className="text-primary" />
           <span className="text-sm text-gray-500">+{data.phone}</span>
         </div>
-        <div className="flex justify-between items-center">
-          <span className="text-primary text-2xl mt-2 font-bold">
+        <div className="flex justify-between items-center mt-2">
+          <span className="text-primary text-2xl font-bold">
             {new Intl.NumberFormat("id-ID", {
               style: "currency",
               currency: "IDR",

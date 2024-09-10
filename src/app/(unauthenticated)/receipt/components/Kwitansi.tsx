@@ -16,7 +16,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Link from "next/link";
 import Image from "next/image";
-import CartItem from "@/app/confirmation/components/CartItem";
+import CartItem from "@/app/(unauthenticated)/confirmation/components/CartItem";
 
 type Customer = {
   name: string;
