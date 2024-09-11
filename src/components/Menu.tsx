@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { ListFilter, Search, ShoppingCart } from "lucide-react";
+import { ListFilter, LoaderCircle, LoaderPinwheel, Search, ShoppingCart } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Cart, Categories, Product } from "@/types/dataTypes";
@@ -88,32 +88,40 @@ const Menu = () => {
     getCarts();
   }, [getCarts]);
 
-  if (!filterdSearch && !data) return <div>Loading...</div>;
+  if (!filterdSearch && !data)
+    return (
+      <div className="flex items-center justify-center w-full h-screen gap-4">
+        <LoaderCircle size={32} className="animate-spin text-blue-500" />
+        <span className="font-semibold text-3xl text-primary">
+          Memuat data...
+        </span>
+      </div>
+    );
   if (filterdSearch && data && filteredCategory)
     return (
       <div className="grid grid-cols-1 md:grid-cols-3">
         <div className="col-span-2 flex flex-col w-full relative p-4 border">
-          <h2 className="font-bold text-2xl mb-2 text-primary">Pilih Menu</h2>
-          <div className="flex">
-            <div className="flex w-full items-center border pl-2 focus-within:ring-2 focus-within:ring-ring rounded-md ">
-              <Label htmlFor="search" className="text-muted-foreground">
-                <Search size={21} />
-              </Label>
-              <Input
-                id="search"
-                placeholder="Cari produk..."
-                className="h-10 w-full font-medium focus-visible:ring-0 focus-visible:ring-offset-0 border-0"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </div>
+          {/* <h2 className="font-bold text-2xl mb-2 text-primary">Pilih Menu</h2> */}
+          <div className="flex w-full items-center border pl-2 focus-within:ring-2 focus-within:ring-ring rounded-md ">
+            <Label htmlFor="search" className="text-muted-foreground">
+              <Search size={21} />
+            </Label>
+            <Input
+              id="search"
+              placeholder="Cari produk..."
+              className="h-10 w-full font-medium focus-visible:ring-0 focus-visible:ring-offset-0 border-0"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </div>
           <div className="flex w-full">
             <ScrollArea className="w-fit whitespace-nowrap rounded-md ">
               <div className="flex py-4 gap-2">
                 <Button
                   variant="outline"
-                  className={`flex items-center gap-1 p-2 ${ category === "" ? "bg-primary text-primary-foreground" : ""}`}
+                  className={`flex items-center gap-1 p-2 ${
+                    category === "" ? "bg-primary text-primary-foreground" : ""
+                  }`}
                   onClick={() => setCategory("")}
                 >
                   <span className="font-medium font-sans text-sm p-0">
@@ -124,9 +132,12 @@ const Menu = () => {
                   <Button
                     key={data.name}
                     variant="outline"
-                    className={`flex items-center gap-1 p-2 ${ category === data.name ? "bg-primary text-primary-foreground" : ""}`}
+                    className={`flex items-center gap-1 p-2 ${
+                      category === data.name
+                        ? "bg-primary text-primary-foreground"
+                        : ""
+                    }`}
                     onClick={() => setCategory(data.name)}
-                    
                   >
                     <span className="font-medium font-sans text-sm p-0">
                       {data.name}
@@ -140,8 +151,8 @@ const Menu = () => {
           <ScrollArea className="flex flex-col w-full h-svh md:pr-4">
             {filteredCategory.length === 0 && (
               <div className="flex flex-col items-center justify-center w-full h-full">
-                <ListFilter size={100} />
-                <span className="font-semibold text-lg text-primary">
+                <ListFilter size={64} />
+                <span className="font-semibold text-3xl text-primary">
                   Produk tidak ditemukan
                 </span>
               </div>

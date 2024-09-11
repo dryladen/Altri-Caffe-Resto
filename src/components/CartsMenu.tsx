@@ -34,9 +34,9 @@ const CartsMenu = ({ carts, getCarts, updateCarts, children }: CartProps) => {
               key={cart.id}
               className="flex flex-col shadow-md border w-full rounded-md p-4 "
             >
-              <div className="flex gap-4 ">
+              <div className="flex gap-2 ">
                 <Image
-                  className="rounded-md bg-gray-300"
+                  className="rounded-md bg-gray-300 "
                   src="https://picsum.photos/120/120"
                   alt="food"
                   width={120}

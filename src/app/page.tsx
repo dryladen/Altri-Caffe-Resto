@@ -12,7 +12,7 @@ export default function page() {
             Selamat datang di Altri Caffe & Resto
           </span>
         </div>
-        <Link href="/menu">
+        <Link href="/customer">
           <Button className="w-full text-lg flex gap-2" variant="default">
             <User size={21} />
             Pelanggan

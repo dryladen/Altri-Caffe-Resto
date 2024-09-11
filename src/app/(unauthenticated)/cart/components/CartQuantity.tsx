@@ -1,9 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Cart } from "@/types/dataTypes";
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { Minus, MoreVertical, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import DeleteDialog from "@/components/form-controller/DeleteDialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type CartProps = {
   carts: Cart[];
@@ -28,10 +33,31 @@ const CartQuantity = ({ carts, getCart, updateCarts, data }: CartProps) => {
 
   const [deleteOpen, setDeleteOpen] = useState(false);
   return (
-    <div className="col-span-2 flex flex-col justify-between w-full">
-      <DeleteDialog deleteOpen={deleteOpen} setDeleteOpen={setDeleteOpen} actionFn={()=> deleteItem()} />
+    <div className="flex flex-col justify-between w-full">
+      <DeleteDialog
+        deleteOpen={deleteOpen}
+        setDeleteOpen={setDeleteOpen}
+        actionFn={() => deleteItem()}
+      />
       <div className="flex flex-col">
-        <span className="text-sm font-bold text-wrap">{data.name}</span>
+        <div className="flex justify-between gap-2 items-start">
+          <span className="text-sm font-bold text-wrap">{data.name}</span>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <MoreVertical size={21} />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent side="left">
+              <Button
+                onClick={() => setDeleteOpen(true)}
+                className="text-red-500 flex gap-2"
+                variant={"ghost"}
+              >
+                <Trash2 size={21} strokeWidth={2} className="text-red-500 " />
+                Hapus
+              </Button>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
         <span className="text-sm">
           {new Intl.NumberFormat("id-ID", {
             style: "currency",
@@ -40,7 +66,7 @@ const CartQuantity = ({ carts, getCart, updateCarts, data }: CartProps) => {
           }).format(totalPrice)}
         </span>
       </div>
-      <div className="flex justify-between gap-14 items-end">
+      <div className="flex justify-between items-end">
         <div className="flex pt-2">
           <Button
             disabled={quantity <= 1}
@@ -92,9 +118,13 @@ const CartQuantity = ({ carts, getCart, updateCarts, data }: CartProps) => {
             <Plus size={12} strokeWidth={3} />
           </Button>
         </div>
-        <Button variant="ghost" onClick={() => setDeleteOpen(true)} className="p-0 h-fit">
+        {/* <Button
+          variant="ghost"
+          onClick={() => setDeleteOpen(true)}
+          className="p-0 h-fit"
+        >
           <Trash2 size={21} strokeWidth={2} className="text-red-500 " />
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
