@@ -232,13 +232,13 @@ const Menu = () => {
           </ScrollArea>
           <Orders carts={carts} />
         </div>
-        <div className="hidden w-full md:flex">
+        <div className="hidden w-full md:flex md:flex-col">
           <CartsMenu
             carts={carts}
             getCarts={getCarts}
             updateCarts={updateCarts}
           >
-            <div className="flex items-center gap-4 p-2 w-full">
+            <div className="flex items-center gap-4 p-4 w-full">
               <ShoppingCart size={24} />
               <h1 className="font-bold text-xl">Keranjang</h1>
             </div>
