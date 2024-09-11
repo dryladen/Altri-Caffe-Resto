@@ -232,7 +232,7 @@ const Menu = () => {
           </ScrollArea>
           <Orders carts={carts} />
         </div>
-        <div className="hidden w-full md:flex md:flex-col">
+        <div className="hidden w-full h-full md:flex md:flex-col">
           <CartsMenu
             carts={carts}
             getCarts={getCarts}
