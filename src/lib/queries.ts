@@ -17,3 +17,11 @@ export async function getCategories() {
     isProtected: false,
   });
 }
+
+export async function getProducts() {
+  return executeQuery({
+    queryFn: async () => await db.query.productsTable.findMany({ with: { category: true } }),
+    serverErrorMessage: "Error fetching products",
+    isProtected: false,
+  });
+}

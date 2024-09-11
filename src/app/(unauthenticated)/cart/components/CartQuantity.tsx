@@ -23,6 +23,7 @@ const CartQuantity = ({ carts, getCart, updateCarts, data }: CartProps) => {
 
   useEffect(() => {
     setQuantity(data.quantity);
+    setTotalPrice(data.totalPrice);
   }, [data]);
 
   const [deleteOpen, setDeleteOpen] = useState(false);
