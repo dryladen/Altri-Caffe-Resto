@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -11,8 +10,8 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Minus, NotepadText, Plus, ShoppingCart } from "lucide-react";
-import { Cart, Product } from "@/types/dataTypes";
+import { Minus, NotepadText, Plus } from "lucide-react";
+import { Cart } from "@/types/dataTypes";
 import React, { useCallback, useEffect, useState } from "react";
 
 type AddToCartProps = {
@@ -56,6 +55,7 @@ export function AddToCart({
       totalPrice: quantity * product.price,
     };
     updateCarts(newCart);
+    getCarts();
   }
 
   return (
@@ -82,7 +82,7 @@ export function AddToCart({
             <Label htmlFor="note">Catatan</Label>
             <span className="block text-[10px] py-0">(Opsional)</span>
           </div>
-          <div className="flex items-center focus-within:ring-offset-0 focus-within:ring-1 px-2 rounded-md border-2 border-gray-100 focus-within:ring-amber-600">
+          <div className="flex items-center focus-within:ring-offset-0 focus-within:ring-1 px-2 rounded-md border-2 border-gray-100 focus-within:ring-primary">
             <NotepadText size={21} className="text-gray-400" />
             <Input
               type="text"
@@ -108,7 +108,7 @@ export function AddToCart({
                 disabled={quantity <= 1}
                 onClick={() => quantity > 1 && setQuantity(quantity - 1)}
                 variant="outline"
-                className="p-[10px] h-fit rounded-full border-amber-700"
+                className="p-[10px] h-fit rounded-full border-primary"
               >
                 <Minus size={18} strokeWidth={4} />
               </Button>
@@ -124,7 +124,7 @@ export function AddToCart({
               <Button
                 onClick={() => setQuantity(quantity + 1)}
                 variant="outline"
-                className="rounded-full px-[10px] border-amber-700"
+                className="rounded-full px-[10px] border-primary"
               >
                 <Plus size={18} strokeWidth={3} />
               </Button>
@@ -136,7 +136,7 @@ export function AddToCart({
               setOpen(false);
             }}
             variant="default"
-            className="border-amber-700 rounded-full py-6 text-md bg-amber-600 hover:bg-gray-500"
+            className="border-primary rounded-full py-6 text-md bg-primary hover:bg-gray-500"
           >
             {`Tambah Pesanan ${new Intl.NumberFormat("id-ID", {
               style: "currency",

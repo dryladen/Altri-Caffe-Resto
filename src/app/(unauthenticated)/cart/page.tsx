@@ -15,7 +15,7 @@ const CartPage = () => {
   const getCarts = useCallback(() => {
     const cart = localStorage.getItem("carts");
     setCarts(cart ? JSON.parse(cart) : []);
-  }, []);
+  }, [carts]);
 
   const updateCarts = useCallback(
     (cart: Cart) => {

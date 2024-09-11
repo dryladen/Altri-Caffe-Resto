@@ -17,7 +17,7 @@ const CartsMenu = ({ carts, getCarts, updateCarts, children }: CartProps) => {
       <div className="flex w-full flex-col items-center justify-center h-screen p-4">
         <h1 className="text-2xl font-bold">Keranjang Kosong</h1>
         <Link href="/">
-          <Button className="mt-4 bg-amber-600 hover:bg-amber-500">
+          <Button className="mt-4">
             Kembali Belanja
           </Button>
         </Link>
@@ -26,7 +26,7 @@ const CartsMenu = ({ carts, getCarts, updateCarts, children }: CartProps) => {
   } else {
     const total = carts.reduce((acc, cart) => acc + cart.totalPrice, 0);
     return (
-      <div className="flex relative flex-col gap-4 p-4 min-h-screen">
+      <div className="flex w-full relative flex-col gap-4 p-4 min-h-screen">
         {children}
         <div className="flex flex-col gap-4 grow">
           {carts.map((cart) => (
@@ -59,7 +59,7 @@ const CartsMenu = ({ carts, getCarts, updateCarts, children }: CartProps) => {
           ))}
         </div>
         <Link
-          className="flex rounded-full mt-4 sticky  right-4 left-4 bottom-4 shadow-md bg-amber-600 z-50 py-1"
+          className="flex rounded-full mt-4 sticky gap-2  right-4 left-4 bottom-4 shadow-md bg-primary z-50 py-1"
           href="/checkout"
         >
           <div className="flex text-white gap-2 items-center px-4 py-2 w-full">
@@ -76,7 +76,7 @@ const CartsMenu = ({ carts, getCarts, updateCarts, children }: CartProps) => {
               </span>
             </div>
           </div>
-          <div className="flex items-center py-2 px-4 font-bold rounded-r-full bg-amber-600 text-white">
+          <div className="flex items-center py-2 pr-4  font-bold rounded-r-full bg-primary text-white">
             <span>Checkout</span>
           </div>
         </Link>

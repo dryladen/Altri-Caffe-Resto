@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-
 import {
   Card,
   CardContent,
@@ -18,8 +17,6 @@ import Orders from "./Orders";
 import { useCallback, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getCategories } from "@/lib/queries";
-import CartPage from "@/app/(unauthenticated)/cart/page";
-import { get } from "http";
 import CartsMenu from "./CartsMenu";
 
 const Menu = () => {
@@ -64,7 +61,7 @@ const Menu = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3">
       <div className="col-span-2 flex flex-col w-full relative p-4 border">
-        <h2 className="font-bold text-2xl mb-2 text-amber-700">Pilih Menu</h2>
+        <h2 className="font-bold text-2xl mb-2 text-primary">Pilih Menu</h2>
         <div className="flex">
           <Input
             placeholder="Cari menu..."
@@ -98,7 +95,7 @@ const Menu = () => {
               data.products.length > 0 && (
                 <div key={data.id}>
                   <Separator className="my-2" />
-                  <h4 className="font-bold text-lg text-amber-700 mb-4">
+                  <h4 className="font-bold text-lg text-primary mb-4">
                     {data.name}
                   </h4>
                   <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-6">
@@ -139,7 +136,7 @@ const Menu = () => {
                               >
                                 <Button
                                   variant={"outline"}
-                                  className="w-full flex gap-2 py-1 h-fit text-amber-700 border-amber-700 rounded-lg"
+                                  className="w-full flex gap-2 py-1 h-fit text-primary border-primary rounded-lg"
                                 >
                                   <ShoppingCart size={16} />
                                   <span className="font-bold p-0">Tambah</span>

@@ -2,19 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Cart } from "@/types/dataTypes";
 import { Minus, Plus, Trash2 } from "lucide-react";
-import { use, useEffect, useState } from "react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { get } from "http";
+import { useEffect, useState } from "react";
+import DeleteDialog from "@/components/form-controller/DeleteDialog";
 
 type CartProps = {
   carts: Cart[];
@@ -32,10 +21,16 @@ const CartQuantity = ({ carts, getCart, updateCarts, data }: CartProps) => {
     getCart();
   }
 
+  useEffect(() => {
+    setQuantity(data.quantity);
+  }, [data]);
+
+  const [deleteOpen, setDeleteOpen] = useState(false);
   return (
     <div className="col-span-2 flex flex-col justify-between w-full">
+      <DeleteDialog deleteOpen={deleteOpen} setDeleteOpen={setDeleteOpen} actionFn={()=> deleteItem()} />
       <div className="flex flex-col">
-        <span className="text-sm font-bold">{data.name}</span>
+        <span className="text-sm font-bold text-wrap">{data.name}</span>
         <span className="text-sm">
           {new Intl.NumberFormat("id-ID", {
             style: "currency",
@@ -96,28 +91,9 @@ const CartQuantity = ({ carts, getCart, updateCarts, data }: CartProps) => {
             <Plus size={12} strokeWidth={3} />
           </Button>
         </div>
-        <AlertDialog>
-          <AlertDialogTrigger className="px-0 py-1 h-fit items-end border-0 bg-white hover:bg-white">
-            <Trash2 size={21} className="text-red-500" />
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Ingin menghapus item ini ?</AlertDialogTitle>
-              <AlertDialogDescription>
-                Item ini akan dihapus dari keranjang
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter className="flex">
-              <AlertDialogCancel>Tidak</AlertDialogCancel>
-              <AlertDialogAction
-                className="bg-red-500"
-                onClick={() => deleteItem()}
-              >
-                Iya
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <Button variant="ghost" onClick={() => setDeleteOpen(true)} className="p-0 h-fit">
+          <Trash2 size={21} strokeWidth={2} className="text-red-500 " />
+        </Button>
       </div>
     </div>
   );

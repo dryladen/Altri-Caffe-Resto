@@ -15,7 +15,7 @@ const Orders = ({ carts }: OrdersProps) => {
       .reduce((acc, curr) => acc + curr);
     return (
       <div className="md:hidden flex rounded-full mt-4 sticky bottom-4 shadow-md bg-white z-50">
-        <div className="flex text-amber-600 gap-2 items-center px-4 py-3 w-full">
+        <div className="flex text-primary gap-2 items-center px-4 py-3 w-full">
           <ShoppingCart size={18} strokeWidth={3} />
           <Link href="/cart">
             <div className="flex items-center">
@@ -32,7 +32,7 @@ const Orders = ({ carts }: OrdersProps) => {
           </Link>
         </div>
         <Link
-          className="flex items-center py-2 px-4 rounded-r-full bg-amber-600 text-white"
+          className="flex items-center py-2 px-4 rounded-r-full bg-primary text-white"
           href="/checkout"
         >
           <span>Checkout</span>
