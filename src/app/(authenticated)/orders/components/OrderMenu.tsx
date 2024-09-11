@@ -1,17 +1,19 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, File, Phone, PlusCircle, User } from "lucide-react";
+import { File, PlusCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getOrders } from "@/lib/queries";
 import OrderItem from "./OrderItem";
-import { Badge } from "@/components/ui/badge";
+import { useRouter } from "next/navigation";
 
 export default function OrderMenu() {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("pending");
+  
   const { data, error } = useQuery({
     queryKey: ["orders"],
     queryFn: async () => {
@@ -50,7 +52,7 @@ export default function OrderMenu() {
                 Export
               </span>
             </Button>
-            <Button size="sm" className="gap-1">
+            <Button size="sm" onClick={()=> router.push("/menu")} className="gap-1">
               <PlusCircle className="h-3.5 w-3.5" />
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                 Buat Pesanan

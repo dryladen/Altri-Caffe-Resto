@@ -77,9 +77,13 @@ const Konfirmasi = () => {
     return (
       <div className="flex flex-col i gap-4 bg-gray-100 min-h-screen">
         <div className="flex items-center gap-4 w-full p-4 bg-white">
-          <Link className="" href="/checkout">
+          <Button
+            variant={"outline"}
+            className="px-2"
+            onClick={() => router.back()}
+          >
             <ArrowLeft size={24} />
-          </Link>
+          </Button>
           <h1 className="font-semibold text-lg">Konfirmasi</h1>
         </div>
         <div className="flex flex-col p-4 mx-4 border-[1px] shadow-sm rounded-md bg-white">

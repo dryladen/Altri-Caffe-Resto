@@ -35,9 +35,9 @@ const AddCustomer = () => {
   return (
     <div>
       <div className="flex items-center gap-4 w-full p-4">
-        <Link className="" href="/">
+        <Button variant={"outline"} className="px-2" onClick={()=>router.back()}>
           <ArrowLeft size={24} />
-        </Link>
+        </Button>
         <h1 className="font-semibold text-lg">Checkout</h1>
       </div>
       <Separator className="h-4 bg-gray-100" />

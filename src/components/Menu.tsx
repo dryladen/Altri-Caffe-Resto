@@ -17,28 +17,21 @@ import { AddToCart } from "./AddToCart";
 import Orders from "./Orders";
 import { useCallback, useEffect, useState } from "react";
 import { get } from "http";
+import { useQuery } from "@tanstack/react-query";
+import { getCategories } from "@/lib/queries";
 
-type MenuProps = {
-  categories: {
-    id: number;
-    name: string;
-    createdAt: Date;
-    updatedAt: Date | null;
-    products: {
-      id: number;
-      name: string;
-      createdAt: Date;
-      updatedAt: Date | null;
-      description: string;
-      price: number;
-      status: string;
-      categoryId: number;
-    }[];
-  }[];
-};
 
-const Menu = ({ categories }: MenuProps) => {
+
+const Menu = () => {
   const [carts, setCarts] = useState<Cart[]>([]);
+
+  const { data, error } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const categories = await getCategories();
+      return categories;
+    },
+  });
 
   const getCarts = useCallback(() => {
     const cart = localStorage.getItem("carts");
@@ -65,6 +58,7 @@ const Menu = ({ categories }: MenuProps) => {
     getCarts();
   }, [getCarts]);
 
+  if(!data) return <div>Loading...</div>
   return (
     <div className="flex flex-col py-4">
       <h2 className="font-bold text-2xl mb-2 text-amber-700">Pilih Menu</h2>
@@ -79,7 +73,7 @@ const Menu = ({ categories }: MenuProps) => {
       </div>
       <ScrollArea className="w-full whitespace-nowrap rounded-md ">
         <div className="flex py-4 gap-2">
-          {categories.map((item: Categories) => (
+          {data.map((item: Categories) => (
             <Button
               key={item.name}
               variant="outline"
@@ -93,18 +87,18 @@ const Menu = ({ categories }: MenuProps) => {
         </div>
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
-      {categories.map(
-        (categorie: Categories) =>
-          categorie.products.length > 0 && (
-            <div key={categorie.id}>
+      {data.map(
+        (data: Categories) =>
+          data.products.length > 0 && (
+            <div key={data.id}>
               <Separator className="my-2" />
               <h4 className="font-bold text-lg text-amber-700 mb-4">
-                {categorie.name}
+                {data.name}
               </h4>
               <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-6">
-                {categorie.products.map(
+                {data.products.map(
                   (item: any) =>
-                    item.categoryId === categorie.id && (
+                    item.categoryId === data.id && (
                       <Card
                         key={item.id}
                         className="border-0 bg-inherit shadow-none"
