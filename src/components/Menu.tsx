@@ -8,7 +8,13 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { ListFilter, LoaderCircle, LoaderPinwheel, Search, ShoppingCart } from "lucide-react";
+import {
+  ListFilter,
+  LoaderCircle,
+  LoaderPinwheel,
+  Search,
+  ShoppingCart,
+} from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Cart, Categories, Product } from "@/types/dataTypes";
@@ -64,8 +70,12 @@ const Menu = () => {
         getCarts();
       }
     },
-    [carts]
+    [carts, getCarts]
   );
+
+  useEffect(() => {
+    getCarts();
+  }, [getCarts]);
 
   const filterdSearch = useMemo(() => {
     // search single product
@@ -83,10 +93,6 @@ const Menu = () => {
     }
     return data;
   }, [data, category]);
-
-  useEffect(() => {
-    getCarts();
-  }, [getCarts]);
 
   if (!filterdSearch && !data)
     return (

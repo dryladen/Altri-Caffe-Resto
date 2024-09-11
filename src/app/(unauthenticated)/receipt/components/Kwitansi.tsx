@@ -38,40 +38,24 @@ const Kwitansi = () => {
     const cart = localStorage.getItem("carts");
     const dataCustomer = localStorage.getItem("customer");
     setCarts(cart ? JSON.parse(cart) : []);
-    setCustomer(dataCustomer ? JSON.parse(dataCustomer) : customer);
+    setCustomer((prevCustomer) =>
+      dataCustomer ? JSON.parse(dataCustomer) : prevCustomer
+    );
   }, []);
-
-  const updateCarts = useCallback(
-    (cart: Cart) => {
-      if (carts.find((c) => c.id === cart.id)) {
-        localStorage.setItem(
-          "carts",
-          JSON.stringify(carts.map((c) => (c.id === cart.id ? cart : c)))
-        );
-        setCarts(carts.map((c) => (c.id === cart.id ? cart : c)));
-      } else {
-        localStorage.setItem("carts", JSON.stringify([...carts, cart]));
-        setCarts([...carts, cart]);
-      }
-    },
-    [carts]
-  );
 
   useEffect(() => {
     getOrder();
   }, [getOrder]);
 
   function createOrder() {
-    router.push("/");
+    router.push("/customer");
   }
   if (carts.length === 0 || customer.name === "-") {
     return (
       <div className="flex flex-col items-center justify-center h-screen p-4">
         <h1 className="text-2xl font-bold">Data Belum Lengkap</h1>
         <Link href="/">
-          <Button className="mt-4 hover:bg-primary">
-            Kembali ke Menu
-          </Button>
+          <Button className="mt-4 hover:bg-primary">Kembali ke Menu</Button>
         </Link>
       </div>
     );
@@ -82,7 +66,11 @@ const Kwitansi = () => {
     return (
       <div className="flex flex-col i gap-4 bg-white min-h-screen">
         <div className="flex items-center gap-4 w-full p-4 bg-white shadow-sm">
-          <Button variant={"outline"} className="px-2" onClick={()=>router.back()}>
+          <Button
+            variant={"outline"}
+            className="px-2"
+            onClick={() => router.back()}
+          >
             <ArrowLeft size={24} />
           </Button>
           <h1 className="font-bold text-xl">Kwitansi</h1>

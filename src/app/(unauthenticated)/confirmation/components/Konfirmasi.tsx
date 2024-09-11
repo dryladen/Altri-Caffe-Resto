@@ -31,7 +31,9 @@ const Konfirmasi = () => {
     const cart = localStorage.getItem("carts");
     const dataCustomer = localStorage.getItem("customer");
     setCarts(cart ? JSON.parse(cart) : []);
-    setCustomer(dataCustomer ? JSON.parse(dataCustomer) : customer);
+    setCustomer((prevCustomer) =>
+      dataCustomer ? JSON.parse(dataCustomer) : prevCustomer
+    );
   }, []);
 
   const updateCarts = useCallback(
@@ -47,7 +49,7 @@ const Konfirmasi = () => {
         setCarts([...carts, cart]);
       }
     },
-    [carts, customer]
+    [carts]
   );
 
   useEffect(() => {
