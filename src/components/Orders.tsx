@@ -1,7 +1,6 @@
 import { Cart } from "@/types/dataTypes";
 import { Dot, ShoppingCart } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 type OrdersProps = {
   carts: Cart[];
@@ -15,7 +14,7 @@ const Orders = ({ carts }: OrdersProps) => {
       .map((product) => product.totalPrice)
       .reduce((acc, curr) => acc + curr);
     return (
-      <div className="flex rounded-full mt-4 sticky bottom-4 shadow-md bg-white z-50">
+      <div className="md:hidden flex rounded-full mt-4 sticky bottom-4 shadow-md bg-white z-50">
         <div className="flex text-amber-600 gap-2 items-center px-4 py-3 w-full">
           <ShoppingCart size={18} strokeWidth={3} />
           <Link href="/cart">
