@@ -17,7 +17,7 @@ const MenuOrder = () => {
         >
           <ArrowLeft size={24} />
         </Button>
-        <h1 className="font-semibold text-lg">Tambah Pesanan</h1>
+        <h1 className="font-bold text-xl">Tambah Pesanan</h1>
       </div>
       <Menu />
     </div>

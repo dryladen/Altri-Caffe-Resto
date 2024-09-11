@@ -39,7 +39,7 @@ const Kwitansi = () => {
     const dataCustomer = localStorage.getItem("customer");
     setCarts(cart ? JSON.parse(cart) : []);
     setCustomer(dataCustomer ? JSON.parse(dataCustomer) : customer);
-  }, [customer]);
+  }, []);
 
   const updateCarts = useCallback(
     (cart: Cart) => {
@@ -64,13 +64,12 @@ const Kwitansi = () => {
   function createOrder() {
     router.push("/");
   }
-
   if (carts.length === 0 || customer.name === "-") {
     return (
       <div className="flex flex-col items-center justify-center h-screen p-4">
         <h1 className="text-2xl font-bold">Data Belum Lengkap</h1>
         <Link href="/">
-          <Button className="mt-4 bg-amber-600 hover:bg-amber-500">
+          <Button className="mt-4 hover:bg-primary">
             Kembali ke Menu
           </Button>
         </Link>
@@ -82,11 +81,11 @@ const Kwitansi = () => {
       .reduce((acc, curr) => acc + curr);
     return (
       <div className="flex flex-col i gap-4 bg-white min-h-screen">
-        <div className="flex items-center gap-4 w-full p-4 bg-white">
-          <Link className="" href="/confirmation">
+        <div className="flex items-center gap-4 w-full p-4 bg-white shadow-sm">
+          <Button variant={"outline"} className="px-2" onClick={()=>router.back()}>
             <ArrowLeft size={24} />
-          </Link>
-          <h1 className="font-semibold text-lg">Kwitansi</h1>
+          </Button>
+          <h1 className="font-bold text-xl">Kwitansi</h1>
         </div>
         <div className="flex flex-col">
           <div className="flex justify-center items-center">
@@ -223,7 +222,7 @@ const Kwitansi = () => {
         </div>
         <div className="flex flex-col justify-start p-4 gap-4 sticky w-full bottom-0 bg-white">
           <Button
-            className="flex rounded-full py-[10px] shadow-md h-fit bg-amber-600 z- hover:bg-gray-400"
+            className="flex rounded-full py-[10px] shadow-md h-fit bg-primary z- hover:bg-gray-400"
             variant={"default"}
             onClick={() => createOrder()}
           >

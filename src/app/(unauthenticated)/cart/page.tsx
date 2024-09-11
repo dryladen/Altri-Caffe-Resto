@@ -1,10 +1,7 @@
 "use client";
 import { Cart } from "@/types/dataTypes";
-import { ArrowLeft, Dot, ShoppingCart } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 import React, { useCallback, useEffect, useState } from "react";
-import CartQuantity from "./components/CartQuantity";
 import { Button } from "@/components/ui/button";
 import CartsMenu from "@/components/CartsMenu";
 import { useRouter } from "next/navigation";
@@ -15,7 +12,7 @@ const CartPage = () => {
   const getCarts = useCallback(() => {
     const cart = localStorage.getItem("carts");
     setCarts(cart ? JSON.parse(cart) : []);
-  }, [carts]);
+  }, []);
 
   const updateCarts = useCallback(
     (cart: Cart) => {
@@ -34,7 +31,7 @@ const CartPage = () => {
 
   return (
     <CartsMenu carts={carts} getCarts={getCarts} updateCarts={updateCarts}>
-      <div className="flex items-center gap-4 w-full">
+      <div className="flex items-center gap-4 w-full p-4 bg-white shadow-sm">
         <Button
           variant={"outline"}
           className="px-2"

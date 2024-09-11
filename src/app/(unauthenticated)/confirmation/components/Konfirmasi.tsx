@@ -64,7 +64,7 @@ const Konfirmasi = () => {
       <div className="flex flex-col items-center justify-center h-screen p-4">
         <h1 className="text-2xl font-bold">Data Belum Lengkap</h1>
         <Link href="/">
-          <Button className="mt-4 bg-amber-600 hover:bg-amber-500">
+          <Button className="mt-4 bg-primary hover:bg-primary">
             Kembali ke Menu
           </Button>
         </Link>
@@ -75,8 +75,8 @@ const Konfirmasi = () => {
       .map((product) => product.totalPrice)
       .reduce((acc, curr) => acc + curr);
     return (
-      <div className="flex flex-col i gap-4 bg-gray-100 min-h-screen">
-        <div className="flex items-center gap-4 w-full p-4 bg-white">
+      <div className="flex flex-col gap-4 bg-gray-100 min-h-screen">
+        <div className="flex items-center gap-4 w-full p-4 bg-white shadow-sm">
           <Button
             variant={"outline"}
             className="px-2"
@@ -84,7 +84,7 @@ const Konfirmasi = () => {
           >
             <ArrowLeft size={24} />
           </Button>
-          <h1 className="font-semibold text-lg">Konfirmasi</h1>
+          <h1 className="font-bold text-xl">Konfirmasi</h1>
         </div>
         <div className="flex flex-col p-4 mx-4 border-[1px] shadow-sm rounded-md bg-white">
           <h2 className="text-lg font-semibold">Data Pelanggan</h2>
@@ -150,7 +150,7 @@ const Konfirmasi = () => {
                 <span>Tunai</span>
               </Label>
               <RadioGroupItem
-                className="text-amber-600 h-4 border-amber-600"
+                className="text-primary h-4 border-primary"
                 value="tunai"
                 id="tunai"
                 onClick={() =>
@@ -170,7 +170,7 @@ const Konfirmasi = () => {
                 <span>Scan QRIS</span>
               </Label>
               <RadioGroupItem
-                className="text-amber-600 h-4 border-amber-600"
+                className="text-primary h-4 border-primary"
                 value="qris"
                 id="qris"
                 onClick={() =>
@@ -192,7 +192,7 @@ const Konfirmasi = () => {
             </span>
           </div>
           <Button
-            className="flex rounded-full py-[10px] shadow-md h-fit bg-amber-600 z- hover:bg-gray-400"
+            className="flex rounded-full py-[10px] shadow-md h-fit bg-primary z- hover:bg-gray-400"
             variant={"default"}
             onClick={() => createOrder()}
           >
