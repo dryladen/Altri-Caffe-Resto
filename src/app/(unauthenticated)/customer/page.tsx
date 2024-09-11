@@ -16,7 +16,7 @@ export default async function Home() {
     queryFn: getOrders,
   });
   return (
-    <div className="md:px-60 ">
+    <div className="mx-40">
       <Carousel opts={{ align: "start", loop: true }} className="w-full h-full">
         <CarouselContent className="-ml-1">
           {Array.from({ length: 5 }).map((_, index) => (

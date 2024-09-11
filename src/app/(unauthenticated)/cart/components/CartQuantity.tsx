@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Cart } from "@/types/dataTypes";
 import { Minus, Plus, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,6 +14,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { get } from "http";
 
 type CartProps = {
   carts: Cart[];
