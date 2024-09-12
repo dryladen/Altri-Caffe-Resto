@@ -60,10 +60,11 @@ export const columns: ColumnDef<SelectProductModel>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title={"Kategori"} />
     ),
-    accessorKey: "categoryId",
+    accessorKey: "category.name",
+    id: "categoryName",
     meta: { className: "hidden lg:table-cell" },
     cell: ({ row }) => {
-      return <span>{row.getValue("categoryId")}</span>;
+      return <span>{row.getValue("categoryName")}</span>;
     },
   },
   {

@@ -3,14 +3,14 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import FormDetails from "./components/FormDetails";
 
-type ProductFormProps = {
+type Props = {
   params: {
-    id: number;
+    uuid: string;
   };
 };
-export default async function page({ params }: ProductFormProps) {
+export default async function page({ params }: Props) {
   const getProduct = await db.query.productsTable.findFirst({
-    where: eq(productsTable.id, params.id),
+    where: eq(productsTable.id, params.uuid),
   });
   const categoriesData = await db.query.categoriesTable.findMany({});
   if (!getProduct) {
@@ -20,7 +20,7 @@ export default async function page({ params }: ProductFormProps) {
   return (
     <>
       <FormDetails
-        productId={params.id}
+        productId={params.uuid}
         defaultValues={{
           mode: "update",
           id: getProduct.id,

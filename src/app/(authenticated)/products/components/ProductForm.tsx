@@ -6,11 +6,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import { createProduct, updateProduct } from "./action";
 import { toast } from "@/components/ui/use-toast";
@@ -19,15 +14,25 @@ import { productSchema, ProductSchema } from "@/db/schema/products";
 import SelectBox from "@/components/form-controller/SelectBox";
 import { Input } from "@/components/form-controller/input";
 import { PlusCircle } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { getCategories } from "@/lib/queries";
 
 type Props = {
   defaultValues: ProductSchema;
-  categoriesData: { id: number; name: string }[] | null;
 };
 
-const ProductForm = ({ defaultValues, categoriesData }: Props) => {
+const ProductForm = ({ defaultValues }: Props) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = React.useState(false);
+
+  const { data: categories } = useQuery({
+    queryKey: ["products"],
+    queryFn: async () => {
+      const products = await getCategories();
+      return products;
+    },
+  });
+
   const form = useForm<ProductSchema>({
     resolver: zodResolver(productSchema),
     defaultValues,
@@ -47,7 +52,8 @@ const ProductForm = ({ defaultValues, categoriesData }: Props) => {
     setIsOpen(false);
     router.push("/products");
   };
-
+  if(!categories) return  <div>Loading...</div>;
+  if(categories)
   return (
     <>
       <ResponsiveDialog
@@ -80,15 +86,15 @@ const ProductForm = ({ defaultValues, categoriesData }: Props) => {
             />
             <SelectBox
               options={[
-                { id: "available", name: "Available" },
-                { id: "unavailable", name: "Unavailable" },
+                { id: "tersedia", name: "Tersedia" },
+                { id: "kosong", name: "Kosong" },
               ]}
               control={form.control}
               name="status"
               label="Status"
             />
             <SelectBox
-              options={categoriesData}
+              options={categories}
               control={form.control}
               name="categoryId"
               label="Kategori"

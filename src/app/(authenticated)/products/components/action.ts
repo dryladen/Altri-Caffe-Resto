@@ -22,7 +22,7 @@ export async function updateProduct(data: ProductSchema) {
     actionFn: async () => {
       const validatedData = productSchema.parse(data);
       if (validatedData.mode === "update") {
-        await db.update(productsTable).set(validatedData).where(eq(productsTable.id, +validatedData.id));
+        await db.update(productsTable).set(validatedData).where(eq(productsTable.id, validatedData.id));
       }
       revalidatePath('/products');
     },
@@ -32,7 +32,7 @@ export async function updateProduct(data: ProductSchema) {
   });
 }
 
-export async function deleteProduct(id: number) {
+export async function deleteProduct(id: string) {
 	return executeAction({
 		actionFn: async () => {
 			await db.delete(productsTable).where(eq(productsTable.id, id));

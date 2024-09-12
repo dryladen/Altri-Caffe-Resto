@@ -28,8 +28,8 @@ import { useState } from "react";
 import DeleteDialog from "@/components/form-controller/DeleteDialog";
 type Props = {
   defaultValues: ProductSchema;
-  categoriesData: { id: number; name: string }[] | null;
-  productId: number;
+  categoriesData: { id: string; name: string }[] | null;
+  productId: string;
 };
 
 const FormDetails = ({ defaultValues, categoriesData, productId }: Props) => {

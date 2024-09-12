@@ -10,6 +10,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import CartItem from "./CartItem";
 import Link from "next/link";
 import Image from "next/image";
+import { OrderSchema } from "@/db/schema/orders";
+import { createOrders } from "./action";
 
 type Customer = {
   name: string;
@@ -56,10 +58,20 @@ const Konfirmasi = () => {
     getOrder();
   }, [getOrder]);
 
-  function createOrder() {
-    localStorage.setItem("customer", JSON.stringify(customer));
-    router.push("/receipt");
-  }
+  const onSubmit = async () => {
+    const dataCustomer: OrderSchema = {
+      username: customer.name,
+      phone: customer.phone.toString(),
+      status: "pending",
+      tableNumber: parseInt(customer.table),
+      totalPayment: carts
+        .map((product) => product.totalPrice)
+        .reduce((acc, curr) => acc + curr),
+      paymentMethode: customer.paymentMethod,
+    };
+    const response = await createOrders({ data: dataCustomer, carts });
+    response && router.push(`/receipt/${response}`);
+  };
 
   if (carts.length === 0 || customer.name === "-") {
     return (
@@ -196,7 +208,7 @@ const Konfirmasi = () => {
           <Button
             className="flex rounded-full py-[10px] shadow-md h-fit"
             variant={"default"}
-            onClick={() => createOrder()}
+            onClick={() => onSubmit()}
           >
             <span className="font-semibold text-white text-lg">
               Konfirmasi Pesanan

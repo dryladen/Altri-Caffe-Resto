@@ -2,14 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Cart } from "@/types/dataTypes";
-import {
-  ArrowLeft,
-  HandCoins,
-  Handshake,
-  Hourglass,
-  Phone,
-  User,
-} from "lucide-react";
+import { ArrowLeft, Hourglass, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
@@ -17,52 +10,27 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Link from "next/link";
 import Image from "next/image";
 import CartItem from "@/app/(unauthenticated)/confirmation/components/CartItem";
+import { useQueries, useQuery } from "@tanstack/react-query";
+import { getOrders, getOrdersById } from "@/lib/queries";
 
-type Customer = {
-  name: string;
-  phone: string;
-  table: string;
-  paymentMethod: string;
+type Props = {
+  uuid: string;
 };
-const Kwitansi = () => {
-  const [customer, setCustomer] = useState<Customer>({
-    name: "-",
-    phone: "-",
-    table: "-",
-    paymentMethod: "tunai",
-  });
+const Kwitansi = ({ uuid }: Props) => {
   const router = useRouter();
-  const [carts, setCarts] = useState<Cart[]>([]);
-
-  const getOrder = useCallback(() => {
-    const cart = localStorage.getItem("carts");
-    const dataCustomer = localStorage.getItem("customer");
-    setCarts(cart ? JSON.parse(cart) : []);
-    setCustomer((prevCustomer) =>
-      dataCustomer ? JSON.parse(dataCustomer) : prevCustomer
-    );
-  }, []);
-
-  useEffect(() => {
-    getOrder();
-  }, [getOrder]);
-
-  function createOrder() {
-    router.push("/customer");
-  }
-  if (carts.length === 0 || customer.name === "-") {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen p-4">
-        <h1 className="text-2xl font-bold">Data Belum Lengkap</h1>
-        <Link href="/">
-          <Button className="mt-4 hover:bg-primary">Kembali ke Menu</Button>
-        </Link>
-      </div>
-    );
-  } else {
-    const total = carts
-      .map((product) => product.totalPrice)
-      .reduce((acc, curr) => acc + curr);
+  const {
+    data: orders,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["orders"],
+    queryFn: async () => {
+      const orders = await getOrdersById(uuid);
+      return orders;
+    },
+  });
+  if (isLoading) return <div>Loading...</div>;
+  if (orders)
     return (
       <div className="flex flex-col i gap-4 bg-white min-h-screen">
         <div className="flex items-center gap-4 w-full p-4 bg-white shadow-sm">
@@ -132,7 +100,7 @@ const Kwitansi = () => {
                 <span>Nama Pelanggan</span>
               </div>
               <span className="flex text-wrap font-semibold text-gray-700 flex-wrap flex-col capitalize">
-                {customer.name}
+                {orders.username}
               </span>
             </div>
             <div className="flex justify-between text-gray-400 text-xs">
@@ -140,7 +108,7 @@ const Kwitansi = () => {
                 <span>No Telepon</span>
               </div>
               <span className="font-semibold text-gray-700">
-                {customer.phone}
+                {orders.phone}
               </span>
             </div>
             <div className="flex justify-between text-gray-400 text-xs">
@@ -148,7 +116,7 @@ const Kwitansi = () => {
                 <span>Nomor Meja</span>
               </div>
               <span className="font-semibold text-gray-700">
-                {customer.table}
+                {orders.tableNumber}
               </span>
             </div>
             <div className="flex justify-between text-gray-400 text-xs">
@@ -156,7 +124,7 @@ const Kwitansi = () => {
                 <span>Metode Pembayaran</span>
               </div>
               <span className="capitalize font-semibold text-gray-700">
-                {customer.paymentMethod}
+                {orders.paymentMethode}
               </span>
             </div>
           </div>
@@ -165,16 +133,16 @@ const Kwitansi = () => {
           <h2 className="text-lg font-semibold ">Rincian Pesanan</h2>
           <Separator className="mb-4 mt-2" />
           <div className="flex flex-col gap-4">
-            {carts.map((item) => (
+            {orders.carts.map((item) => (
               <div key={item.id} className="flex items-start gap-2">
                 <span className="text-xs font-medium p-1 items-start rounded-md border-[1px]">
                   {item.quantity}x
                 </span>
                 <div className="flex flex-col w-full">
                   <h4 className="text-sm font-semibold text-gray-600">
-                    {item.name}
+                    {item.product.name}
                   </h4>
-                  {item.note && (
+                  {item && (
                     <span className="py-1 px-2 my-1 bg-gray-100 text-sm text-gray-500 rounded-md">
                       Catatan : {item.note}
                     </span>
@@ -186,7 +154,7 @@ const Kwitansi = () => {
                         style: "currency",
                         currency: "IDR",
                         maximumSignificantDigits: 6,
-                      }).format(item.totalPrice)}
+                      }).format(item.total)}
                     </span>
                   </div>
                   <Separator className="my-2" />
@@ -204,7 +172,7 @@ const Kwitansi = () => {
                 style: "currency",
                 currency: "IDR",
                 maximumSignificantDigits: 6,
-              }).format(total)}
+              }).format(orders.totalPayment)}
             </span>
           </div>
         </div>
@@ -212,7 +180,6 @@ const Kwitansi = () => {
           <Button
             className="flex rounded-full py-[10px] shadow-md h-fit"
             variant={"default"}
-            onClick={() => createOrder()}
           >
             <span className="font-semibold text-white text-lg">
               Hubungi Kasir
@@ -221,7 +188,6 @@ const Kwitansi = () => {
         </div>
       </div>
     );
-  }
 };
 
 export default Kwitansi;

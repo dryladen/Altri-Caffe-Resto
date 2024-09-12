@@ -4,6 +4,7 @@ import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { categoriesTable } from "./categories";
 import { cartTable } from "./carts";
+import { InferResultType } from ".";
 
 export const statusProduct = pgEnum("statusProduct", ["tersedia", "kosong"]);
 
@@ -51,7 +52,6 @@ export const productSchema = z.union([
     price: baseSchema.shape.price,
     status: baseSchema.shape.status,
     categoryId: baseSchema.shape.categoryId
-
   }),
   z.object({
     mode: z.literal("update"),
@@ -65,4 +65,6 @@ export const productSchema = z.union([
 ]);
 
 export type ProductSchema = z.infer<typeof productSchema>;
-export type SelectProductModel = InferSelectModel<typeof productsTable>;
+export type SelectProductModel = InferResultType<"productsTable", {
+  category: true;
+}>;
