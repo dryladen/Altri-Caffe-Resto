@@ -1,19 +1,19 @@
-import { InferSelectModel, relations, sql } from "drizzle-orm";
-import { integer, pgEnum, pgTable, serial, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { InferSelectModel, relations } from "drizzle-orm";
+import { integer, pgEnum, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { categoriesTable } from "./categories";
 import { cartTable } from "./carts";
 
-const statusEnum = pgEnum("status", ["available", "unavailable"]);
+export const statusProduct = pgEnum("statusProduct", ["tersedia", "kosong"]);
 
 export const productsTable = pgTable("products", {
-  id: serial("id").primaryKey(),
+  id: uuid("id").defaultRandom().notNull().primaryKey(),
   name: text("name").notNull(),
   description: text("description").notNull(),
   price: integer("price").notNull(),
-  status: statusEnum("status").notNull(),
-  categoryId: integer("category_id").notNull(),
+  status: statusProduct("statusProduct").notNull(),
+  categoryId: uuid("category_id").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
 });
@@ -55,7 +55,7 @@ export const productSchema = z.union([
   }),
   z.object({
     mode: z.literal("update"),
-    id: z.number().min(1),
+    id: z.string().min(1),
     name: baseSchema.shape.name,
     description: baseSchema.shape.description,
     price: baseSchema.shape.price,

@@ -1,5 +1,5 @@
 {
-  "id": "7261f018-5da1-40e6-a7d7-89ba371009a2",
+  "id": "7ce9cffe-b1a7-408c-b453-8843bdd340ca",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -10,19 +10,20 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "product_id": {
           "name": "product_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
         "order_id": {
           "name": "order_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
@@ -43,7 +44,7 @@
           "name": "updated_at",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         }
       },
       "indexes": {},
@@ -57,9 +58,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "name": {
           "name": "name",
@@ -92,9 +94,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "username": {
           "name": "username",
@@ -108,9 +111,9 @@
           "primaryKey": false,
           "notNull": true
         },
-        "status": {
-          "name": "status",
-          "type": "status",
+        "statusOrder": {
+          "name": "statusOrder",
+          "type": "statusOrder",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
@@ -152,9 +155,10 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "name": {
           "name": "name",
@@ -174,16 +178,16 @@
           "primaryKey": false,
           "notNull": true
         },
-        "status": {
-          "name": "status",
-          "type": "status",
+        "statusProduct": {
+          "name": "statusProduct",
+          "type": "statusProduct",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         },
         "category_id": {
           "name": "category_id",
-          "type": "integer",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": true
         },
@@ -207,7 +211,25 @@
       "uniqueConstraints": {}
     }
   },
-  "enums": {},
+  "enums": {
+    "public.statusOrder": {
+      "name": "statusOrder",
+      "schema": "public",
+      "values": [
+        "pending",
+        "proses",
+        "done"
+      ]
+    },
+    "public.statusProduct": {
+      "name": "statusProduct",
+      "schema": "public",
+      "values": [
+        "tersedia",
+        "kosong"
+      ]
+    }
+  },
   "schemas": {},
   "sequences": {},
   "_meta": {

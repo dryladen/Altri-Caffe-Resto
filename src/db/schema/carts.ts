@@ -1,13 +1,13 @@
-import { relations, sql } from "drizzle-orm";
-import { integer, pgTable, serial, timestamp } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import { integer, pgTable, timestamp, uuid } from "drizzle-orm/pg-core";
 import { productsTable } from "./products";
 import { ordersTable } from "./orders";
 
 export const cartTable = pgTable("carts", {
-  id: serial("id").primaryKey(),
-  productId: integer("product_id")
+  id: uuid("id").defaultRandom().notNull().primaryKey(),
+  productId: uuid("product_id")
     .notNull(),
-  orderId: integer("order_id")
+  orderId: uuid("order_id")
     .notNull(),
   quantity: integer("quantity").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),

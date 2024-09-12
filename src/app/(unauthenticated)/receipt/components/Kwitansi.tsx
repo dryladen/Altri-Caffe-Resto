@@ -210,7 +210,7 @@ const Kwitansi = () => {
         </div>
         <div className="flex flex-col justify-start p-4 gap-4 sticky w-full bottom-0 bg-white">
           <Button
-            className="flex rounded-full py-[10px] shadow-md h-fit bg-primary z- hover:bg-gray-400"
+            className="flex rounded-full py-[10px] shadow-md h-fit"
             variant={"default"}
             onClick={() => createOrder()}
           >

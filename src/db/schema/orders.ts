@@ -4,12 +4,12 @@ import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { cartTable } from "./carts";
 
-const statusEnum = pgEnum("status", ["pending", "proses", "done"]);
+export const statusOrder = pgEnum("statusOrder", ["pending", "proses", "done"]);
 export const ordersTable = pgTable("orders", {
-  id: serial("id").primaryKey(),
+  id: uuid("id").defaultRandom().notNull().primaryKey(),
   username: text("username").notNull(),
   phone: text("phone").notNull(),
-  status: statusEnum("status").notNull(),
+  status: statusOrder("statusOrder").notNull(),
   totalPayment: integer("total_payment").notNull(),
   paymentMethode: text("payment_methode").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),

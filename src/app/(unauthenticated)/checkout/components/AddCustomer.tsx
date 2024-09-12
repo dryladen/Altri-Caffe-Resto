@@ -94,7 +94,7 @@ const AddCustomer = () => {
       </div>
       <Separator className="h-4 bg-gray-100" />
       <Button
-        className="flex rounded-full mx-4 md:mt-20 md:mx-14 sticky py-[10px] right-4 left-4 bottom-4 shadow-md h-fit bg-primary z- hover:bg-gray-400"
+        className="flex rounded-full mx-4 md:mt-20 md:mx-14 sticky py-[10px] right-4 left-4 bottom-4 shadow-md h-fit"
         variant={"default"}
         onClick={handleCheckout}
         disabled={!name || !phone || !table}
