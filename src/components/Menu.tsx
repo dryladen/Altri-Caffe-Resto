@@ -134,7 +134,7 @@ const Menu = () => {
                     Semua
                   </span>
                 </Button>
-                {data.map((data: Categories) => (
+                {data.map((data) => (
                   <Button
                     key={data.name}
                     variant="outline"
@@ -165,10 +165,10 @@ const Menu = () => {
             )}
             {filteredCategory.length !== 0 &&
               filteredCategory.map(
-                (data: Categories) =>
+                (data) =>
                   // if filterdSearch data is not inside the category, return nothing
                   filterdSearch.find(
-                    (item: Product) => item.categoryId === data.id
+                    (item) => item.categoryId === data.id
                   ) && (
                     <div key={data.id}>
                       <Separator className="my-2" />

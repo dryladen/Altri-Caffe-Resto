@@ -14,7 +14,7 @@ type Props = {
 const OrderItem = ({ data }: Props) => {
   const router = useRouter();
   const [deleteOpen, setDeleteOpen] = useState(false);
-  
+
   const updateStatus = async (status: "pending" | "proses" | "done") => {
     const newStatus = status === "pending" ? "proses" : "done";
     const response = await updateOrderStatus(data.id, newStatus);
@@ -22,7 +22,7 @@ const OrderItem = ({ data }: Props) => {
       title: response.message,
       variant: response.success === true ? "default" : "destructive",
     });
-  }    
+  };
   return (
     <div
       key={data.username}
