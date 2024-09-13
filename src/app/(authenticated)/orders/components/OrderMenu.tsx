@@ -13,7 +13,7 @@ export default function OrderMenu() {
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("pending");
-  
+
   const { data, error } = useQuery({
     queryKey: ["orders"],
     queryFn: async () => {
@@ -52,7 +52,11 @@ export default function OrderMenu() {
                 Export
               </span>
             </Button>
-            <Button size="sm" onClick={()=> router.push("/menu")} className="gap-1">
+            <Button
+              size="sm"
+              onClick={() => router.push("/menu")}
+              className="gap-1"
+            >
               <PlusCircle className="h-3.5 w-3.5" />
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                 Buat Pesanan

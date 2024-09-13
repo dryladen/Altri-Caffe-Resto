@@ -8,8 +8,8 @@ import {
 } from "@tanstack/react-query";
 import { getCategories, getProducts } from "@/lib/queries";
 import { Suspense } from "react";
-import ButtonSkeleton from "@/components/loading/ButtonSkeleton";
 import ProductList from "./components/ProductList";
+import TableSkeleton from "@/components/loading/TableSkeleton";
 
 export const experimental_ppr = true;
 
@@ -21,7 +21,7 @@ const page = async () => {
   });
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Suspense fallback={<ButtonSkeleton />}>
+      <Suspense fallback={<TableSkeleton />}>
         <ProductList />
       </Suspense>
     </HydrationBoundary>
