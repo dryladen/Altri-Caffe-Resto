@@ -3,6 +3,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components/datatable/data-table-column-header";
 import { SelectProductModel } from "@/db/schema/products";
 import { ActionColumn } from "./ActionColumn";
+import { Badge } from "@/components/ui/badge";
 
 export const columns: ColumnDef<SelectProductModel>[] = [
   {
@@ -29,7 +30,8 @@ export const columns: ColumnDef<SelectProductModel>[] = [
     accessorKey: "status",
     meta: { className: "hidden sm:table-cell" },
     cell: ({ row }) => {
-      return <span>{row.getValue("status")}</span>;
+      const color = row.getValue("status") === "tersedia" ? "green" : "gray";
+      return <Badge className={`bg-${color}-500 hover:bg-${color}-500`}>{row.getValue("status")}</Badge>;
     },
   },
   {

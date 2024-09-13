@@ -52,6 +52,7 @@ const ProductForm = ({ defaultValues }: Props) => {
     setIsOpen(false);
     router.push("/products");
   };
+  
   if(!categories) return  <div>Loading...</div>;
   if(categories)
   return (

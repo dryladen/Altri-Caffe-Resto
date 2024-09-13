@@ -148,11 +148,11 @@ const Navbar = ({ user }: { user: User | null }) => {
           <DropdownMenuLabel>
             <div className="flex flex-col">
               <span className="capitalize">{username}</span>
-              <span className="text-gray-500 text-sm">{user?.email}</span>
+              <span className="text-gray-500 text-xs">{user?.email}</span>
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem><Link href="/account">Profile</Link></DropdownMenuItem>
+          <DropdownMenuItem><Link className="w-full" href="/account">Akun</Link></DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             <form action="/auth/signout" method="post" className="w-full">

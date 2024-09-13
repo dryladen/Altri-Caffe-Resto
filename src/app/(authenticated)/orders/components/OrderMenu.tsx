@@ -84,17 +84,17 @@ export default function OrderMenu() {
         </div>
         <TabsContent value="pending" className="flex flex-col gap-4 mt-4">
           {filtered.map((order) => (
-            <OrderItem key={order.username} data={order} />
+            <OrderItem key={order.id} data={order} />
           ))}
         </TabsContent>
         <TabsContent value="proses" className="flex flex-col gap-4 mt-0">
           {filtered.map((order) => (
-            <OrderItem key={order.username} data={order} />
+            <OrderItem key={order.id} data={order} />
           ))}
         </TabsContent>
         <TabsContent value="done" className="flex flex-col gap-4 mt-0">
           {filtered.map((order) => (
-            <OrderItem key={order.username} data={order} />
+            <OrderItem key={order.id} data={order} />
           ))}
         </TabsContent>
       </Tabs>

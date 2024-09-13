@@ -1,5 +1,4 @@
 import { columns } from "./components/columns";
-import { db } from "@/db";
 import { DataTable } from "@/components/datatable/data-table";
 import ProductForm from "./components/ProductForm";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";

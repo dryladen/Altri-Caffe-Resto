@@ -119,8 +119,8 @@ const FormDetails = ({ defaultValues, categoriesData, productId }: Props) => {
                   <CardContent>
                     <SelectBox
                       options={[
-                        { id: "available", name: "Available" },
-                        { id: "unavailable", name: "Unavailable" },
+                        { id: "tersedia", name: "Tersedia" },
+                        { id: "kosong", name: "Kosong" },
                       ]}
                       control={form.control}
                       name="status"

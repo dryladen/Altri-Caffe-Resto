@@ -34,7 +34,16 @@ export default function LoginForm() {
             <Button formAction={login} className="w-full">
               Login
             </Button>
-            <Separator />
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">
+                  Atau login dengan
+                </span>
+              </div>
+            </div>
             <Button
               formAction={googleLogin}
               variant="outline"
