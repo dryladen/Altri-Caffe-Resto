@@ -30,31 +30,33 @@ const page = () => {
       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Pendapatan</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Total Pendapatan
+            </CardTitle>
             <ChartNoAxesCombined className="text-muted-foreground text-xs" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">Rp 45.231.000</div>
-            <p className="text-xs text-muted-foreground">
-              September 2024
-            </p>
+            <p className="text-xs text-muted-foreground">September 2024</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Pembelian</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Total Pembelian
+            </CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">+2350</div>
-            <p className="text-xs text-muted-foreground">
-              September 2024
-            </p>
+            <p className="text-xs text-muted-foreground">September 2024</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Penjualan Hari Ini</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Penjualan Hari Ini
+            </CardTitle>
             <CreditCard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>

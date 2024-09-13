@@ -94,15 +94,6 @@ const Menu = () => {
     return data;
   }, [data, category]);
 
-  if (!filterdSearch && !data)
-    return (
-      <div className="flex items-center justify-center w-full h-screen gap-4">
-        <LoaderCircle size={32} className="animate-spin text-blue-500" />
-        <span className="font-semibold text-3xl text-primary">
-          Memuat data...
-        </span>
-      </div>
-    );
   if (filterdSearch && data && filteredCategory)
     return (
       <div className="grid grid-cols-1 md:grid-cols-3">

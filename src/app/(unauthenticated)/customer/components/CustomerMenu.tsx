@@ -1,9 +1,9 @@
+import Menu from "@/components/Menu";
 import { getOrders } from "@/lib/queries";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import React from "react";
-import OrderList from "./OrderList";
 
-const OrderMenu = async () => {
+const CustomerMenu = async () => {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["orders"],
@@ -11,9 +11,9 @@ const OrderMenu = async () => {
   });
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <OrderList />
+      <Menu />
     </HydrationBoundary>
   );
 };
 
-export default OrderMenu;
+export default CustomerMenu;
