@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { File, PlusCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getOrders } from "@/lib/queries";
 import OrderItem from "./OrderItem";
@@ -65,7 +65,7 @@ export default function OrderList() {
           </div>
         </div>
         <div className="flex items-center w-full mt-6">
-          <TabsList className="flex justify-evenly w-full bg-white shadow-md">
+          <TabsList className="flex justify-evenly h-12 w-full bg-white shadow-md">
             <TabsTrigger onClick={() => setStatus("pending")} value="pending">
               <span>Konfirmasi</span>
               <span className="hidden sm:flex rounded-sm py-0 px-1.5 ml-2 bg-primary text-white text-[10px]">

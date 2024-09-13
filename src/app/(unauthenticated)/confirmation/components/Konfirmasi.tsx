@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Cart } from "@/types/dataTypes";
-import { ArrowLeft, NotebookTabs, Phone, User } from "lucide-react";
+import { ArrowLeft, LoaderCircle, NotebookTabs, Phone, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
@@ -28,6 +28,7 @@ const Konfirmasi = () => {
   });
   const router = useRouter();
   const [carts, setCarts] = useState<Cart[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const getOrder = useCallback(() => {
     const cart = localStorage.getItem("carts");
@@ -59,6 +60,7 @@ const Konfirmasi = () => {
   }, [getOrder]);
 
   const onSubmit = async () => {
+    setLoading(true);
     const dataCustomer: OrderSchema = {
       username: customer.name,
       phone: customer.phone.toString(),
@@ -210,10 +212,12 @@ const Konfirmasi = () => {
             </span>
           </div>
           <Button
-            className="flex rounded-full py-[10px] shadow-md h-fit"
+            className="flex rounded-full gap-2 py-[10px] shadow-md h-fit"
             variant={"default"}
             onClick={() => onSubmit()}
           >
+            {loading && <LoaderCircle size={24} className="animate-spin" />}
+
             <span className="font-semibold text-white text-lg">
               Konfirmasi Pesanan
             </span>

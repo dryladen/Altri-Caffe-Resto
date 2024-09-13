@@ -1,8 +1,12 @@
+import { Suspense } from "react";
 import AddCustomer from "./components/AddCustomer";
+import CheckoutSkeleton from "@/components/loading/CheckoutSkeleton";
 
 const page = () => {
   return (
-    <AddCustomer />
+    <Suspense fallback={<CheckoutSkeleton />}>
+      <AddCustomer />
+    </Suspense>
   );
 };
 

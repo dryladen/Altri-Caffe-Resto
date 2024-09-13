@@ -1,11 +1,10 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { ArrowLeft, Hourglass, User } from "lucide-react";
+import { Hourglass } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getOrdersById } from "@/lib/queries";
-import { useEffect } from "react";
 
 type Props = {
   uuid: string;
@@ -15,7 +14,6 @@ const Kwitansi = ({ uuid }: Props) => {
 
   const {
     data: orders,
-    error,
     isLoading,
   } = useQuery({
     queryKey: ["orders"],
@@ -29,13 +27,6 @@ const Kwitansi = ({ uuid }: Props) => {
     return (
       <div className="flex flex-col i gap-4 bg-white min-h-screen">
         <div className="flex items-center gap-4 w-full p-4 bg-white shadow-sm">
-          {/* <Button
-            variant={"outline"}
-            className="px-2"
-            onClick={() => router.back()}
-          >
-            <ArrowLeft size={24} />
-          </Button> */}
           <h1 className="font-bold text-xl">Kwitansi</h1>
         </div>
         <div className="flex flex-col">

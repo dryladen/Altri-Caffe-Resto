@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { set } from "zod";
 
 const AddCustomer = () => {
   const router = useRouter();
@@ -13,7 +14,7 @@ const AddCustomer = () => {
   const [phone, setPhone] = useState(0);
   const [table, setTable] = useState(0);
   const [paymentMethod, setPaymentMethod] = useState("tunai");
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const customer = localStorage.getItem("customer");
     if (customer) {
@@ -26,6 +27,7 @@ const AddCustomer = () => {
   }, []);
 
   function handleCheckout() {
+    setLoading(true);
     localStorage.setItem(
       "customer",
       JSON.stringify({ name, phone, table, paymentMethod })
@@ -94,11 +96,12 @@ const AddCustomer = () => {
       </div>
       <Separator className="h-4 bg-gray-100" />
       <Button
-        className="flex rounded-full mx-4 md:mt-20 md:mx-14 sticky py-[10px] right-4 left-4 bottom-4 shadow-md h-fit"
+        className="flex rounded-full mx-4 md:mt-20 gap-2 md:mx-14 sticky py-[10px] right-4 left-4 bottom-4 shadow-md h-fit"
         variant={"default"}
         onClick={handleCheckout}
         disabled={!name || !phone || !table}
       >
+        {loading && <LoaderCircle size={24} className="animate-spin" />}
         <span className="font-semibold text-white text-lg">
           Lanjutkan Pembayaran
         </span>

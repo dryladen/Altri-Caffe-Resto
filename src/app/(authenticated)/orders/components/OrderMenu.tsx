@@ -1,6 +1,5 @@
 import { getOrders } from "@/lib/queries";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import React from "react";
 import OrderList from "./OrderList";
 
 const OrderMenu = async () => {

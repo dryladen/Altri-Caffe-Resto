@@ -14,7 +14,6 @@ const MenuOrder = async () => {
     queryFn: getProducts,
   });
 
-  // delay 5 second
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Menu />
