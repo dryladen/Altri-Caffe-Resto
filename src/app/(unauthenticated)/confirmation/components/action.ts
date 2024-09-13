@@ -14,7 +14,9 @@ export async function createOrders({ data, carts }: { data: OrderSchema, carts: 
       await db.insert(cartTable).values(carts.map((cart) => ({
         productId: cart.id,
         orderId: orderId,
-        quantity: cart.quantity
+        quantity: cart.quantity,
+        total: cart.totalPrice,
+        note: cart.note
       })));
       return orderId;
     },

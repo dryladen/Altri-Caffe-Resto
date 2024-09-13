@@ -1,23 +1,18 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Cart } from "@/types/dataTypes";
 import { ArrowLeft, Hourglass, User } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import Link from "next/link";
-import Image from "next/image";
-import CartItem from "@/app/(unauthenticated)/confirmation/components/CartItem";
-import { useQueries, useQuery } from "@tanstack/react-query";
-import { getOrders, getOrdersById } from "@/lib/queries";
+import { useQuery } from "@tanstack/react-query";
+import { getOrdersById } from "@/lib/queries";
+import { useEffect } from "react";
 
 type Props = {
   uuid: string;
 };
 const Kwitansi = ({ uuid }: Props) => {
   const router = useRouter();
+
   const {
     data: orders,
     error,
@@ -29,18 +24,18 @@ const Kwitansi = ({ uuid }: Props) => {
       return orders;
     },
   });
-  if (isLoading) return <div>Loading...</div>;
-  if (orders)
+  if (isLoading && !orders) return <div>Loading...</div>;
+  if (orders && orders.carts)
     return (
       <div className="flex flex-col i gap-4 bg-white min-h-screen">
         <div className="flex items-center gap-4 w-full p-4 bg-white shadow-sm">
-          <Button
+          {/* <Button
             variant={"outline"}
             className="px-2"
             onClick={() => router.back()}
           >
             <ArrowLeft size={24} />
-          </Button>
+          </Button> */}
           <h1 className="font-bold text-xl">Kwitansi</h1>
         </div>
         <div className="flex flex-col">
@@ -142,7 +137,7 @@ const Kwitansi = ({ uuid }: Props) => {
                   <h4 className="text-sm font-semibold text-gray-600">
                     {item.product.name}
                   </h4>
-                  {item && (
+                  {item.note && (
                     <span className="py-1 px-2 my-1 bg-gray-100 text-sm text-gray-500 rounded-md">
                       Catatan : {item.note}
                     </span>
@@ -180,9 +175,10 @@ const Kwitansi = ({ uuid }: Props) => {
           <Button
             className="flex rounded-full py-[10px] shadow-md h-fit"
             variant={"default"}
+            onClick={() => router.push("/customer")}
           >
             <span className="font-semibold text-white text-lg">
-              Hubungi Kasir
+              Kembali ke Menu
             </span>
           </Button>
         </div>

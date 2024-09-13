@@ -81,7 +81,7 @@ const Konfirmasi = () => {
     return (
       <div className="flex flex-col items-center justify-center h-screen p-4">
         <h1 className="text-2xl font-bold">Data Belum Lengkap</h1>
-        <Link href="/">
+        <Link href="/customer">
           <Button className="mt-4 bg-primary hover:bg-primary">
             Kembali ke Menu
           </Button>

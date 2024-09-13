@@ -139,9 +139,9 @@ const Navbar = ({ user }: { user: User | null }) => {
           <Button
             variant="outline"
             size="icon"
-            className="overflow-hidden rounded-full relative ml-auto"
+            className="overflow-hidden rounded-full my-1 relative ml-auto"
           >
-            <Avatar uid={user?.id ?? null} url={avatar_url} size={42} />
+            <Avatar uid={user?.id ?? null} url={avatar_url} size={41} />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
