@@ -32,7 +32,7 @@ type Props<TFieldValues extends FieldValues> = {
         name: string;
         id: PathValue<TFieldValues, Path<TFieldValues>>;
       }[]
-    | null;
+    | null | undefined;
   multiple?: boolean;
   label: string;
 };

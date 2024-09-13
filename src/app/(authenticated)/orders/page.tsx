@@ -6,6 +6,8 @@ import {
 import OrderMenu from "./components/OrderMenu";
 import { getOrders } from "@/lib/queries";
 
+export const experimental_ppr = true;
+
 export default async function page() {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({

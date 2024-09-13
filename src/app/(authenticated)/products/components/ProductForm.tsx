@@ -1,12 +1,10 @@
 "use client";
 import { ResponsiveDialog } from "@/components/ResponsiveDialog";
-import React from "react";
+import React, { Suspense } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { createProduct, updateProduct } from "./action";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
@@ -16,6 +14,9 @@ import { Input } from "@/components/form-controller/input";
 import { PlusCircle } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { getCategories } from "@/lib/queries";
+import ButtonSkeleton from "@/components/loading/ButtonSkeleton";
+import FlashSkeleton from "@/components/loading/FlashSkeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Props = {
   defaultValues: ProductSchema;
@@ -25,7 +26,7 @@ const ProductForm = ({ defaultValues }: Props) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = React.useState(false);
 
-  const { data: categories } = useQuery({
+  const { data: categories, isLoading: categoryLoaded } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
       const products = await getCategories();
@@ -52,9 +53,7 @@ const ProductForm = ({ defaultValues }: Props) => {
     setIsOpen(false);
     router.push("/products");
   };
-  
-  if(!categories) return  <div>Loading...</div>;
-  if(categories)
+
   return (
     <>
       <ResponsiveDialog
@@ -94,22 +93,32 @@ const ProductForm = ({ defaultValues }: Props) => {
               name="status"
               label="Status"
             />
-            <SelectBox
-              options={categories}
-              control={form.control}
-              name="categoryId"
-              label="Kategori"
-            />
+            <FlashSkeleton
+              isLoading={categoryLoaded}
+              loadingRender={<ButtonSkeleton />}
+            >
+              <SelectBox
+                options={categories}
+                control={form.control}
+                name="categoryId"
+                label="Kategori"
+              />
+            </FlashSkeleton>
             <Button type="submit" className="w-full">
               Simpan
             </Button>
           </form>
         </Form>
       </ResponsiveDialog>
-      <Button className="ml-4" onClick={() => setIsOpen(!isOpen)}>
-        <PlusCircle className="sm:mr-2" size={16} />
-        <span className="hidden sm:flex">Tambah Produk</span>
-      </Button>
+      <FlashSkeleton
+        isLoading={categoryLoaded}
+        loadingRender={<Skeleton className="ml-4 h-10 px-4 py-2 w-[52px] md:w-[168px]" />}
+      >
+        <Button className="ml-4" onClick={() => setIsOpen(!isOpen)}>
+          <PlusCircle className="sm:mr-2" size={16} />
+          <span className="hidden sm:flex">Tambah Produk</span>
+        </Button>
+      </FlashSkeleton>
     </>
   );
 };

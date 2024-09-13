@@ -1,8 +1,16 @@
 import { columns } from "./components/columns";
 import { DataTable } from "@/components/datatable/data-table";
 import ProductForm from "./components/ProductForm";
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
 import { getCategories, getProducts } from "@/lib/queries";
+import { Suspense } from "react";
+import ButtonSkeleton from "@/components/loading/ButtonSkeleton";
+
+export const experimental_ppr = true;
 
 const page = async () => {
   const data = await getProducts();
@@ -14,16 +22,18 @@ const page = async () => {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <DataTable columns={columns} data={data || []}>
-        <ProductForm
-          defaultValues={{
-            mode: "create",
-            name: "",
-            description: "-",
-            price: 0,
-            status: "tersedia",
-            categoryId: "",
-          }}
-        />
+        <Suspense fallback={<ButtonSkeleton />}>
+          <ProductForm
+            defaultValues={{
+              mode: "create",
+              name: "",
+              description: "-",
+              price: 0,
+              status: "tersedia",
+              categoryId: "",
+            }}
+          />
+        </Suspense>
       </DataTable>
     </HydrationBoundary>
   );
