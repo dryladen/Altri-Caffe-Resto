@@ -17,7 +17,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // <ClerkProvider>
     <html lang="en">
       <body className={inter.className}>
         <main className="flex min-h-screen w-full flex-col bg-muted/40 relative">
@@ -28,6 +27,5 @@ export default function RootLayout({
         <Toaster />
       </body>
     </html>
-    // </ClerkProvider>
   );
 }
