@@ -70,7 +70,11 @@ const Konfirmasi = () => {
       paymentMethode: customer.paymentMethod,
     };
     const response = await createOrders({ data: dataCustomer, carts });
-    response && router.push(`/receipt/${response}`);
+    if (response) {
+      localStorage.removeItem("carts");
+      localStorage.removeItem("customer");
+      router.push(`/receipt/${response}`);
+    }
   };
 
   if (carts.length === 0 || customer.name === "-") {

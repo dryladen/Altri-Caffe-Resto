@@ -17,7 +17,6 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import {
@@ -65,6 +64,7 @@ const Navbar = ({ user }: { user: User | null }) => {
   useEffect(() => {
     getProfile();
   }, [user, getProfile]);
+
   const paths = usePathname();
   const pathNames = paths.split("/").filter((path) => path);
   const [isOpen, setIsOpen] = useState(false);
@@ -127,7 +127,9 @@ const Navbar = ({ user }: { user: User | null }) => {
                   </Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
-              {index !== pathNames.length - 1 && <BreadcrumbSeparator className="ml-3" />}
+              {index !== pathNames.length - 1 && (
+                <BreadcrumbSeparator className="ml-3" />
+              )}
             </div>
           ))}
         </BreadcrumbList>
@@ -150,9 +152,15 @@ const Navbar = ({ user }: { user: User | null }) => {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem><Link href="/account">Profile</Link></DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Log Out</DropdownMenuItem>
+          <DropdownMenuItem>
+            <form action="/auth/signout" method="post" className="w-full">
+              <button className="button block" type="submit">
+                Sign out
+              </button>
+            </form>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>

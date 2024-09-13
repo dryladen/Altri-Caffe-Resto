@@ -3,7 +3,7 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import Kwitansi from "../components/Kwitansi";
+import Kwitansi from "./components/Kwitansi";
 import { getOrdersById } from "@/lib/queries";
 
 type Props = {
