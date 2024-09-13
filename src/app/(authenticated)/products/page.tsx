@@ -9,11 +9,11 @@ import {
 import { getCategories, getProducts } from "@/lib/queries";
 import { Suspense } from "react";
 import ButtonSkeleton from "@/components/loading/ButtonSkeleton";
+import ProductList from "./components/ProductList";
 
 export const experimental_ppr = true;
 
 const page = async () => {
-  const data = await getProducts();
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["categories"],
@@ -21,20 +21,9 @@ const page = async () => {
   });
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <DataTable columns={columns} data={data || []}>
-        <Suspense fallback={<ButtonSkeleton />}>
-          <ProductForm
-            defaultValues={{
-              mode: "create",
-              name: "",
-              description: "-",
-              price: 0,
-              status: "tersedia",
-              categoryId: "",
-            }}
-          />
-        </Suspense>
-      </DataTable>
+      <Suspense fallback={<ButtonSkeleton />}>
+        <ProductList />
+      </Suspense>
     </HydrationBoundary>
   );
 };
