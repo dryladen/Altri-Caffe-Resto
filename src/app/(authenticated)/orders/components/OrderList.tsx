@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { File, PlusCircle } from "lucide-react";
+import { File, LoaderCircle, PlusCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useCallback, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -13,7 +13,7 @@ export default function OrderList() {
   const router = useRouter();
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("pending");
-
+  const [loading, setLoading] = useState(false);
   const { data, error } = useQuery({
     queryKey: ["orders"],
     queryFn: async () => {
@@ -54,10 +54,17 @@ export default function OrderList() {
             </Button>
             <Button
               size="sm"
-              onClick={() => router.push("/menu")}
+              onClick={() => {
+                setLoading(true);
+                router.push("/menu");
+              }}
               className="gap-1"
             >
-              <PlusCircle className="h-3.5 w-3.5" />
+              {loading ? (
+                <LoaderCircle className="h-3.5 w-3.5"></LoaderCircle>
+              ) : (
+                <PlusCircle className="h-3.5 w-3.5" />
+              )}
               <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                 Buat Pesanan
               </span>

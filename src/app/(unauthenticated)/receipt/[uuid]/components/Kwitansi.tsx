@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Hourglass } from "lucide-react";
+import { Check, Hourglass } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getOrdersById } from "@/lib/queries";
@@ -12,10 +12,7 @@ type Props = {
 const Kwitansi = ({ uuid }: Props) => {
   const router = useRouter();
 
-  const {
-    data: orders,
-    isLoading,
-  } = useQuery({
+  const { data: orders, isLoading } = useQuery({
     queryKey: ["orders"],
     queryFn: async () => {
       const orders = await getOrdersById(uuid);
@@ -31,8 +28,12 @@ const Kwitansi = ({ uuid }: Props) => {
         </div>
         <div className="flex flex-col">
           <div className="flex justify-center items-center">
-            <div className="flex p-4 bg-orange-400 rounded-full text-white items-center justify-center">
-              <Hourglass size={42} />
+            <div className={`flex p-4 rounded-full text-white items-center justify-center ${orders.status === "pending" ? "bg-primary" : "bg-green-500"}`}>
+              {orders.status === "pending" ? (
+                <Hourglass size={42} />
+              ) : (
+                <Check size={42} />
+              )}
             </div>
           </div>
           <h2 className="flex justify-center items-center p-4 text-3xl font-semibold text-gray-700">
@@ -40,11 +41,18 @@ const Kwitansi = ({ uuid }: Props) => {
               style: "currency",
               currency: "IDR",
               maximumSignificantDigits: 6,
-            }).format(15000)}
+            }).format(orders.totalPayment)}
           </h2>
-          <div className="flex p-4 text-xs bg-red-50 mx-4 rounded-md text-red-500">
-            Mohon selesaikan pembayaran untuk konfirmasi pesanan anda
-          </div>
+          {orders.status === "pending" ? (
+            <div className="flex p-4 text-xs bg-red-50 mx-4 rounded-md text-red-500">
+              Mohon selesaikan pembayaran untuk konfirmasi pesanan anda
+            </div>
+          ) : (
+            <div className="flex p-4 text-xs bg-green-50 mx-4 rounded-md text-green-500">
+              Pesanan anda telah selesai, silahkan menunggu panggilan dari
+              pelayan
+            </div>
+          )}
         </div>
         <div className="flex grow flex-col p-4 rounded-md shadow-sm mx-4 border-2">
           <div className="flex flex-col gap-4">
