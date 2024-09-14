@@ -2,7 +2,7 @@
 import DeleteDialog from "@/components/form-controller/DeleteDialog";
 import { Button } from "@/components/ui/button";
 import { SelectOrderModel } from "@/db/schema/orders";
-import { Calendar, Check, Phone, User, X } from "lucide-react";
+import { Calendar, Check, CreditCard, Phone, Sofa, User, X } from "lucide-react";
 import { useState } from "react";
 import { deleteOrder, updateOrderStatus } from "./action";
 import { toast } from "@/components/ui/use-toast";
@@ -41,22 +41,46 @@ const OrderItem = ({ data }: Props) => {
         }}
       />
       <div className="flex gap-2 rounded-t-md px-4 py-2 text-sm text-gray-800 bg-gray-200 items-center justify-end">
-        <Calendar className="h-4 w-4 text-primary" />
-        {new Date(data.createdAt).toLocaleDateString("id-ID", {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })}
+        <div className="flex items-center gap-2">
+          <Calendar className="h-4 w-4 text-primary" />
+          {new Date(data.createdAt).toLocaleDateString("id-ID", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </div>
       </div>
       <div className="flex flex-col gap-1 p-4">
-        <div className="flex items-center gap-2">
-          <User size={16} className="text-primary" />
-          <h2 className="text-gray-800 text-lg font-bold">{data.username}</h2>
-        </div>
-        <div className="flex items-center gap-2">
-          <Phone size={16} className="text-primary" />
-          <span className="text-sm text-gray-500">+{data.phone}</span>
+        <div className="flex justify-between items-start">
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-2">
+              <User size={16} className="text-primary" />
+              <h2 className="text-gray-700 text-lg font-bold">
+                {data.username}
+              </h2>
+            </div>
+            <div className="flex justify-between">
+              <div className="flex items-center gap-2">
+                <Phone size={16} className="text-primary" />
+                <span className="text-sm text-gray-500">+62{data.phone}</span>
+              </div>
+            </div>
+            <div className="flex justify-between">
+              <div className="flex items-center gap-2">
+                <CreditCard size={16} className="text-primary" />
+                <span className="text-sm text-gray-500 capitalize">{data.paymentMethode}</span>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col justify-center items-center">
+            <span className="text-xs text-white bg-primary text-center rounded-t-md px-2">
+              Meja
+            </span>
+            <span className="text-center text-xl text-primary w-full border-primary border-2 rounded-b-md font-bold">
+              {data.tableNumber}
+            </span>
+          </div>
         </div>
         <div className="flex justify-between items-center mt-2">
           <span className="text-primary text-2xl font-bold">
@@ -66,7 +90,7 @@ const OrderItem = ({ data }: Props) => {
               maximumSignificantDigits: 6,
             }).format(data.totalPayment)}
           </span>
-          <div className="flex gap-6">
+          <div className="flex gap-4">
             {data.status === "pending" && (
               <Button
                 size="sm"

@@ -214,7 +214,8 @@ const Konfirmasi = () => {
           <Button
             className="flex rounded-full gap-2 py-[10px] shadow-md h-fit"
             variant={"default"}
-            onClick={() => onSubmit()}
+            {...(loading && { disabled: true }) }
+            onClick={() =>  onSubmit()}
           >
             {loading && <LoaderCircle size={24} className="animate-spin" />}
 
