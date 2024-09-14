@@ -37,6 +37,8 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
   children?: React.ReactNode;
   search?: string;
+  title: string;
+  searchPlaceholder?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -44,6 +46,8 @@ export function DataTable<TData, TValue>({
   data,
   children,
   search,
+  title,
+  searchPlaceholder
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -72,11 +76,11 @@ export function DataTable<TData, TValue>({
     <>
       <div className="flex flex-col bg-background p-6 gap-4 shadow-md rounded-lg border-[1px]">
         <div className="flex flex-col">
-          <h1 className="font-bold text-4xl">Produk</h1>
+          <h1 className="font-bold text-4xl">{title}</h1>
         </div>
         <div className="flex items-center pb-4">
           <Input
-            placeholder={`Cari ${search ?? "nama produk"}...`}
+            placeholder={`Cari ${search ?? searchPlaceholder ?? "data"}...`}
             value={
               (table
                 .getColumn(`${search ?? "name"}`)

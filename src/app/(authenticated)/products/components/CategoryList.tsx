@@ -1,20 +1,20 @@
 import { DataTable } from "@/components/datatable/data-table";
-import { getCategories, getProducts } from "@/lib/queries";
+import { getAllCategories, getCategories, getProducts } from "@/lib/queries";
 import React from "react";
-import { columnsProduct } from "./columns";
+import { columnsCategory } from "./columns";
 import ProductForm from "./ProductForm";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
-const ProductList = async () => {
+const CategoryList = async () => {
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ["categories"],
     queryFn: getCategories,
   });
-  const data = await getProducts();
+  const data = await getAllCategories();
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <DataTable title="Produk" searchPlaceholder="nama produk" columns={columnsProduct} data={data || []}>
+      <DataTable title="Kategori" searchPlaceholder="nama kategori" columns={columnsCategory} data={data || []}>
         <ProductForm
           defaultValues={{
             mode: "create",
@@ -30,4 +30,4 @@ const ProductList = async () => {
   );
 };
 
-export default ProductList;
+export default CategoryList;

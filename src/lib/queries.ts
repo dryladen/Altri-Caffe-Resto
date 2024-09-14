@@ -12,6 +12,14 @@ export async function getOrders() {
   });
 }
 
+export async function getAllCategories() {
+  return executeQuery({
+    queryFn: async () => await db.query.categoriesTable.findMany(),
+    serverErrorMessage: "Error fetching categories",
+    isProtected: true,
+  });
+}
+
 export async function getCategories() {
   return executeQuery({
     queryFn: async () => await db.query.categoriesTable.findMany({ columns: { id: true, name: true } }),
