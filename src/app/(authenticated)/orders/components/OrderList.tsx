@@ -72,7 +72,7 @@ export default function OrderList() {
           </div>
         </div>
         <div className="flex items-center w-full mt-6">
-          <TabsList className="flex justify-evenly h-12 w-full bg-white shadow-md">
+          <TabsList className="grid grid-cols-3 w-full">
             <TabsTrigger onClick={() => setStatus("pending")} value="pending">
               <span>Konfirmasi</span>
               <span className="hidden sm:flex rounded-sm py-0 px-1.5 ml-2 bg-primary text-white text-[10px]">

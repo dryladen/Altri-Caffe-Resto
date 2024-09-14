@@ -23,11 +23,6 @@ export const navigation = [
     icon: Users
   },
   {
-    name: "Kategori",
-    href: "/categories",
-    icon: BookCopy
-  },
-  {
     name: "Pengaturan",
     href: "/settings",
     icon: Settings
