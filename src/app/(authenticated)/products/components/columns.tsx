@@ -31,8 +31,8 @@ export const columnsProduct: ColumnDef<SelectProductModel>[] = [
     accessorKey: "status",
     meta: { className: "hidden sm:table-cell" },
     cell: ({ row }) => {
-      const color = row.getValue("status") === "tersedia" ? "green" : "gray";
-      return <Badge className={`bg-${color}-500 hover:bg-${color}-500`}>{row.getValue("status")}</Badge>;
+      const color = row.getValue("status") === "tersedia" ? "bg-green-500 hover:bg-green-500" : "bg-gray-500 hover:bg-gray-500";
+      return <Badge className={color}>{row.getValue("status")}</Badge>;
     },
   },
   {
@@ -130,10 +130,10 @@ export const columnsCategory: ColumnDef<SelectCategoryModel>[] = [
       return <span>{formattedDate}</span>;
     },
   },
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      return <ActionColumn row={row} />;
-    },
-  },
+  // {
+  //   id: "actions",
+  //   cell: ({ row }) => {
+  //     return <ActionColumn row={row} />;
+  //   },
+  // },
 ];

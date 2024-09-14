@@ -15,16 +15,6 @@ const CategoryList = async () => {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <DataTable title="Kategori" searchPlaceholder="nama kategori" columns={columnsCategory} data={data || []}>
-        <ProductForm
-          defaultValues={{
-            mode: "create",
-            name: "",
-            description: "-",
-            price: 0,
-            status: "tersedia",
-            categoryId: "",
-          }}
-        />
       </DataTable>
     </HydrationBoundary>
   );

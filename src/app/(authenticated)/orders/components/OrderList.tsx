@@ -61,7 +61,7 @@ export default function OrderList() {
               className="gap-1"
             >
               {loading ? (
-                <LoaderCircle className="h-3.5 w-3.5"></LoaderCircle>
+                <LoaderCircle className="h-3.5 w-3.5 animate-spin"></LoaderCircle>
               ) : (
                 <PlusCircle className="h-3.5 w-3.5" />
               )}
