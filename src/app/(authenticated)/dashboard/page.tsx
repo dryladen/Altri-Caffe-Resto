@@ -117,7 +117,7 @@ const page = async () => {
                 </TableHeader>
                 <TableBody>
                   {order.map((item) => (
-                    <TableRow>
+                    <TableRow key={item.id}>
                       <TableCell>
                         <div className="font-medium">{item.username}</div>
                         <div className="hidden text-sm text-muted-foreground md:inline">
