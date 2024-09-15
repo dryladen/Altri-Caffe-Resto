@@ -8,6 +8,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getOrders } from "@/lib/queries";
 import OrderItem from "./OrderItem";
 import { useRouter } from "next/navigation";
+import { Accordion } from "@/components/ui/accordion";
+import { AccordionItem } from "@radix-ui/react-accordion";
 
 export default function OrderList() {
   const router = useRouter();
@@ -93,20 +95,44 @@ export default function OrderList() {
             </TabsTrigger>
           </TabsList>
         </div>
-        <TabsContent value="pending" className="flex flex-col gap-4 mt-4">
-          {filtered.map((order) => (
-            <OrderItem key={order.id} data={order} />
-          ))}
+        <TabsContent value="pending" className="">
+          <Accordion
+            type="single"
+            collapsible
+            className="flex flex-col gap-4 mt-4"
+          >
+            {filtered.map((order) => (
+              <AccordionItem value={order.id} key={order.id}>
+                <OrderItem data={order} />
+              </AccordionItem>
+            ))}
+          </Accordion>
         </TabsContent>
         <TabsContent value="proses" className="flex flex-col gap-4 mt-0">
-          {filtered.map((order) => (
-            <OrderItem key={order.id} data={order} />
-          ))}
+          <Accordion
+            type="single"
+            collapsible
+            className="flex flex-col gap-4 mt-4"
+          >
+            {filtered.map((order) => (
+              <AccordionItem value={order.id} key={order.id}>
+                <OrderItem data={order} />
+              </AccordionItem>
+            ))}
+          </Accordion>
         </TabsContent>
         <TabsContent value="done" className="flex flex-col gap-4 mt-0">
-          {filtered.map((order) => (
-            <OrderItem key={order.id} data={order} />
-          ))}
+          <Accordion
+            type="single"
+            collapsible
+            className="flex flex-col gap-4 mt-4"
+          >
+            {filtered.map((order) => (
+              <AccordionItem value={order.id} key={order.id}>
+                <OrderItem data={order} />
+              </AccordionItem>
+            ))}
+          </Accordion>
         </TabsContent>
       </Tabs>
     );

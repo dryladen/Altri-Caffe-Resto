@@ -2,8 +2,9 @@ import { InferSelectModel, relations } from "drizzle-orm";
 import { integer, pgEnum, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
-import { cartTable } from "./carts";
+import { cartTable, SelectCartModel } from "./carts";
 import { table } from "console";
+import { InferResultType } from ".";
 
 export const statusOrder = pgEnum("statusOrder", ["pending", "proses", "done"]);
 export const ordersTable = pgTable("orders", {
@@ -50,5 +51,11 @@ export const orderSchema = createInsertSchema(ordersTable, {
 });
 
 export type OrderSchema = z.infer<typeof orderSchema>;
-export type SelectOrderModel = InferSelectModel<typeof ordersTable>;
+export type SelectOrderModel = InferResultType<"ordersTable",{
+  carts : {
+    with: {
+      product: true
+    }
+  }
+}>;
 

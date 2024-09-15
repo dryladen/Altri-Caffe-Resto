@@ -6,7 +6,7 @@ import { eq } from "drizzle-orm";
 
 export async function getOrders() {
   return executeQuery({
-    queryFn: async () => await db.query.ordersTable.findMany(),
+    queryFn: async () => await db.query.ordersTable.findMany({ with: { carts: { with: { product: true } } } }),
     serverErrorMessage: "Error fetching orders",
     isProtected: true,
   });

@@ -2,6 +2,7 @@ import { relations } from "drizzle-orm";
 import { integer, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { productsTable } from "./products";
 import { ordersTable } from "./orders";
+import { InferResultType } from ".";
 
 export const cartTable = pgTable("carts", {
   id: uuid("id").defaultRandom().notNull().primaryKey(),
@@ -21,3 +22,8 @@ export const cartsRelation = relations(cartTable, ({ one }) => ({
   order: one(ordersTable, { fields: [cartTable.orderId], references: [ordersTable.id] })
 }));
 
+export type SelectCartModel = InferResultType<"cartTable", {
+  product: {
+    
+  }
+}>;

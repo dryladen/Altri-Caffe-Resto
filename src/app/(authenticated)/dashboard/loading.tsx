@@ -31,12 +31,8 @@ const loading = () => {
         <Card className="lg:col-span-3">
           <CardHeader className="flex flex-row justify-between items-center">
             <div className="grid gap-2">
-              <CardTitle>
-                <Skeleton className="w-28 h-6" />
-              </CardTitle>
-              <CardDescription>
-                <Skeleton className="w-24 h-4" />
-              </CardDescription>
+              <Skeleton className="w-28 h-6" />
+              <Skeleton className="w-24 h-4" />
             </div>
             <Skeleton className="w-32 h-10" />
           </CardHeader>
