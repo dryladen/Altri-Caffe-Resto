@@ -1,6 +1,6 @@
 {
-  "id": "43d18e18-0ef0-4540-a56f-6d7b438a6a41",
-  "prevId": "7ce9cffe-b1a7-408c-b453-8843bdd340ca",
+  "id": "c8d9549c-8d79-4807-a64d-78d20550bf73",
+  "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -37,7 +37,8 @@
           "name": "total",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": 0
         },
         "note": {
           "name": "note",

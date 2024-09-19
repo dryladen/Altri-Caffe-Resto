@@ -15,6 +15,8 @@ CREATE TABLE IF NOT EXISTS "carts" (
 	"product_id" uuid NOT NULL,
 	"order_id" uuid NOT NULL,
 	"quantity" integer NOT NULL,
+	"total" integer DEFAULT 0 NOT NULL,
+	"note" text,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp
 );
@@ -32,6 +34,7 @@ CREATE TABLE IF NOT EXISTS "orders" (
 	"phone" text NOT NULL,
 	"statusOrder" "statusOrder" NOT NULL,
 	"total_payment" integer NOT NULL,
+	"table_number" integer NOT NULL,
 	"payment_methode" text NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp

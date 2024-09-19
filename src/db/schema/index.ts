@@ -1,5 +1,5 @@
 import * as schema from "@/db/schema";
-import { BuildQueryConfig, BuildQueryResult, DBQueryConfig, ExtractTablesWithRelations } from "drizzle-orm";
+import { BuildQueryResult, DBQueryConfig, ExtractTablesWithRelations } from "drizzle-orm";
 export { categoriesTable, categoriesRelation } from "@/db/schema/categories";
 export { productsTable, productsRelation, statusProduct } from "@/db/schema/products";
 export { ordersTable, ordersRelation, statusOrder } from "@/db/schema/orders";
