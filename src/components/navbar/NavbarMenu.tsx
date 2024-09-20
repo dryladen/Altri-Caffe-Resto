@@ -22,13 +22,14 @@ import {
 } from "@/components/ui/breadcrumb";
 import { navigation } from "@/lib/navigation";
 import UserContext from "@/lib/UserContext";
+type UserRole = keyof typeof navigation;
 
 const NavbarMenu = () => {
   const pathname = usePathname();
   const paths = usePathname();
   const pathNames = paths.split("/").filter((path) => path);
   const [isOpen, setIsOpen] = useState(false);
-  const { user, userLoaded, signOut } = useContext(UserContext);
+  const { user, userLoaded } = useContext(UserContext);
   return (
     <div>
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -59,21 +60,22 @@ const NavbarMenu = () => {
             <SheetDescription className="text-start">Navigasi</SheetDescription>
           </SheetHeader>
           <nav className="grid gap-4 mt-4 text-lg font-medium ">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                className={`flex items-center gap-4 p-2.5 ${
-                  pathname === item.href
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground"
-                } rounded-lg`}
-              >
-                <item.icon className="h-5 w-5" />
-                {item.name}
-              </Link>
-            ))}
+            {user?.user_role &&
+              navigation[user?.user_role as UserRole].map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  className={`flex items-center gap-4 p-2.5 ${
+                    pathname === item.href
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground"
+                  } rounded-lg`}
+                >
+                  <item.icon className="h-5 w-5" />
+                  {item.name}
+                </Link>
+              ))}
           </nav>
         </SheetContent>
       </Sheet>

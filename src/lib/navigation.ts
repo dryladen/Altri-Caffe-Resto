@@ -1,7 +1,7 @@
 import { Home, Package, Settings, ShoppingCart, Users } from "lucide-react";
 
 
-export const navigation = [
+const adminNavigation = [
   {
     name: "Dashboard",
     href: "/dashboard",
@@ -27,4 +27,36 @@ export const navigation = [
     href: "/settings",
     icon: Settings
   },
-]
+];
+
+const cashierNavigation = [
+  {
+    name: "Dashboard",
+    href: "/dashboard",
+    icon: Home
+  },
+  {
+    name: "Pesanan",
+    href: "/orders",
+    icon: ShoppingCart
+  },
+];
+
+const kitchenNavigation = [
+  {
+    name: "Dashboard",
+    href: "/dashboard",
+    icon: Home
+  },
+  {
+    name: "Pesanan",
+    href: "/orders",
+    icon: ShoppingCart
+  },
+];
+
+export const navigation = {
+  admin: adminNavigation,
+  cashier: cashierNavigation,
+  kitchen: kitchenNavigation,
+};
