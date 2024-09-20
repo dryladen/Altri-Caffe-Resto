@@ -4,7 +4,6 @@ import {
   CreditCard,
   Users,
 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -14,7 +13,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import { jwtDecode } from 'jwt-decode'
 import {
   Table,
   TableBody,
@@ -25,12 +23,9 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import { getOrders } from "@/lib/queries";
-import { createClient } from "@/utils/supabase/server";
-import { stringify } from "querystring";
 
 const page = async () => {
   const ordersData = await getOrders();
-
   // filter order by status and return 10 orders
   const filtered = () => {
     if (ordersData) {
@@ -38,15 +33,6 @@ const page = async () => {
     }
     return ordersData;
   };
-
-  const supabase = await createClient()
-
-  const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
-    if (session) {
-      const jwt = jwtDecode(session.access_token)
-      console.log(jwt)
-    }
-  })
   
   // const { data: sessionData } = await supabase.auth.getUser()
   // console.log(sessionData)
@@ -55,16 +41,6 @@ const page = async () => {
     return (
       <>
         <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
-          {/* show session data */}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Sesi</CardTitle>
-              <Badge className="bg-primary text-white">Aktif</Badge>
-            </CardHeader>
-            <CardContent>
-            </CardContent>
-          </Card>
-
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">

@@ -9,11 +9,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
 import Avatar from "@/app/(authenticated)/account/avatar";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { type User } from "@supabase/supabase-js";
 import Link from "next/link";
-
+import UserContext from "@/lib/UserContext";
+import { Badge } from "../ui/badge";
 
 const AvatarUser = ({ user }: { user: User | null }) => {
   const [avatar_url, setAvatarUrl] = useState<string | null>(null);
@@ -41,7 +42,7 @@ const AvatarUser = ({ user }: { user: User | null }) => {
       console.error(error);
     }
   }, [user, supabase]);
-
+  const { user: dataUser } = useContext(UserContext);
   useEffect(() => {
     getProfile();
   }, [user, getProfile]);
@@ -61,6 +62,7 @@ const AvatarUser = ({ user }: { user: User | null }) => {
           <div className="flex flex-col">
             <span className="capitalize">{username}</span>
             <span className="text-gray-500 text-xs">{user?.email}</span>
+            <Badge className="capitalize justify-center mt-2">{dataUser?.user_role}</Badge>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />

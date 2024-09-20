@@ -1,4 +1,4 @@
-import { BookCopy, Home, Package, Settings, ShoppingCart, Users } from "lucide-react";
+import { Home, Package, Settings, ShoppingCart, Users } from "lucide-react";
 
 
 export const navigation = [

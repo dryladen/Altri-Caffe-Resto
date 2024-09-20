@@ -1,5 +1,5 @@
-"use client"
-import React, { useState } from "react";
+"use client";
+import React, { useContext, useState } from "react";
 import { PanelLeft } from "lucide-react";
 import Image from "next/image";
 import {
@@ -21,12 +21,14 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { navigation } from "@/lib/navigation";
+import UserContext from "@/lib/UserContext";
 
 const NavbarMenu = () => {
   const pathname = usePathname();
   const paths = usePathname();
   const pathNames = paths.split("/").filter((path) => path);
   const [isOpen, setIsOpen] = useState(false);
+  const { user, userLoaded, signOut } = useContext(UserContext);
   return (
     <div>
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
