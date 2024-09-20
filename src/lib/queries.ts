@@ -2,6 +2,7 @@
 import { db } from "@/db";
 import { ordersTable } from "@/db/schema";
 import { executeQuery } from "@/db/utils/executeQuerie";
+import { createClient } from "@/utils/supabase/server";
 import { eq } from "drizzle-orm";
 
 export async function getOrders() {
@@ -20,6 +21,13 @@ export async function getAllCategories() {
   });
 }
 
+// export async function getUsers() {
+//   const supabase = createClient();
+//   return executeQuery({
+//     serverErrorMessage: "Error fetching users",
+//     isProtected: true,
+//   });
+// }
 export async function getCategories() {
   return executeQuery({
     queryFn: async () => await db.query.categoriesTable.findMany({ columns: { id: true, name: true } }),

@@ -1,9 +1,13 @@
-import React from 'react'
+import TableSkeleton from "@/components/loading/TableSkeleton";
+import { Suspense } from "react";
+import UserList from "./components/UserList";
 
 const page = () => {
   return (
-    <div>page</div>
-  )
-}
+    <Suspense fallback={<TableSkeleton />}>
+      <UserList />
+    </Suspense>
+  );
+};
 
-export default page
+export default page;
