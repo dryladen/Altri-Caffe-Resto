@@ -38,7 +38,15 @@ export async function getCategories() {
 
 export async function getProducts() {
   return executeQuery({
-    queryFn: async () => await db.query.productsTable.findMany({ with: { category: true } }),
+    queryFn: async () => {
+      const supabase = createClient();
+      const { data, error } = await supabase.from("products").select("id,name, categories(id, name)");
+      console.log (data)
+      if (error) {
+        throw error;
+      }
+      return data;
+    },
     serverErrorMessage: "Error fetching products",
     isProtected: false,
   });
