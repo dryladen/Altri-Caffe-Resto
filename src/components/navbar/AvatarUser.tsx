@@ -15,9 +15,10 @@ import { type User } from "@supabase/supabase-js";
 import Link from "next/link";
 import UserContext from "@/lib/UserContext";
 import { Badge } from "../ui/badge";
+import Image from "next/image";
 
 const AvatarUser = ({ user }: { user: User | null }) => {
-  const [avatar_url, setAvatarUrl] = useState<string | null>(null);
+  const [avatar_url, setAvatarUrl] = useState<string >("");
   const [username, setUsername] = useState<string | null>(null);
   const supabase = createClient();
   const getProfile = useCallback(async () => {
@@ -35,7 +36,7 @@ const AvatarUser = ({ user }: { user: User | null }) => {
 
       if (data) {
         setAvatarUrl(data.avatar_url);
-        setUsername(data.username);
+        setUsername(data.full_name);
       }
     } catch (error) {
       alert("Error loading user data!");
@@ -54,7 +55,16 @@ const AvatarUser = ({ user }: { user: User | null }) => {
           size="icon"
           className="overflow-hidden rounded-full my-1 relative ml-auto"
         >
-          <Avatar uid={user?.id ?? null} url={avatar_url} size={41} />
+          {/* <Avatar uid={user?.id ?? null} url={avatar_url} size={41} /> */}
+          <Image
+            src={avatar_url ? avatar_url : "/next.svg"}
+            alt="Avatar"
+            width={100}
+            height={100}
+            className="avatar image object-cover"
+            priority={true}
+            style={{ height: 41, width: 41 }}
+          />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
@@ -62,7 +72,9 @@ const AvatarUser = ({ user }: { user: User | null }) => {
           <div className="flex flex-col">
             <span className="capitalize">{username}</span>
             <span className="text-gray-500 text-xs">{user?.email}</span>
-            <Badge className="capitalize justify-center mt-2">{dataUser?.user_role}</Badge>
+            <Badge className="capitalize justify-center mt-2">
+              {dataUser?.user_role}
+            </Badge>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
