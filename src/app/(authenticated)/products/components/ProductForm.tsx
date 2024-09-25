@@ -17,6 +17,7 @@ import { getCategories } from "@/lib/queries";
 import ButtonSkeleton from "@/components/loading/ButtonSkeleton";
 import FlashSkeleton from "@/components/loading/FlashSkeleton";
 import { Skeleton } from "@/components/ui/skeleton";
+import { revalidatePath } from "next/cache";
 
 type Props = {
   defaultValues: ProductSchema;
@@ -51,7 +52,8 @@ const ProductForm = ({ defaultValues }: Props) => {
       variant: response.success === true ? "default" : "destructive",
     });
     setIsOpen(false);
-    router.push("/products");
+    form.reset();
+    router.refresh();
   };
 
   return (
@@ -90,7 +92,7 @@ const ProductForm = ({ defaultValues }: Props) => {
                 { id: "kosong", name: "Kosong" },
               ]}
               control={form.control}
-              name="status"
+              name="statusProduct"
               label="Status"
             />
             <FlashSkeleton
@@ -100,7 +102,7 @@ const ProductForm = ({ defaultValues }: Props) => {
               <SelectBox
                 options={categories}
                 control={form.control}
-                name="categoryId"
+                name="category_id"
                 label="Kategori"
               />
             </FlashSkeleton>

@@ -2,6 +2,7 @@
 import { db } from '@/db';
 import { ProductSchema, productSchema, productsTable } from '@/db/schema/products';
 import { executeAction } from '@/db/utils/executeAction';
+import { createClient } from '@/utils/supabase/server';
 import { eq } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
@@ -33,13 +34,18 @@ export async function updateProduct(data: ProductSchema) {
 }
 
 export async function deleteProduct(id: string) {
-	return executeAction({
-		actionFn: async () => {
-			await db.delete(productsTable).where(eq(productsTable.id, id));
-			revalidatePath("/products");
-		},
-		isProtected: true,
-		clientSuccessMessage: "Product Berhasil dihapus",
-		serverErrorMessage: "Gagal menghapus product",
-	});
+  const supabase = createClient();
+  return executeAction({
+    actionFn: async () => {
+      const { data } = await supabase.from("products").delete().eq("id", (id as string)).select();
+      if (data && data.length === 0) {
+        throw new Error("Anda tidak punya akses untuk menghapus produk");
+      }
+      console.log(data);
+      revalidatePath("/products");
+    },
+    isProtected: true,
+    clientSuccessMessage: "Product Berhasil dihapus",
+    serverErrorMessage: "Gagal menghapus product",
+  });
 }

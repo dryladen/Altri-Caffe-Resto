@@ -41,7 +41,6 @@ export async function getProducts() {
     queryFn: async () => {
       const supabase = createClient();
       const { data, error } = await supabase.from("products").select("*, categories(id, name)");
-      // console.log (data)
       if (error) {
         throw error;
       }

@@ -57,7 +57,7 @@ const AvatarUser = ({ user }: { user: User | null }) => {
         >
           {/* <Avatar uid={user?.id ?? null} url={avatar_url} size={41} /> */}
           <Image
-            src={avatar_url ? avatar_url : "/next.svg"}
+            src={avatar_url ? avatar_url : "/user.jpg"}
             alt="Avatar"
             width={100}
             height={100}
