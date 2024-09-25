@@ -28,7 +28,7 @@ export default function OrderList() {
     if (status && data) {
       return data.filter(
         (order) =>
-          order.status === status &&
+          order.statusOrder === status &&
           order.username.toLowerCase().includes(search.toLowerCase())
       );
     }
@@ -78,19 +78,19 @@ export default function OrderList() {
             <TabsTrigger onClick={() => setStatus("pending")} value="pending">
               <span>Konfirmasi</span>
               <span className="hidden sm:flex rounded-sm py-0 px-1.5 ml-2 bg-primary text-white text-[10px]">
-                {data.filter((order) => order.status === "pending").length}
+                {data.filter((order) => order.statusOrder === "pending").length}
               </span>
             </TabsTrigger>
             <TabsTrigger onClick={() => setStatus("proses")} value="proses">
               <span>Sedang Proses</span>
               <span className="hidden sm:flex rounded-sm py-0 px-1.5 ml-2 bg-primary text-white text-[10px]">
-                {data.filter((order) => order.status === "proses").length}
+                {data.filter((order) => order.statusOrder === "proses").length}
               </span>
             </TabsTrigger>
             <TabsTrigger onClick={() => setStatus("done")} value="done">
               <span>Selesai</span>
               <span className="hidden sm:flex rounded-sm py-0 px-1.5 ml-2 bg-primary text-white text-[10px]">
-                {data.filter((order) => order.status === "done").length}
+                {data.filter((order) => order.statusOrder === "done").length}
               </span>
             </TabsTrigger>
           </TabsList>

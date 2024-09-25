@@ -1,14 +1,19 @@
 "use server"
 import { db } from "@/db";
-import { ordersTable } from "@/db/schema";
+import { ordersTable, statusOrder } from "@/db/schema";
 import { executeAction } from "@/db/utils/executeAction";
+import { createClient } from "@/utils/supabase/server";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export async function deleteOrder(id: string) {
+	const supabase = createClient();
 	return executeAction({
 		actionFn: async () => {
-			await db.delete(ordersTable).where(eq(ordersTable.id, id));
+			const { data } = await supabase.from("orders").delete().eq("id", id).select();
+			if (data && data.length === 0) {
+				throw new Error("Anda tidak punya akses untuk menghapus produk");
+			}
 			revalidatePath("/orders");
 		},
 		isProtected: true,
@@ -18,9 +23,14 @@ export async function deleteOrder(id: string) {
 }
 
 export async function updateOrderStatus(id: string, status: "pending" | "proses" | "done") {
+	const supabase = createClient();
 	return executeAction({
 		actionFn: async () => {
-			await db.update(ordersTable).set({ status }).where(eq(ordersTable.id, id));
+			const response = await supabase.from("orders").update({ statusOrder: status }).eq("id", id).select();
+			console.log(response);
+			if (response.data && response.data.length === 0) {
+				throw new Error("Anda tidak punya akses untuk menghapus produk");
+			}
 			revalidatePath("/orders");
 		},
 		isProtected: true,

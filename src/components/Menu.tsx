@@ -17,7 +17,6 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Cart, Categories, Product } from "@/types/dataTypes";
 import { AddToCart } from "./AddToCart";
 import Orders from "./Orders";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -26,6 +25,7 @@ import { getCategories, getProducts } from "@/lib/queries";
 import CartsMenu from "./CartsMenu";
 import { Label } from "./ui/label";
 import { stringify } from "querystring";
+import { Cart } from "@/types";
 
 const Menu = () => {
   const [carts, setCarts] = useState<Cart[]>([]);

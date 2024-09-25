@@ -53,7 +53,7 @@ const OrderItem = ({ data }: Props) => {
       <div className="flex gap-2 rounded-t-md px-4 py-2 text-sm text-gray-800 bg-gray-200 items-center justify-between">
         <div className="flex items-center gap-2">
           <Calendar className="h-4 w-4 text-primary" />
-          {new Date(data.createdAt).toLocaleDateString("id-ID", {
+          {new Date(data.created_at).toLocaleDateString("id-ID", {
             weekday: "long",
             year: "numeric",
             month: "long",
@@ -84,7 +84,7 @@ const OrderItem = ({ data }: Props) => {
               <div className="flex items-center gap-2">
                 <CreditCard size={16} className="text-primary" />
                 <span className="text-sm text-gray-500 capitalize">
-                  {data.paymentMethode}
+                  {data.payment_methode}
                 </span>
               </div>
             </div>
@@ -94,7 +94,7 @@ const OrderItem = ({ data }: Props) => {
               Meja
             </span>
             <span className="text-center text-xl text-primary w-full border-primary border-2 rounded-b-md font-bold">
-              {data.tableNumber}
+              {data.table_number}
             </span>
           </div>
         </div>
@@ -104,10 +104,10 @@ const OrderItem = ({ data }: Props) => {
               style: "currency",
               currency: "IDR",
               maximumSignificantDigits: 6,
-            }).format(data.totalPayment)}
+            }).format(data.total_payment)}
           </span>
           <div className="flex gap-4">
-            {data.status === "pending" && (
+            {data.statusOrder === "pending" && (
               <Button
                 size="sm"
                 className="bg-red-500 p-2 text-white hover:bg-white hover:text-red-500 border-[1px] hover:border-red-500"
@@ -116,11 +116,11 @@ const OrderItem = ({ data }: Props) => {
                 <X size={18} strokeWidth={4} />
               </Button>
             )}
-            {data.status !== "done" && (
+            {data.statusOrder !== "done" && (
               <Button
                 size="sm"
                 className="bg-green-500 p-2 text-white hover:bg-white hover:text-green-500 border-[1px] hover:border-green-500"
-                onClick={() => updateStatus(data.status)}
+                onClick={() => updateStatus(data.statusOrder)}
               >
                 <Check size={18} strokeWidth={4} />
               </Button>
