@@ -11,12 +11,12 @@ export const ordersTable = pgTable("orders", {
   id: uuid("id").defaultRandom().notNull().primaryKey(),
   username: text("username").notNull(),
   phone: text("phone").notNull(),
-  status: statusOrder("statusOrder").notNull(),
-  totalPayment: integer("total_payment").notNull(),
-  tableNumber: integer("table_number").notNull(),
-  paymentMethode: text("payment_methode").notNull(),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at")
+  statusOrder: statusOrder("statusOrder").notNull(),
+  total_payment: integer("total_payment").notNull(),
+  table_number: integer("table_number").notNull(),
+  payment_methode: text("payment_methode").notNull(),
+  created_at: timestamp("created_at").notNull().defaultNow(),
+  updated_at: timestamp("updated_at")
     .$onUpdate(() => new Date()),
 });
 
@@ -27,8 +27,8 @@ export const ordersRelation = relations(ordersTable, ({ many }) => ({
 export const orderSchema = createInsertSchema(ordersTable, {
   username: (schema) => schema.username.min(2, "Minimal 2 kata").max(50, "Maksimal 50 kata"),
   phone: (schema) => schema.phone.min(2, "Minimal 2 kata").max(50, "Maksimal 50 kata"),
-  status: (schema) => schema.status,
-  tableNumber: (schema) => schema.tableNumber.positive({ message: "Nomor meja tidak boleh kosong" })
+  statusOrder: (schema) => schema.statusOrder,
+  table_number: (schema) => schema.table_number.positive({ message: "Nomor meja tidak boleh kosong" })
     .int({ message: "Masukan angka" })
     .or(z.string())
     .pipe(
@@ -37,7 +37,7 @@ export const orderSchema = createInsertSchema(ordersTable, {
         .positive({ message: "Harga tidak boleh kosong" })
         .int({ message: "Masukan angka" })
     ),
-  totalPayment: (schema) => schema.totalPayment
+  total_payment: (schema) => schema.total_payment
     .positive({ message: "Harga tidak boleh kosong" })
     .int({ message: "Masukan angka" })
     .or(z.string())
@@ -47,12 +47,12 @@ export const orderSchema = createInsertSchema(ordersTable, {
         .positive({ message: "Harga tidak boleh kosong" })
         .int({ message: "Masukan angka" })
     ),
-  paymentMethode: (schema) => schema.paymentMethode.min(2, "Minimal 2 kata").max(50, "Maksimal 50 kata"),
+  payment_methode: (schema) => schema.payment_methode.min(2, "Minimal 2 kata").max(50, "Maksimal 50 kata"),
 });
 
 export type OrderSchema = z.infer<typeof orderSchema>;
-export type SelectOrderModel = InferResultType<"ordersTable",{
-  carts : {
+export type SelectOrderModel = InferResultType<"ordersTable", {
+  carts: {
     with: {
       product: true
     }

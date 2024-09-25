@@ -28,11 +28,11 @@ export const columnsProduct: ColumnDef<SelectProductModel>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title={"Status"} />
     ),
-    accessorKey: "status",
+    accessorKey: "statusProduct",
     meta: { className: "hidden sm:table-cell" },
     cell: ({ row }) => {
-      const color = row.getValue("status") === "tersedia" ? "bg-green-500 hover:bg-green-500" : "bg-gray-500 hover:bg-gray-500";
-      return <Badge className={color}>{row.getValue("status")}</Badge>;
+      const color = row.getValue("statusProduct") === "tersedia" ? "bg-green-500 hover:bg-green-500" : "bg-gray-500 hover:bg-gray-500";
+      return <Badge className={color}>{row.getValue("statusProduct")}</Badge>;
     },
   },
   {
@@ -63,7 +63,7 @@ export const columnsProduct: ColumnDef<SelectProductModel>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title={"Kategori"} />
     ),
-    accessorKey: "category.name",
+    accessorKey: "categories.name",
     id: "categoryName",
     meta: { className: "hidden lg:table-cell" },
     cell: ({ row }) => {
@@ -74,11 +74,11 @@ export const columnsProduct: ColumnDef<SelectProductModel>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title={"Dibuat pada"} />
     ),
-    accessorKey: "createdAt",
+    accessorKey: "created_at",
     meta: { className: "hidden lg:table-cell" },
     cell: ({ row }) => {
-      const createdAt = new Date(row.getValue("createdAt"));
-      const formattedDate = createdAt.toLocaleDateString("id-ID", {
+      const created_at = new Date(row.getValue("created_at"));
+      const formattedDate = created_at.toLocaleDateString("id-ID", {
         weekday: "long",
         year: "numeric",
         month: "long",

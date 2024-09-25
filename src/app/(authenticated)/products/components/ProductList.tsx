@@ -21,8 +21,8 @@ const ProductList = async () => {
             name: "",
             description: "-",
             price: 0,
-            status: "tersedia",
-            categoryId: "",
+            statusProduct: "tersedia",
+            category_id: "",
           }}
         />
       </DataTable>

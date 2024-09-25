@@ -6,24 +6,24 @@ import { InferResultType } from ".";
 
 export const cartTable = pgTable("carts", {
   id: uuid("id").defaultRandom().notNull().primaryKey(),
-  productId: uuid("product_id")
+  product_id: uuid("product_id")
     .notNull(),
-  orderId: uuid("order_id")
+  order_id: uuid("order_id")
     .notNull(),
   quantity: integer("quantity").notNull(),
   total: integer("total").default(0).notNull(),
   note: text("note"),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
+  created_at: timestamp("created_at").notNull().defaultNow(),
+  updated_at: timestamp("updated_at").$onUpdate(() => new Date()),
 });
 
 export const cartsRelation = relations(cartTable, ({ one }) => ({
-  product: one(productsTable, { fields: [cartTable.productId], references: [productsTable.id] }),
-  order: one(ordersTable, { fields: [cartTable.orderId], references: [ordersTable.id] })
+  product: one(productsTable, { fields: [cartTable.product_id], references: [productsTable.id] }),
+  order: one(ordersTable, { fields: [cartTable.order_id], references: [ordersTable.id] })
 }));
 
 export type SelectCartModel = InferResultType<"cartTable", {
   product: {
-    
+
   }
 }>;

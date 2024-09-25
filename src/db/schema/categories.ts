@@ -7,8 +7,8 @@ import { productsTable } from "./products";
 export const categoriesTable = pgTable("categories", {
   id: uuid("id").defaultRandom().notNull().primaryKey(),
   name: text("name").notNull(),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
+  created_at: timestamp("created_at").notNull().defaultNow(),
+  updated_at: timestamp("updated_at").$onUpdate(() => new Date()),
 });
 
 export const categoriesRelation = relations(categoriesTable, ({ many }) => ({

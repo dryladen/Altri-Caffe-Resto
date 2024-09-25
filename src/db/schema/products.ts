@@ -13,15 +13,15 @@ export const productsTable = pgTable("products", {
   name: text("name").notNull(),
   description: text("description").notNull(),
   price: integer("price").notNull(),
-  status: statusProduct("statusProduct").notNull(),
-  categoryId: uuid("category_id").notNull(),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
+  statusProduct: statusProduct("statusProduct").notNull(),
+  category_id: uuid("category_id").notNull(),
+  created_at: timestamp("created_at").notNull().defaultNow(),
+  updated_at: timestamp("updated_at").$onUpdate(() => new Date()),
 });
 
 export const productsRelation = relations(productsTable, ({ one, many }) => ({
   category: one(categoriesTable, {
-    fields: [productsTable.categoryId],
+    fields: [productsTable.category_id],
     references: [categoriesTable.id]
   }),
   carts: many(cartTable)
@@ -40,8 +40,8 @@ const baseSchema = createInsertSchema(productsTable, {
         .positive({ message: "Harga tidak boleh kosong" })
         .int({ message: "Masukan angka" })
     ),
-  status: (schema) => schema.status,
-  categoryId: (schema) => schema.categoryId
+  statusProduct: (schema) => schema.statusProduct,
+  category_id: (schema) => schema.category_id
 })
 
 export const productSchema = z.union([
@@ -50,8 +50,8 @@ export const productSchema = z.union([
     name: baseSchema.shape.name,
     description: baseSchema.shape.description,
     price: baseSchema.shape.price,
-    status: baseSchema.shape.status,
-    categoryId: baseSchema.shape.categoryId
+    statusProduct: baseSchema.shape.statusProduct,
+    category_id: baseSchema.shape.category_id
   }),
   z.object({
     mode: z.literal("update"),
@@ -59,8 +59,8 @@ export const productSchema = z.union([
     name: baseSchema.shape.name,
     description: baseSchema.shape.description,
     price: baseSchema.shape.price,
-    status: baseSchema.shape.status,
-    categoryId: baseSchema.shape.categoryId
+    statusProduct: baseSchema.shape.statusProduct,
+    category_id: baseSchema.shape.category_id
   })
 ]);
 
