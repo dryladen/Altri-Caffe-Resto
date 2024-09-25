@@ -26,11 +26,13 @@ export default function OrderList() {
 
   const filtered = useMemo(() => {
     if (status && data) {
-      return data.filter(
-        (order) =>
-          order.statusOrder === status &&
-          order.username.toLowerCase().includes(search.toLowerCase())
-      );
+      return Array.isArray(data)
+        ? data.filter(
+            (order) =>
+              order.statusOrder === status &&
+              order.username.toLowerCase().includes(search.toLowerCase())
+          )
+        : data;
     }
     return data;
   }, [data, status, search]);
@@ -78,19 +80,19 @@ export default function OrderList() {
             <TabsTrigger onClick={() => setStatus("pending")} value="pending">
               <span>Konfirmasi</span>
               <span className="hidden sm:flex rounded-sm py-0 px-1.5 ml-2 bg-primary text-white text-[10px]">
-                {data.filter((order) => order.statusOrder === "pending").length}
+                {Array.isArray(data) && data.filter((order) => order.statusOrder === "pending").length}
               </span>
             </TabsTrigger>
             <TabsTrigger onClick={() => setStatus("proses")} value="proses">
               <span>Sedang Proses</span>
               <span className="hidden sm:flex rounded-sm py-0 px-1.5 ml-2 bg-primary text-white text-[10px]">
-                {data.filter((order) => order.statusOrder === "proses").length}
+                {Array.isArray(data) && data.filter((order) => order.statusOrder === "proses").length}
               </span>
             </TabsTrigger>
             <TabsTrigger onClick={() => setStatus("done")} value="done">
               <span>Selesai</span>
               <span className="hidden sm:flex rounded-sm py-0 px-1.5 ml-2 bg-primary text-white text-[10px]">
-                {data.filter((order) => order.statusOrder === "done").length}
+                {Array.isArray(data) && data.filter((order) => order.statusOrder === "done").length}
               </span>
             </TabsTrigger>
           </TabsList>
@@ -101,7 +103,7 @@ export default function OrderList() {
             collapsible
             className="flex flex-col gap-4 mt-4"
           >
-            {filtered.map((order) => (
+            {Array.isArray(filtered) && filtered.map((order) => (
               <AccordionItem value={order.id} key={order.id}>
                 <OrderItem data={order} />
               </AccordionItem>
@@ -114,7 +116,7 @@ export default function OrderList() {
             collapsible
             className="flex flex-col gap-4 mt-4"
           >
-            {filtered.map((order) => (
+            {Array.isArray(filtered) && filtered.map((order) => (
               <AccordionItem value={order.id} key={order.id}>
                 <OrderItem data={order} />
               </AccordionItem>
@@ -127,7 +129,7 @@ export default function OrderList() {
             collapsible
             className="flex flex-col gap-4 mt-4"
           >
-            {filtered.map((order) => (
+            {Array.isArray(filtered) && filtered.map((order) => (
               <AccordionItem value={order.id} key={order.id}>
                 <OrderItem data={order} />
               </AccordionItem>

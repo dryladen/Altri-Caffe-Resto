@@ -10,8 +10,6 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import {
   ListFilter,
-  LoaderCircle,
-  LoaderPinwheel,
   Search,
   ShoppingCart,
 } from "lucide-react";
@@ -24,7 +22,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getCategories, getProducts } from "@/lib/queries";
 import CartsMenu from "./CartsMenu";
 import { Label } from "./ui/label";
-import { stringify } from "querystring";
 import { Cart } from "@/types";
 
 const Menu = () => {
@@ -159,7 +156,7 @@ const Menu = () => {
                 (data) =>
                   // if filterdSearch data is not inside the category, return nothing
                   filterdSearch.find(
-                    (item) => item.categoryId === data.id
+                    (item) => item.category_id === data.id
                   ) && (
                     <div key={data.id}>
                       <Separator className="my-2" />
@@ -169,7 +166,7 @@ const Menu = () => {
                       <div className="w-full grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-x-4 gap-y-6">
                         {filterdSearch.map(
                           (item: any) =>
-                            item.categoryId === data.id && (
+                            item.category_id === data.id && (
                               <Card
                                 key={item.id}
                                 className="border-0 bg-inherit shadow-none"

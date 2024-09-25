@@ -27,7 +27,6 @@ export async function updateOrderStatus(id: string, status: "pending" | "proses"
 	return executeAction({
 		actionFn: async () => {
 			const response = await supabase.from("orders").update({ statusOrder: status }).eq("id", id).select();
-			console.log(response);
 			if (response.data && response.data.length === 0) {
 				throw new Error("Anda tidak punya akses untuk menghapus produk");
 			}

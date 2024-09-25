@@ -5,13 +5,15 @@ import { Check, Hourglass } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getOrdersById } from "@/lib/queries";
+import { useContext } from "react";
+import UserContext from "@/lib/UserContext";
 
 type Props = {
   uuid: string;
 };
 const Kwitansi = ({ uuid }: Props) => {
   const router = useRouter();
-
+  const { user } = useContext(UserContext);
   const { data: orders, isLoading } = useQuery({
     queryKey: ["orders"],
     queryFn: async () => {
@@ -28,8 +30,12 @@ const Kwitansi = ({ uuid }: Props) => {
         </div>
         <div className="flex flex-col">
           <div className="flex justify-center items-center">
-            <div className={`flex p-4 rounded-full text-white items-center justify-center ${orders.status === "pending" ? "bg-primary" : "bg-green-500"}`}>
-              {orders.status === "pending" ? (
+            <div
+              className={`flex p-4 rounded-full text-white items-center justify-center ${
+                orders.statusOrder === "pending" ? "bg-primary" : "bg-green-500"
+              }`}
+            >
+              {orders.statusOrder === "pending" ? (
                 <Hourglass size={42} />
               ) : (
                 <Check size={42} />
@@ -41,9 +47,9 @@ const Kwitansi = ({ uuid }: Props) => {
               style: "currency",
               currency: "IDR",
               maximumSignificantDigits: 6,
-            }).format(orders.totalPayment)}
+            }).format(orders.total_payment)}
           </h2>
-          {orders.status === "pending" ? (
+          {orders.statusOrder === "pending" ? (
             <div className="flex p-4 text-xs bg-red-50 mx-4 rounded-md text-red-500">
               Mohon selesaikan pembayaran untuk konfirmasi pesanan anda
             </div>
@@ -110,7 +116,7 @@ const Kwitansi = ({ uuid }: Props) => {
                 <span>Nomor Meja</span>
               </div>
               <span className="font-semibold text-gray-700">
-                {orders.tableNumber}
+                {orders.table_number}
               </span>
             </div>
             <div className="flex justify-between text-gray-400 text-xs">
@@ -118,7 +124,7 @@ const Kwitansi = ({ uuid }: Props) => {
                 <span>Metode Pembayaran</span>
               </div>
               <span className="capitalize font-semibold text-gray-700">
-                {orders.paymentMethode}
+                {orders.payment_methode}
               </span>
             </div>
           </div>
@@ -166,11 +172,22 @@ const Kwitansi = ({ uuid }: Props) => {
                 style: "currency",
                 currency: "IDR",
                 maximumSignificantDigits: 6,
-              }).format(orders.totalPayment)}
+              }).format(orders.total_payment)}
             </span>
           </div>
         </div>
         <div className="flex flex-col justify-start p-4 gap-4 sticky w-full bottom-0 bg-white">
+          {user && (
+            <Button
+              className="flex rounded-full py-[10px] shadow-md h-fit"
+              variant={"default"}
+              onClick={() => router.push("/orders")}
+            >
+              <span className="font-semibold text-white text-lg">
+                Cek pesanan
+              </span>
+            </Button>
+          )}
           <Button
             className="flex rounded-full py-[10px] shadow-md h-fit"
             variant={"default"}
