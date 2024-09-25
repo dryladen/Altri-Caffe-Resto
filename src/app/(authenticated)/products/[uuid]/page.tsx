@@ -2,6 +2,7 @@ import { productsTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import FormDetails from "./components/FormDetails";
+import { createClient } from "@/utils/supabase/server";
 
 type Props = {
   params: {
@@ -9,11 +10,13 @@ type Props = {
   };
 };
 export default async function page({ params }: Props) {
-  const getProduct = await db.query.productsTable.findFirst({
-    where: eq(productsTable.id, params.uuid),
-  });
+  const supabase = createClient();
+  const { data: productData } = await supabase
+    .from("products")
+    .select()
+    .eq("id", params.uuid);
   const categoriesData = await db.query.categoriesTable.findMany({});
-  if (!getProduct) {
+  if (!productData) {
     return <div>Product not found</div>;
   }
 
@@ -23,12 +26,12 @@ export default async function page({ params }: Props) {
         productId={params.uuid}
         defaultValues={{
           mode: "update",
-          id: getProduct.id,
-          name: getProduct.name,
-          price: getProduct.price,
-          description: getProduct.description,
-          status: getProduct.status,
-          categoryId: getProduct.categoryId,
+          id: productData[0].id,
+          name: productData[0].name,
+          price: productData[0].price,
+          description: productData[0].description,
+          statusProduct: productData[0].statusProduct,
+          category_id: productData[0].category_id,
         }}
         categoriesData={categoriesData}
       />

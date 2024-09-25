@@ -18,8 +18,9 @@ import { Badge } from "../ui/badge";
 import Image from "next/image";
 
 const AvatarUser = ({ user }: { user: User | null }) => {
-  const [avatar_url, setAvatarUrl] = useState<string >("");
+  const [avatar_url, setAvatarUrl] = useState<string>("");
   const [username, setUsername] = useState<string | null>(null);
+  const { user: dataUser } = useContext(UserContext);
   const supabase = createClient();
   const getProfile = useCallback(async () => {
     try {
@@ -28,14 +29,19 @@ const AvatarUser = ({ user }: { user: User | null }) => {
         .select(`full_name, username, website, avatar_url`)
         .eq("id", user?.id)
         .single();
-
       if (error && status !== 406) {
         console.log(error);
         throw error;
       }
-
       if (data) {
-        setAvatarUrl(data.avatar_url);
+        const { data: gambar, error } = await supabase.storage
+          .from("avatars")
+          .download(data.avatar_url);
+        if (error) {
+          throw error;
+        }
+        const url = URL.createObjectURL(gambar);
+        setAvatarUrl(url);
         setUsername(data.full_name);
       }
     } catch (error) {
@@ -43,7 +49,6 @@ const AvatarUser = ({ user }: { user: User | null }) => {
       console.error(error);
     }
   }, [user, supabase]);
-  const { user: dataUser } = useContext(UserContext);
   useEffect(() => {
     getProfile();
   }, [user, getProfile]);
@@ -55,7 +60,6 @@ const AvatarUser = ({ user }: { user: User | null }) => {
           size="icon"
           className="overflow-hidden rounded-full my-1 relative ml-auto"
         >
-          {/* <Avatar uid={user?.id ?? null} url={avatar_url} size={41} /> */}
           <Image
             src={avatar_url ? avatar_url : "/user.jpg"}
             alt="Avatar"

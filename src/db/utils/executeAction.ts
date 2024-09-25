@@ -1,6 +1,7 @@
 import { isRedirectError } from "next/dist/client/components/redirect";
 
 import { getErrorMessage } from "@/lib/utils";
+import { createClient } from "@/utils/supabase/server";
 
 type Options<T> = {
 	actionFn: {
@@ -19,8 +20,9 @@ export async function executeAction<T>({
 }: Options<T>): Promise<{ success: boolean; message: string }> {
 	try {
 		if (isProtected) {
-			// const session = await auth();
-			// if (!session) throw new Error("Not authorized");
+			const supabase = createClient();
+			const session = supabase.auth.getSession();
+			if (!session) throw new Error("Not authorized");
 		}
 		await actionFn();
 		return {

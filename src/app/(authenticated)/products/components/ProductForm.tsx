@@ -11,13 +11,14 @@ import { useRouter } from "next/navigation";
 import { productSchema, ProductSchema } from "@/db/schema/products";
 import SelectBox from "@/components/form-controller/SelectBox";
 import { Input } from "@/components/form-controller/input";
-import { PlusCircle } from "lucide-react";
+import { LoaderCircle, PlusCircle } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { getCategories } from "@/lib/queries";
 import ButtonSkeleton from "@/components/loading/ButtonSkeleton";
 import FlashSkeleton from "@/components/loading/FlashSkeleton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { revalidatePath } from "next/cache";
+import { set } from "zod";
 
 type Props = {
   defaultValues: ProductSchema;
@@ -26,7 +27,7 @@ type Props = {
 const ProductForm = ({ defaultValues }: Props) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = React.useState(false);
-
+  const [loading, setLoading] = React.useState(false);
   const { data: categories, isLoading: categoryLoaded } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
@@ -41,6 +42,7 @@ const ProductForm = ({ defaultValues }: Props) => {
   });
 
   const onSubmit: SubmitHandler<ProductSchema> = async (data) => {
+    setLoading(true);
     let response;
     if (data.mode === "create") {
       response = await createProduct(data);
@@ -51,9 +53,10 @@ const ProductForm = ({ defaultValues }: Props) => {
       title: response.message,
       variant: response.success === true ? "default" : "destructive",
     });
-    setIsOpen(false);
     form.reset();
     router.refresh();
+    setLoading(false);
+    setIsOpen(false);
   };
 
   return (
@@ -106,7 +109,12 @@ const ProductForm = ({ defaultValues }: Props) => {
                 label="Kategori"
               />
             </FlashSkeleton>
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              className="w-full"
+              {...(loading && { disabled: true })}
+            >
+              {loading && <LoaderCircle size={24} className="animate-spin" />}
               Simpan
             </Button>
           </form>
@@ -114,7 +122,9 @@ const ProductForm = ({ defaultValues }: Props) => {
       </ResponsiveDialog>
       <FlashSkeleton
         isLoading={categoryLoaded}
-        loadingRender={<Skeleton className="ml-4 h-10 px-4 py-2 w-[52px] md:w-[168px]" />}
+        loadingRender={
+          <Skeleton className="ml-4 h-10 px-4 py-2 w-[52px] md:w-[168px]" />
+        }
       >
         <Button className="ml-4" onClick={() => setIsOpen(!isOpen)}>
           <PlusCircle className="sm:mr-2" size={16} />

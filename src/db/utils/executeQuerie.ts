@@ -1,3 +1,5 @@
+import { createClient } from "@/utils/supabase/server";
+
 type Options<T> = {
 	queryFn: {
 		(): Promise<T>;
@@ -13,8 +15,9 @@ export async function executeQuery<T>({
 }: Options<T>) {
 	try {
 		if (isProtected) {
-			// const session = await auth();
-			// if (!session) throw new Error("Not authorized");
+			const supabase = createClient();
+			const session = supabase.auth.getSession();
+			if (!session) throw new Error("Not authorized");
 		}
 		return await queryFn();
 	} catch (error) {

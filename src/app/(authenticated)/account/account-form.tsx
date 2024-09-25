@@ -1,32 +1,33 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { type User } from "@supabase/supabase-js";
 import Avatar from "./avatar";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import UserContext from "@/lib/UserContext";
+import { toast } from "@/components/ui/use-toast";
 
 export default function AccountForm({ user }: { user: User | null }) {
   const supabase = createClient();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [fullname, setFullname] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
   const [website, setWebsite] = useState<string | null>(null);
   const [avatar_url, setAvatarUrl] = useState<string | null>(null);
-
+  const { user: dataUser } = useContext(UserContext);
   const getProfile = useCallback(async () => {
     try {
-      setLoading(true);
-
       const { data, error, status } = await supabase
         .from("profiles")
         .select(`full_name, username, website, avatar_url`)
         .eq("id", user?.id)
         .single();
-
       if (error && status !== 406) {
         console.log(error);
         throw error;
       }
-
       if (data) {
         setFullname(data.full_name);
         setUsername(data.username);
@@ -35,8 +36,6 @@ export default function AccountForm({ user }: { user: User | null }) {
       }
     } catch (error) {
       alert("Error loading user data!");
-    } finally {
-      setLoading(false);
     }
   }, [user, supabase]);
 
@@ -56,7 +55,6 @@ export default function AccountForm({ user }: { user: User | null }) {
   }) {
     try {
       setLoading(true);
-
       const { error } = await supabase.from("profiles").upsert({
         id: user?.id as string,
         full_name: fullname,
@@ -66,74 +64,72 @@ export default function AccountForm({ user }: { user: User | null }) {
         updated_at: new Date().toISOString(),
       });
       if (error) throw error;
-      alert("Profile updated!");
+      toast({ title: "Profile updated successfully" });
     } catch (error) {
       alert("Error updating the data!");
     } finally {
       setLoading(false);
     }
   }
-
   return (
-    <div className="form-widget">
-      <div>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={user?.email} disabled />
-      </div>
-      <div>
-        <label htmlFor="fullName">Full Name</label>
-        <input
-          id="fullName"
-          type="text"
-          value={fullname || ""}
-          onChange={(e) => setFullname(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="username">Username</label>
-        <input
-          id="username"
-          type="text"
-          value={username || ""}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="website">Website</label>
-        <input
-          id="website"
-          type="url"
-          value={website || ""}
-          onChange={(e) => setWebsite(e.target.value)}
-        />
-      </div>
-      <Avatar
-        uid={user?.id ?? null}
-        url={avatar_url}
-        size={150}
-        // onUpload={(url) => {
-        //   setAvatarUrl(url);
-        //   updateProfile({ fullname, username, website, avatar_url: url });
-        // }}
-      />
-      <div>
-        <button
-          className="button primary block"
-          onClick={() =>
-            updateProfile({ fullname, username, website, avatar_url })
-          }
-          disabled={loading}
-        >
-          {loading ? "Loading ..." : "Update"}
-        </button>
-      </div>
-
-      <div>
-        <form action="/auth/signout" method="post">
-          <button className="button block" type="submit">
-            Sign out
-          </button>
-        </form>
+    <div className="bg-white p-8 rounded-md shadow-md w-full">
+      <div className="space-y-6">
+        <div className="space-y-1.5">
+          <div className="flex items-center space-x-4">
+            <Avatar
+              uid={user?.id ?? null}
+              url={avatar_url}
+              size={150}
+              onUpload={(url) => {
+                setAvatarUrl(url);
+                updateProfile({ fullname, username, website, avatar_url: url });
+              }}
+            />
+            <div className="space-y-1.5">
+              <h1 className="text-lg sm:text-2xl font-bold">{fullname}</h1>
+              <p className="text-gray-500 dark:text-gray-400 capitalize">
+                {dataUser?.user_role}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="space-y-6">
+          <div className="space-y-2">
+            <h2 className="text-lg font-semibold">Informasi</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <Label htmlFor="full_name">Nama Lengkap</Label>
+                <Input
+                  id="full_name"
+                  placeholder="Masukan nama anda"
+                  value={`${fullname}`}
+                  onChange={(e) => setFullname(e.target.value)}
+                />
+              </div>
+              <div>
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  placeholder="Masukan email"
+                  type="email"
+                  defaultValue={`${user?.email}`}
+                  disabled
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mt-8 flex gap-4">
+          <Button
+            onClick={() =>
+              updateProfile({ fullname, username, website, avatar_url })
+            }
+            disabled={loading}
+            type="submit"
+          >
+            {loading ? "Loading ..." : "Update"}
+          </Button>
+        </div>
       </div>
     </div>
   );

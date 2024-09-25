@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Cart } from "@/types/dataTypes";
 import { ArrowLeft, LoaderCircle, NotebookTabs, Phone, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -12,6 +11,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { OrderSchema } from "@/db/schema/orders";
 import { createOrders } from "./action";
+import { Cart } from "@/types";
 
 type Customer = {
   name: string;
@@ -64,12 +64,12 @@ const Konfirmasi = () => {
     const dataCustomer: OrderSchema = {
       username: customer.name,
       phone: customer.phone.toString(),
-      status: "pending",
-      tableNumber: parseInt(customer.table),
-      totalPayment: carts
+      statusOrder: "pending",
+      table_number: parseInt(customer.table),
+      total_payment: carts
         .map((product) => product.totalPrice)
         .reduce((acc, curr) => acc + curr),
-      paymentMethode: customer.paymentMethod,
+      payment_methode: customer.paymentMethod,
     };
     const response = await createOrders({ data: dataCustomer, carts });
     if (response) {

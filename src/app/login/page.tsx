@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,7 +9,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { login, googleLogin, signOut, signup } from "./actions";
+import { login, googleLogin } from "./actions";
+import { useState } from "react";
 
 export default function LoginForm() {
   return (
@@ -24,7 +26,12 @@ export default function LoginForm() {
           <div className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" name="email" placeholder="name@example.com" />
+              <Input
+                id="email"
+                type="email"
+                name="email"
+                placeholder="name@example.com"
+              />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
@@ -32,9 +39,6 @@ export default function LoginForm() {
             </div>
             <Button formAction={login} className="w-full">
               Login
-            </Button>
-            <Button formAction={signup} className="w-full">
-              daftar
             </Button>
             <div className="relative">
               <div className="absolute inset-0 flex items-center">

@@ -123,7 +123,7 @@ const FormDetails = ({ defaultValues, categoriesData, productId }: Props) => {
                         { id: "kosong", name: "Kosong" },
                       ]}
                       control={form.control}
-                      name="status"
+                      name="statusProduct"
                       label="Status"
                     />
                   </CardContent>
@@ -136,7 +136,7 @@ const FormDetails = ({ defaultValues, categoriesData, productId }: Props) => {
                     <SelectBox
                       options={categoriesData}
                       control={form.control}
-                      name="categoryId"
+                      name="category_id"
                       label="Kategori"
                     />
                   </CardContent>
