@@ -8,6 +8,7 @@ import {
 import { createClient } from "@/utils/supabase/server";
 import ImageItem from "./ImageItem";
 import { Upload } from "lucide-react";
+import ImageUpload from "./ImageUpload";
 type Props = {
   uuid: string;
 };
@@ -17,6 +18,7 @@ const ImageList = async ({ uuid }: Props) => {
     .from("product_images")
     .select()
     .eq("product_id", uuid);
+
   return (
     <Card className="overflow-hidden">
       <CardHeader>
@@ -30,21 +32,7 @@ const ImageList = async ({ uuid }: Props) => {
             {gambar?.slice(1).map((item) => (
               <ImageItem key={item.id} item={item} />
             ))}
-            <label htmlFor="single" className="cursor-pointer flex aspect-square w-full items-center justify-center rounded-md border border-dashed">
-              <Upload className="h-4 w-4 text-muted-foreground" />
-              <span className="sr-only">Upload</span>
-            </label>
-            <input
-              style={{
-                visibility: "hidden",
-                position: "absolute",
-              }}
-              type="file"
-              id="single"
-              accept="image/*"
-              // onChange={uploadAvatar}
-              // disabled={uploading}
-            />
+            <ImageUpload uid={uuid} />
           </div>
         </div>
       </CardContent>
