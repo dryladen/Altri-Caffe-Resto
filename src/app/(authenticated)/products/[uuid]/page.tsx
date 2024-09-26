@@ -39,7 +39,7 @@ export default async function page({ params }: Props) {
         categoriesData={categoriesData}
       >
         <Suspense fallback="Loading...">
-          <ImageList />
+          <ImageList uuid={params.uuid}/>
         </Suspense>
       </FormDetails>
     </>
