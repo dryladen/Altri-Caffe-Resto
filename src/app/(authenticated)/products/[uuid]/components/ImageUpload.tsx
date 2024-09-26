@@ -21,13 +21,6 @@ const ImageUpload = ({ uid }: { uid: string }) => {
       const file = event.target.files[0];
       const fileExt = file.name.split(".").pop();
       const filePath = `${uid}-${Math.random()}.${fileExt}`;
-      // upload to altri bucket
-      const { error: uploadError } = await supabase.storage
-        .from("altri")
-        .upload(filePath, file);
-      if (uploadError) {
-        throw uploadError;
-      }
       // upload to product_images
       const { error: insertError } = await supabase.from("product_images").insert([
         {
@@ -38,11 +31,17 @@ const ImageUpload = ({ uid }: { uid: string }) => {
       if (insertError) {
         throw insertError;
       }
-
+      // upload to altri bucket
+      const { error: uploadError } = await supabase.storage
+        .from("altri")
+        .upload(filePath, file);
+      if (uploadError) {
+        throw uploadError;
+      }
       toast({ title: "Berhasil upload gambar" });
       router.refresh();
     } catch (error) {
-      alert("Error uploading avatar!");
+      toast({ title: "Gagal upload gambar", variant: "destructive"});
     } finally {
       setUploading(false);
     }

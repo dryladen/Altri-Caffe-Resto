@@ -1,15 +1,45 @@
-"use client"
+"use client";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
+import { createClient } from "@/utils/supabase/client";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type Props = {
-  item? : any;
+  item?: any;
 };
 
-const ImageItem = ({ item } : Props) => {
+const ImageItem = ({ item }: Props) => {
   const [isHover, setIsHover] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const router = useRouter();
+  const supabase = createClient();
+  const deleteImage = async () => {
+    try {
+      setIsDeleting(true);
+      const { data, error } = await supabase
+        .from("product_images")
+        .delete()
+        .eq("id", item.id);
+      if (error) {
+        throw error;
+      }
+      const { data: deletedImage, error: deleteError } = await supabase.storage
+        .from("altri")
+        .remove([item.image]);
+      if (deleteError) {
+        throw deleteError;
+      }
+      console.log(data);
+      setIsDeleting(false);
+      toast({ title: "Berhasil menghapus gambar" });
+      router.refresh();
+    } catch (error) {
+      console.log("Error deleting image: ", error);
+    }
+  };
   return (
     <div
       key={item.id}
@@ -34,6 +64,8 @@ const ImageItem = ({ item } : Props) => {
             size="icon"
             className="bg-red-600 hover:bg-red-700 focus:ring-red-500"
             aria-label="Delete image"
+            onClick={deleteImage}
+            disabled={isDeleting}
           >
             <Trash2 className="h-4 w-4" />
             <span className="sr-only">Delete</span>
