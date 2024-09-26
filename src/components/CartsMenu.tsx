@@ -1,10 +1,10 @@
-import { Cart } from "@/types/dataTypes";
 import Link from "next/link";
 import React from "react";
 import { Button } from "./ui/button";
-import { ArrowLeft, Dot, ShoppingCart } from "lucide-react";
+import { Dot, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import CartQuantity from "@/app/(unauthenticated)/cart/components/CartQuantity";
+import { Cart } from "@/types";
 type CartProps = {
   carts: Cart[];
   getCarts: () => void;
@@ -35,8 +35,12 @@ const CartsMenu = ({ carts, getCarts, updateCarts, children }: CartProps) => {
               >
                 <div className="flex gap-2 ">
                   <Image
-                    className="rounded-md bg-gray-300 "
-                    src="https://picsum.photos/120/120"
+                    className="aspect-square rounded-md object-cover"
+                    src={cart.product_images &&
+                      cart.product_images[0]
+                        ? "https://zezcwsgmgesmhbaaghqf.supabase.co/storage/v1/object/public/altri/" +
+                          cart.product_images[0].image
+                        : "/product.jpg"}
                     alt="food"
                     width={120}
                     height={120}

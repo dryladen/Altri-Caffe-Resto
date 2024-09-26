@@ -7,6 +7,11 @@ export type Cart = {
   quantity: number;
   price: number;
   totalPrice: number;
+  product_images : {
+    id: string;
+    product_id: string;
+    image: string;
+  }[];
 }
 
 export type Categories = {

@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Cart } from "@/types";
 import { Minus, NotepadText, Plus } from "lucide-react";
-import { Cart } from "@/types/dataTypes";
 import React, { useCallback, useEffect, useState } from "react";
 
 type AddToCartProps = {

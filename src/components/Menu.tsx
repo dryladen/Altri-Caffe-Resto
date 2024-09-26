@@ -91,7 +91,6 @@ const Menu = () => {
     return (
       <div className="grid grid-cols-1 md:grid-cols-3">
         <div className="col-span-2 flex flex-col w-full relative p-4 border">
-          {/* <h2 className="font-bold text-2xl mb-2 text-primary">Pilih Menu</h2> */}
           <div className="flex w-full items-center border pl-2 focus-within:ring-2 focus-within:ring-ring rounded-md ">
             <Label htmlFor="search" className="text-muted-foreground">
               <Search size={21} />
@@ -110,7 +109,7 @@ const Menu = () => {
                 <Button
                   variant="outline"
                   className={`flex items-center gap-1 p-2 ${
-                    category === "" ? "bg-primary text-primary-foreground" : ""
+                    category === "" && "bg-primary text-primary-foreground"
                   }`}
                   onClick={() => setCategory("")}
                 >
@@ -123,9 +122,8 @@ const Menu = () => {
                     key={data.name}
                     variant="outline"
                     className={`flex items-center gap-1 p-2 ${
-                      category === data.name
-                        ? "bg-primary text-primary-foreground"
-                        : ""
+                      category === data.name &&
+                      "bg-primary text-primary-foreground"
                     }`}
                     onClick={() => setCategory(data.name)}
                   >
