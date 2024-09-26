@@ -89,26 +89,28 @@ const ProductForm = ({ defaultValues }: Props) => {
               inputMode="numeric"
               pattern="[0-9]*"
             />
-            <SelectBox
-              options={[
-                { id: "tersedia", name: "Tersedia" },
-                { id: "kosong", name: "Kosong" },
-              ]}
-              control={form.control}
-              name="statusProduct"
-              label="Status"
-            />
-            <FlashSkeleton
-              isLoading={categoryLoaded}
-              loadingRender={<ButtonSkeleton />}
-            >
+            <div className="grid grid-cols-2 gap-2">
               <SelectBox
-                options={categories}
+                options={[
+                  { id: "tersedia", name: "Tersedia" },
+                  { id: "kosong", name: "Kosong" },
+                ]}
                 control={form.control}
-                name="category_id"
-                label="Kategori"
+                name="statusProduct"
+                label="Status"
               />
-            </FlashSkeleton>
+              <FlashSkeleton
+                isLoading={categoryLoaded}
+                loadingRender={<ButtonSkeleton />}
+              >
+                <SelectBox
+                  options={categories}
+                  control={form.control}
+                  name="category_id"
+                  label="Kategori"
+                />
+              </FlashSkeleton>
+            </div>
             <Button
               type="submit"
               className="w-full"

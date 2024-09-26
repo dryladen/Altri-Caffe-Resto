@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { createClient } from "@/utils/supabase/client";
-import { Trash2 } from "lucide-react";
+import { LoaderCircle, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -33,7 +33,7 @@ const ImageItem = ({ item }: Props) => {
         throw deleteError;
       }
       console.log(data);
-      setIsDeleting(false);
+      // setIsDeleting(false);
       toast({ title: "Berhasil menghapus gambar" });
       router.refresh();
     } catch (error) {
@@ -67,7 +67,11 @@ const ImageItem = ({ item }: Props) => {
             onClick={deleteImage}
             disabled={isDeleting}
           >
-            <Trash2 className="h-4 w-4" />
+            {isDeleting ? (
+              <LoaderCircle className="h-4 w-4 text-white animate-spin" />
+            ) : (
+              <Trash2 className="h-4 w-4" />
+            )}
             <span className="sr-only">Delete</span>
           </Button>
         </div>

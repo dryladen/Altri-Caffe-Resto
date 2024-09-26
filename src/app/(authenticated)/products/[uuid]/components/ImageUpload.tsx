@@ -1,7 +1,7 @@
 "use client";
 import { toast } from "@/components/ui/use-toast";
 import { createClient } from "@/utils/supabase/client";
-import { Upload } from "lucide-react";
+import { LoaderCircle, Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -22,12 +22,14 @@ const ImageUpload = ({ uid }: { uid: string }) => {
       const fileExt = file.name.split(".").pop();
       const filePath = `${uid}-${Math.random()}.${fileExt}`;
       // upload to product_images
-      const { error: insertError } = await supabase.from("product_images").insert([
-        {
-          product_id: uid,
-          image: filePath,
-        },
-      ]);
+      const { error: insertError } = await supabase
+        .from("product_images")
+        .insert([
+          {
+            product_id: uid,
+            image: filePath,
+          },
+        ]);
       if (insertError) {
         throw insertError;
       }
@@ -41,10 +43,10 @@ const ImageUpload = ({ uid }: { uid: string }) => {
       toast({ title: "Berhasil upload gambar" });
       router.refresh();
     } catch (error) {
-      toast({ title: "Gagal upload gambar", variant: "destructive"});
+      toast({ title: "Gagal upload gambar", variant: "destructive" });
     } finally {
-      setUploading(false);
-    }
+      // setUploading(false);
+    } 
   };
   return (
     <div>
@@ -52,7 +54,11 @@ const ImageUpload = ({ uid }: { uid: string }) => {
         htmlFor="single"
         className="cursor-pointer flex aspect-square w-full items-center justify-center rounded-md border border-dashed"
       >
-        <Upload className="h-4 w-4 text-muted-foreground" />
+        {uploading ? (
+          <LoaderCircle className="h-4 w-4 text-muted-foreground animate-spin" />
+        ) : (
+          <Upload className="h-4 w-4 text-muted-foreground" />
+        )}
         <span className="sr-only">Upload</span>
       </label>
       <input

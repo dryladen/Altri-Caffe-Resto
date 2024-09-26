@@ -74,11 +74,11 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="flex flex-col bg-background p-6 gap-4 shadow-md rounded-lg border-[1px]">
+      <div className="flex flex-col bg-background p-2 sm:p-6 full gap-2 sm:gap-4 shadow-md rounded-lg border-[1px]">
         <div className="flex flex-col">
           <h1 className="font-bold text-4xl">{title}</h1>
         </div>
-        <div className="flex items-center pb-4">
+        <div className="flex items-center">
           <Input
             placeholder={`Cari ${search ?? searchPlaceholder ?? "data"}...`}
             value={

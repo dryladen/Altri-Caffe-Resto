@@ -92,7 +92,7 @@ const FormDetails = ({
               </h1>
               <div className="hidden items-center gap-2 md:ml-auto md:flex">
                 <Button
-                  variant="outline"
+                  variant="destructive"
                   size="sm"
                   type="button"
                   onClick={() => setDeleteOpen(true)}
@@ -158,7 +158,7 @@ const FormDetails = ({
             <div className="flex items-center justify-end gap-2 md:hidden">
               <Button
                 type="button"
-                variant="outline"
+                variant="destructive"
                 size="sm"
                 onClick={() => setDeleteOpen(true)}
               >

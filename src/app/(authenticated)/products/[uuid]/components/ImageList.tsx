@@ -7,8 +7,8 @@ import {
 } from "@/components/ui/card";
 import { createClient } from "@/utils/supabase/server";
 import ImageItem from "./ImageItem";
-import { Upload } from "lucide-react";
 import ImageUpload from "./ImageUpload";
+
 type Props = {
   uuid: string;
 };
@@ -28,12 +28,12 @@ const ImageList = async ({ uuid }: Props) => {
       <CardContent>
         <div className="grid gap-2">
           {gambar && gambar.length > 0 && <ImageItem item={gambar[0]} />}
-          <div className="grid grid-cols-3 gap-2">
-            {gambar?.slice(1).map((item) => (
+            {gambar && gambar.length < 1 && <ImageUpload uid={uuid} />}
+          {/* <div className="grid grid-cols-3 gap-2">
+            {//gambar?.slice(1).map((item) => (
               <ImageItem key={item.id} item={item} />
             ))}
-            <ImageUpload uid={uuid} />
-          </div>
+          </div> */}
         </div>
       </CardContent>
     </Card>
