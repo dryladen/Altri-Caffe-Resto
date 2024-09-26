@@ -40,7 +40,7 @@ export async function getProducts() {
   return executeQuery({
     queryFn: async () => {
       const supabase = createClient();
-      const { data, error } = await supabase.from("products").select("*, categories(id, name)");
+      const { data, error } = await supabase.from("products").select("*, categories(id, name), product_images(*)");
       if (error) {
         throw error;
       }

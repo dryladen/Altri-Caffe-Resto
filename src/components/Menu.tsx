@@ -8,11 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import {
-  ListFilter,
-  Search,
-  ShoppingCart,
-} from "lucide-react";
+import { ListFilter, Search, ShoppingCart } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { AddToCart } from "./AddToCart";
@@ -173,11 +169,17 @@ const Menu = () => {
                               >
                                 <CardHeader className="text-lg font-semibold p-0 rounded-sm shadow-none">
                                   <Image
-                                    src={"https://picsum.photos/200/300"}
+                                    src={
+                                      item.product_images &&
+                                      item.product_images[0]
+                                        ? "https://zezcwsgmgesmhbaaghqf.supabase.co/storage/v1/object/public/altri/" +
+                                          item.product_images[0].image
+                                        : "/product.jpg"
+                                    }
                                     alt=""
-                                    width={200}
-                                    height={300}
-                                    className="rounded-md w-full"
+                                    width={400}
+                                    height={400}
+                                    className="aspect-square w-full rounded-md object-cover"
                                   />
                                 </CardHeader>
                                 <CardContent className="flex flex-col items-start p-0 py-2">
