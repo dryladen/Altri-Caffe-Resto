@@ -34,7 +34,7 @@ type Props<TFieldValues extends FieldValues> = {
       }[]
     | null | undefined;
   multiple?: boolean;
-  label: string;
+  label?: string;
 };
 
 const SelectBox = <TFieldValues extends FieldValues>({
@@ -76,7 +76,7 @@ const SelectBox = <TFieldValues extends FieldValues>({
       name={name}
       render={({ field: { value, onChange } }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
+          <span className="font-semibold text-sm">{label}</span>
           <Popover open={isOpen} onOpenChange={setIsOpen}>
             <PopoverTrigger asChild>
               <div

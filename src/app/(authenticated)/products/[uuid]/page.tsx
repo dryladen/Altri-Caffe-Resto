@@ -1,5 +1,3 @@
-import { productsTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import FormDetails from "./components/FormDetails";
 import { createClient } from "@/utils/supabase/server";
@@ -15,11 +13,11 @@ export default async function page({ params }: Props) {
     .from("products")
     .select()
     .eq("id", params.uuid);
+  const { data : gambar } = await supabase.from("product_images").select().eq("product_id", params.uuid);
   const categoriesData = await db.query.categoriesTable.findMany({});
   if (!productData) {
     return <div>Product not found</div>;
   }
-
   return (
     <>
       <FormDetails
@@ -34,6 +32,7 @@ export default async function page({ params }: Props) {
           category_id: productData[0].category_id,
         }}
         categoriesData={categoriesData}
+        gambar={gambar}
       />
     </>
   );
