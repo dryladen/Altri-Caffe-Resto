@@ -26,10 +26,10 @@ import { getOrders } from "@/lib/queries";
 
 const page = async () => {
   const ordersData = await getOrders();
-  // filter order by status and return 10 orders
+  // filter order by statusOrder and return 10 orders
   const filtered = () => {
     if (ordersData) {
-      return ordersData.filter((order) => order.status === "done").slice(0, 5);
+      return ordersData.filter((order) => order.statusOrder === "done").slice(0, 5);
     }
     return ordersData;
   };
@@ -55,7 +55,7 @@ const page = async () => {
                   currency: "IDR",
                   maximumSignificantDigits: 6,
                 }).format(
-                  order.reduce((acc, curr) => acc + curr.totalPayment, 0)
+                  order.reduce((acc, curr) => acc + curr.total_payment, 0)
                 )}
               </div>
               <p className="text-xs text-muted-foreground">September 2024</p>
@@ -126,7 +126,7 @@ const page = async () => {
                       </TableCell>
                       <TableCell className="hidden md:table-cell">
                         <div className="hidden text-sm text-muted-foreground md:inline">
-                          {new Date(item.createdAt).toLocaleDateString()}
+                          {new Date(item.created_at).toLocaleDateString()}
                         </div>
                       </TableCell>
                       <TableCell className="text-right">
@@ -134,7 +134,7 @@ const page = async () => {
                           style: "currency",
                           currency: "IDR",
                           maximumSignificantDigits: 6,
-                        }).format(item.totalPayment)}
+                        }).format(item.total_payment)}
                       </TableCell>
                     </TableRow>
                   ))}
