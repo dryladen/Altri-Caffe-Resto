@@ -117,11 +117,11 @@ export const columnsCategory: ColumnDef<SelectCategoryModel>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title={"Dibuat pada"} />
     ),
-    accessorKey: "createdAt",
+    accessorKey: "created_at",
     meta: { className: "hidden lg:table-cell" },
     cell: ({ row }) => {
-      const createdAt = new Date(row.getValue("createdAt"));
-      const formattedDate = createdAt.toLocaleDateString("id-ID", {
+      const created_at = new Date(row.getValue("created_at"));
+      const formattedDate = created_at.toLocaleDateString("id-ID", {
         weekday: "long",
         year: "numeric",
         month: "long",
