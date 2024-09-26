@@ -10,22 +10,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import Link from "next/link";
-import { deleteProduct } from "./action";
 import { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
 import DeleteDialog from "@/components/form-controller/DeleteDialog";
+import { deleteProduct } from "./action";
 
 interface ActionColumnProps<TData>
   extends React.HTMLAttributes<HTMLDivElement> {

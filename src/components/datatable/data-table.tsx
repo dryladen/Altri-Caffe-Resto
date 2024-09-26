@@ -78,7 +78,7 @@ export function DataTable<TData, TValue>({
         <div className="flex flex-col">
           <h1 className="font-bold text-4xl">{title}</h1>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
           <Input
             placeholder={`Cari ${search ?? searchPlaceholder ?? "data"}...`}
             value={
@@ -95,7 +95,7 @@ export function DataTable<TData, TValue>({
           />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-4 sm:ml-auto gap-2">
+              <Button variant="outline" className="sm:ml-auto gap-2">
                 <Eye className="h-4 w-4" />
                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                   Views

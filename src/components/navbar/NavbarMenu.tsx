@@ -31,7 +31,7 @@ const NavbarMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, userLoaded } = useContext(UserContext);
   return (
-    <div>
+    <div className="">
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
           <Button size="icon" variant="outline" className="sm:hidden">
@@ -59,7 +59,7 @@ const NavbarMenu = () => {
             </SheetTitle>
             <SheetDescription className="text-start">Navigasi</SheetDescription>
           </SheetHeader>
-          <nav className="grid gap-4 mt-4 text-lg font-medium ">
+          <nav className="grid gap-4 mt-4 text-lg font-medium">
             {user?.user_role &&
               navigation[user?.user_role as UserRole].map((item) => (
                 <Link

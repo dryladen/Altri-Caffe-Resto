@@ -125,10 +125,10 @@ const ProductForm = ({ defaultValues }: Props) => {
       <FlashSkeleton
         isLoading={categoryLoaded}
         loadingRender={
-          <Skeleton className="ml-4 h-10 px-4 py-2 w-[52px] md:w-[168px]" />
+          <Skeleton className="h-10 px-4 py-2 w-[52px] md:w-[168px]" />
         }
       >
-        <Button className="ml-4" onClick={() => setIsOpen(!isOpen)}>
+        <Button className="" onClick={() => setIsOpen(!isOpen)}>
           <PlusCircle className="sm:mr-2" size={16} />
           <span className="hidden sm:flex">Tambah Produk</span>
         </Button>

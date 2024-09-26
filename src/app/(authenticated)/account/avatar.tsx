@@ -83,10 +83,7 @@ export default function Avatar({
           {uploading ? "Ubah Gambar ..." : "Ganti Gambar"}
         </label>
         <input
-          style={{
-            visibility: "hidden",
-            position: "absolute",
-          }}
+          className="hidden absolute"
           type="file"
           id="single"
           accept="image/*"

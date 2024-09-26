@@ -26,7 +26,7 @@ const CartsMenu = ({ carts, getCarts, updateCarts, children }: CartProps) => {
     return (
       <>
         {children}
-        <div className="flex w-full relative flex-col gap-4 px-4 grow">
+        <div className="flex w-full relative flex-col gap-4 px-4 grow py-4">
           <div className="flex flex-col gap-4 grow">
             {carts.map((cart) => (
               <div
