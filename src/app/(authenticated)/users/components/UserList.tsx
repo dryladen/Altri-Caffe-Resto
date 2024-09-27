@@ -13,7 +13,17 @@ const UserList = async () => {
       columns={columns}
       search="email"
       data={data || []}
-    ><UserForm /></DataTable>
+    >
+      <UserForm
+        defaultValues={{
+          mode: "create",
+          username: "",
+          email: "",
+          password: "",
+          role: "",
+        }}
+      />
+    </DataTable>
   );
 };
 

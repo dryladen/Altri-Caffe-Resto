@@ -1,6 +1,5 @@
 "use client";
 import { ResponsiveDialog } from "@/components/ResponsiveDialog";
-import React, { Suspense } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -17,8 +16,7 @@ import { getCategories } from "@/lib/queries";
 import ButtonSkeleton from "@/components/loading/ButtonSkeleton";
 import FlashSkeleton from "@/components/loading/FlashSkeleton";
 import { Skeleton } from "@/components/ui/skeleton";
-import { revalidatePath } from "next/cache";
-import { set } from "zod";
+import { useState } from "react";
 
 type Props = {
   defaultValues: ProductSchema;
@@ -26,8 +24,8 @@ type Props = {
 
 const ProductForm = ({ defaultValues }: Props) => {
   const router = useRouter();
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { data: categories, isLoading: categoryLoaded } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {

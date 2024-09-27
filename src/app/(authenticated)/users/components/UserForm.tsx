@@ -13,19 +13,18 @@ import { useState } from "react";
 import { UserSchema } from "@/types";
 import { createUser } from "./action";
 
-const UserForm = () => {
+type Props = {
+  defaultValues: UserSchema;
+};
+
+const UserForm = ({ defaultValues }: Props) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const form = useForm<UserSchema>({
     resolver: zodResolver(UserSchema),
-    defaultValues: {
-      username: "",
-      email: "",
-      role: "",
-      password: "",
-    },
+    defaultValues
   });
 
   const onSubmit: SubmitHandler<UserSchema> = async (data) => {

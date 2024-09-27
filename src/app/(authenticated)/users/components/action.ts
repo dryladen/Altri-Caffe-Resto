@@ -55,17 +55,17 @@ export async function updateProduct(data: UserSchema) {
 }
 
 export async function deleteProduct(id: string) {
-  // const supabase = createClient();
-  // return executeAction({
-  //   actionFn: async () => {
-  //     const { data } = await supabase.from("products").delete().eq("id", (id as string)).select();
-  //     if (data && data.length === 0) {
-  //       throw new Error("Anda tidak punya akses untuk menghapus pengguna");
-  //     }
-  //     revalidatePath("/products");
-  //   },
-  //   isProtected: true,
-  //   clientSuccessMessage: "Product Berhasil dihapus",
-  //   serverErrorMessage: "Gagal menghapus product",
-  // });
+  const supabase = createServerAdmin();
+  return executeAction({
+    actionFn: async () => {
+      const { error } = await supabase.auth.admin.deleteUser(id);
+      if (error) {
+        throw error;
+      }
+      revalidatePath("/products");
+    },
+    isProtected: true,
+    clientSuccessMessage: "Pengguna Berhasil dihapus",
+    serverErrorMessage: "Gagal menghapus product",
+  });
 }
