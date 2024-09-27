@@ -1,3 +1,4 @@
+"use client"
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/components/datatable/data-table-column-header";
 import { SelectProductModel } from "@/db/schema/products";

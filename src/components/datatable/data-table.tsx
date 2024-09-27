@@ -76,7 +76,7 @@ export function DataTable<TData, TValue>({
     <>
       <div className="flex flex-col bg-background p-2 sm:p-6 full gap-2 sm:gap-4 shadow-md rounded-lg border-[1px]">
         <div className="flex flex-col">
-          <h1 className="font-bold text-4xl">{title}</h1>
+          <h1 className="font-bold text-2xl sm:text-4xl">{title}</h1>
         </div>
         <div className="flex items-center gap-2">
           <Input

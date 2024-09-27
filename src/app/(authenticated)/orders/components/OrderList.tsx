@@ -63,6 +63,7 @@ export default function OrderList() {
                 router.push("/menu");
               }}
               className="gap-1"
+              disabled={loading}
             >
               {loading ? (
                 <LoaderCircle className="h-3.5 w-3.5 animate-spin"></LoaderCircle>
