@@ -30,12 +30,13 @@ const AvatarUser = ({ user }: { user: User | null }) => {
         .single();
       if (error && status !== 406) {
         console.log(error);
+        console.log(status);
         throw error;
       }
       if (data) {
         const { data: gambar, error } = await supabase.storage
-          .from("avatars")
-          .download(data.avatar_url);
+        .from("avatars")
+        .download(data.avatar_url);
         if (error) {
           throw error;
         }
