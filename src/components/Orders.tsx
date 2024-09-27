@@ -1,4 +1,4 @@
-import { Cart } from "@/types/dataTypes";
+import { Cart } from "@/types";
 import { Dot, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 

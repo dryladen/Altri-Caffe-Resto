@@ -1,10 +1,10 @@
 "use client";
-import { Cart } from "@/types/dataTypes";
 import { ArrowLeft } from "lucide-react";
 import React, { useCallback, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import CartsMenu from "@/components/CartsMenu";
 import { useRouter } from "next/navigation";
+import { Cart } from "@/types";
 
 const CartPage = () => {
   const [carts, setCarts] = useState<Cart[]>([]);

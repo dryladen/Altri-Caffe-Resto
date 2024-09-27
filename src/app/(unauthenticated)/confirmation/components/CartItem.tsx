@@ -1,6 +1,5 @@
 "use client";
 import { Separator } from "@/components/ui/separator";
-import { Cart } from "@/types/dataTypes";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,6 +12,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { AddToCart } from "@/components/AddToCart";
+import { Cart } from "@/types";
 
 type CartItemProps = {
   carts: Cart[];

@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Cart } from "@/types/dataTypes";
 import { Minus, MoreVertical, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import DeleteDialog from "@/components/form-controller/DeleteDialog";
@@ -9,6 +8,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Cart } from "@/types";
 
 type CartProps = {
   carts: Cart[];
