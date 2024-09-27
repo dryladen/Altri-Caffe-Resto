@@ -1,6 +1,7 @@
 import { DataTable } from "@/components/datatable/data-table";
 import { createServerAdmin } from "@/utils/supabase/admin";
-import { columns, User } from "./columns";
+import { columns } from "./columns";
+import UserForm from "./UserForm";
 
 const UserList = async () => {
   const supabase = createServerAdmin();
@@ -12,8 +13,7 @@ const UserList = async () => {
       columns={columns}
       search="email"
       data={data || []}
-    >
-    </DataTable>
+    ><UserForm /></DataTable>
   );
 };
 

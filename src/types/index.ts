@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export type Cart = {
   id: string;
   categoryId: string;
@@ -41,3 +43,24 @@ export type Product = {
   status: string;
   categoryId: number;
 };
+
+export interface UserRole {
+  id: string;
+  updated_at: string;
+  username: string;
+  avatar_url: string;
+  email: string;
+  role: string;
+}
+
+export const UserSchema = z.object({
+  username: z.string().min(2, "Minimal 2 kata").max(50, "Maksimal 50 kata"),
+  email: z.string().email("Email tidak valid"),
+  role: z
+    .string()
+    .min(2, "Role tidak boleh kosong")
+    .max(50, "Maksimal 50 kata"),
+  password: z.string().min(6, "Minimal 6 kata").max(50, "Maksimal 50 kata"),
+});
+
+export type UserSchema = z.infer<typeof UserSchema>;

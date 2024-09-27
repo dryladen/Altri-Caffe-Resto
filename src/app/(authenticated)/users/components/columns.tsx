@@ -3,16 +3,9 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ActionColumn } from "./ActionColumn";
 import { DataTableColumnHeader } from "@/components/datatable/data-table-column-header";
 import { Badge } from "@/components/ui/badge";
+import { UserRole } from "@/types";
 
-export interface User {
-  id: string;
-  updated_at: string;
-  username: string;
-  avatar_url: string;
-  email: string;
-  role: string;
-}
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<UserRole>[] = [
   {
     header: "ID",
     accessorKey: "id",
