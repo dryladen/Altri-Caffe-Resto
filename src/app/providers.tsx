@@ -80,7 +80,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     return () => {
       authListener.unsubscribe();
     };
-  }, []);
+  }, [supabase]);
 
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
