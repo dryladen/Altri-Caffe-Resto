@@ -12,16 +12,15 @@ import { toast } from "@/components/ui/use-toast";
 export default function AccountForm({ user }: { user: User | null }) {
   const supabase = createClient();
   const [loading, setLoading] = useState(false);
-  const [fullname, setFullname] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
-  const [website, setWebsite] = useState<string | null>(null);
+  const [email, setEmail] = useState<string | null>(null);
   const [avatar_url, setAvatarUrl] = useState<string | null>(null);
   const { user: dataUser } = useContext(UserContext);
   const getProfile = useCallback(async () => {
     try {
       const { data, error, status } = await supabase
         .from("profiles")
-        .select(`full_name, username, website, avatar_url`)
+        .select(`username,  avatar_url, email`)
         .eq("id", user?.id)
         .single();
       if (error && status !== 406) {
@@ -29,9 +28,8 @@ export default function AccountForm({ user }: { user: User | null }) {
         throw error;
       }
       if (data) {
-        setFullname(data.full_name);
         setUsername(data.username);
-        setWebsite(data.website);
+        setEmail(data.email);
         setAvatarUrl(data.avatar_url);
       }
     } catch (error) {
@@ -45,22 +43,20 @@ export default function AccountForm({ user }: { user: User | null }) {
 
   async function updateProfile({
     username,
-    website,
+    email,
     avatar_url,
   }: {
     username: string | null;
-    fullname: string | null;
-    website: string | null;
+    email: string | null;
     avatar_url: string | null;
   }) {
     try {
       setLoading(true);
       const { error } = await supabase.from("profiles").upsert({
         id: user?.id as string,
-        full_name: fullname,
         username,
-        website,
         avatar_url,
+        email,
         updated_at: new Date().toISOString(),
       });
       if (error) throw error;
@@ -82,11 +78,11 @@ export default function AccountForm({ user }: { user: User | null }) {
               size={150}
               onUpload={(url) => {
                 setAvatarUrl(url);
-                updateProfile({ fullname, username, website, avatar_url: url });
+                updateProfile({ username, avatar_url: url, email });
               }}
             />
             <div className="space-y-1.5">
-              <h1 className="text-lg sm:text-2xl font-bold">{fullname}</h1>
+              <h1 className="text-lg sm:text-2xl font-bold">{username}</h1>
               <p className="text-gray-500 dark:text-gray-400 capitalize">
                 {dataUser?.user_role}
               </p>
@@ -98,12 +94,12 @@ export default function AccountForm({ user }: { user: User | null }) {
             <h2 className="text-lg font-semibold">Informasi</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <Label htmlFor="full_name">Nama Lengkap</Label>
+                <Label htmlFor="username">Nama Lengkap</Label>
                 <Input
-                  id="full_name"
+                  id="username"
                   placeholder="Masukan nama anda"
-                  value={`${fullname}`}
-                  onChange={(e) => setFullname(e.target.value)}
+                  value={`${username}`}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
               <div>
@@ -122,7 +118,7 @@ export default function AccountForm({ user }: { user: User | null }) {
         <div className="mt-8 flex gap-4">
           <Button
             onClick={() =>
-              updateProfile({ fullname, username, website, avatar_url })
+              updateProfile({ username, avatar_url, email })
             }
             disabled={loading}
             type="submit"

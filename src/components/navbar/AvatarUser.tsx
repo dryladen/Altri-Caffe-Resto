@@ -25,7 +25,7 @@ const AvatarUser = ({ user }: { user: User | null }) => {
     try {
       const { data, error, status } = await supabase
         .from("profiles")
-        .select(`full_name, username, website, avatar_url`)
+        .select(`username, avatar_url, email`)
         .eq("id", user?.id)
         .single();
       if (error && status !== 406) {
@@ -41,7 +41,7 @@ const AvatarUser = ({ user }: { user: User | null }) => {
         }
         const url = URL.createObjectURL(gambar);
         setAvatarUrl(url);
-        setUsername(data.full_name);
+        setUsername(data.username);
       }
     } catch (error) {
       alert("Error loading user data!");

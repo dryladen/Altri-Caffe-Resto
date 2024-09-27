@@ -4,10 +4,21 @@ import { columns } from "./columns";
 import { createClient } from "@/utils/supabase/server";
 import { Heading1 } from "lucide-react";
 
+type User = {
+  id: string;
+  updated_at: string;
+  username: string;
+  avatar_url: string;
+  email: string;
+  user_roles: { id: string; role: string }[];
+};
+
 const UserList = async () => {
   const supabase = createServerAdmin();
-  const data = await supabase.from("user_roles").select("*");
-  console.log(data);
+  const response = await supabase
+    .from("profiles")
+    .select("*, user_roles(*)");
+  console.log(response);
   return (
     // <DataTable
     //   title="Users"
