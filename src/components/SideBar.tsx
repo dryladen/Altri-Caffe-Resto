@@ -24,8 +24,8 @@ const SideBar = () => {
 
   return (
     <aside
-      className={`fixed z-10 inset-y-0 left-0 hidden flex-col border-r bg-background sm:flex ${
-        isOpen && "w-52"
+      className={`sticky top-0 z-10 max-h-screen hidden flex-col border-r bg-background sm:flex ${
+        isOpen ? "w-52" : "w-14"
       }`}
     >
       <Link
@@ -35,7 +35,9 @@ const SideBar = () => {
         <Image
           src="/logo.png"
           alt="logo"
-          className={`${isOpen && "hidden"} transition-all group-hover:scale-110 w-8 h-8 bg-primary`}
+          className={`${
+            isOpen && "hidden"
+          } transition-all group-hover:scale-110 w-8 h-8 bg-primary`}
           width={64}
           height={64}
         />
@@ -48,11 +50,12 @@ const SideBar = () => {
           navigation[user?.user_role as UserRole].map((item) =>
             isOpen ? (
               <Link
+                key={item.name}
                 href={item.href}
-                className={`flex h-9 items-center justify-start rounded-lg px-4 text-sm transition-colors md:h-8 gap-2 w-full ${
+                className={`flex h-9 items-center  justify-start rounded-lg px-4 text-sm transition-colors md:h-8 gap-2 w-full ${
                   pathname === item.href
                     ? "text-white bg-primary"
-                    : "text-muted-foreground"
+                    : "text-muted-foreground hover:text-primary hover:bg-muted"
                 }`}
               >
                 <item.icon className="h-5 w-5  hover:scale-[1.15]" />

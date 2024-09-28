@@ -1,4 +1,4 @@
-import { Home, Package, Settings, ShoppingCart, Users } from "lucide-react";
+import { ChartLine, Home, Package, Settings, ShoppingCart, Users } from "lucide-react";
 
 
 const adminNavigation = [
@@ -21,6 +21,11 @@ const adminNavigation = [
     name: "Pengguna",
     href: "/users",
     icon: Users
+  },
+  {
+    name: "Laporan",
+    href: "/reports",
+    icon: ChartLine
   },
   {
     name: "Pengaturan",

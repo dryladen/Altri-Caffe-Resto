@@ -59,7 +59,7 @@ const NavbarMenu = () => {
             </SheetTitle>
             <SheetDescription className="text-start">Navigasi</SheetDescription>
           </SheetHeader>
-          <nav className="grid gap-4 mt-4 text-lg font-medium">
+          <nav className="grid gap-4 mt-4 text-sm font-medium">
             {user?.user_role &&
               navigation[user?.user_role as UserRole].map((item) => (
                 <Link

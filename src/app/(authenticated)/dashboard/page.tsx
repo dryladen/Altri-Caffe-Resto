@@ -2,7 +2,7 @@ import {
   ArrowUpRight,
   ChartNoAxesCombined,
   CreditCard,
-  Users,
+  ShoppingCart,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,19 +23,21 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import { getOrders } from "@/lib/queries";
+import { TopSellingProduct } from "./components/TopSellingProduct";
+import { DailySales } from "./components/DailySales";
 
 const page = async () => {
   const ordersData = await getOrders();
   // filter order by statusOrder and return 10 orders
   const filtered = () => {
     if (ordersData) {
-      return ordersData.filter((order) => order.statusOrder === "done").slice(0, 5);
+      return ordersData
+        .filter((order) => order.statusOrder === "done")
+        .slice(0, 5);
     }
     return ordersData;
   };
-  
-  // const { data: sessionData } = await supabase.auth.getUser()
-  // console.log(sessionData)
+
   const order = filtered();
   if (order)
     return (
@@ -64,9 +66,9 @@ const page = async () => {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Total Pembelian
+                Total Transaksi
               </CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
+              <ShoppingCart className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">+2350</div>
@@ -76,20 +78,24 @@ const page = async () => {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Penjualan Hari Ini
+                Pendapatan Hari Ini
               </CardTitle>
               <CreditCard className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">+12,234</div>
+              <div className="text-2xl font-bold">Rp 102.000</div>
               <p className="text-xs text-muted-foreground">
                 Senin, 29 September 2024
               </p>
             </CardContent>
           </Card>
         </div>
-        <div className="grid gap-4 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
-          <Card className="lg:col-span-3">
+        <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-2">
+          <DailySales />
+          <TopSellingProduct />
+        </div>
+        <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-2">
+          <Card className="">
             <CardHeader className="flex flex-row items-center">
               <div className="grid gap-2">
                 <CardTitle>Transaksi</CardTitle>
@@ -136,6 +142,36 @@ const page = async () => {
                           maximumSignificantDigits: 6,
                         }).format(item.total_payment)}
                       </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Popular Products</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Produk</TableHead>
+                    <TableHead>Terjual</TableHead>
+                    <TableHead>Price</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {[
+                    { id: 1, name: "Product A", sold: 100, price: "$10.00" },
+                    { id: 2, name: "Product B", sold: 85, price: "$15.50" },
+                    { id: 3, name: "Product C", sold: 70, price: "$20.00" },
+                    { id: 4, name: "Product D", sold: 65, price: "$25.75" },
+                  ].map((product) => (
+                    <TableRow key={product.id}>
+                      <TableCell>{product.name}</TableCell>
+                      <TableCell>{product.sold}</TableCell>
+                      <TableCell>{product.price}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

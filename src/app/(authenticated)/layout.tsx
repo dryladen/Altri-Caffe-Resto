@@ -7,7 +7,7 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen w-full bg-muted/40">
+    <div className="flex w-full bg-muted/40 relative">
       <SideBar />
       <div className="flex flex-col sm:gap-6 pb-4 grow">
         <Navbar />
