@@ -87,7 +87,7 @@ const SideBar = () => {
             variant="default"
             size="icon"
             onClick={toggleSidebar}
-            className="absolute -right-3 top-80 z-50 hidden sm:flex w-fit h-fit p-1"
+            className="absolute -right-3 top-96 z-50 hidden sm:flex w-fit h-fit p-1"
           >
             {isOpen ? (
               <ChevronLeft className="h-4 w-4" />
