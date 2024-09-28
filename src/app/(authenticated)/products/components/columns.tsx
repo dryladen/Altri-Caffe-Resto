@@ -75,7 +75,7 @@ export const columnsProduct: ColumnDef<SelectProductModel>[] = [
       <DataTableColumnHeader column={column} title={"Dibuat pada"} />
     ),
     accessorKey: "created_at",
-    meta: { className: "hidden lg:table-cell" },
+    meta: { className: "hidden xl:table-cell" },
     cell: ({ row }) => {
       const created_at = new Date(row.getValue("created_at"));
       const formattedDate = created_at.toLocaleDateString("id-ID", {

@@ -1,6 +1,5 @@
 import { DataTable } from "@/components/datatable/data-table";
 import { getCategories, getProducts } from "@/lib/queries";
-import React from "react";
 import { columnsProduct } from "./columns";
 import ProductForm from "./ProductForm";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";

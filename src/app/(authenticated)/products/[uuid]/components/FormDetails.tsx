@@ -60,37 +60,39 @@ const FormDetails = ({
   const [deleteOpen, setDeleteOpen] = useState(false);
   return (
     <>
-      <DeleteDialog
-        deleteOpen={deleteOpen}
-        setDeleteOpen={setDeleteOpen}
-        actionFn={async () => {
-          let response = await deleteProduct(productId);
-          toast({
-            title: response.message,
-            variant: response.success === true ? "default" : "destructive",
-          });
-          router.push("/products");
-        }}
-      />
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <DeleteDialog
+            deleteOpen={deleteOpen}
+            setDeleteOpen={setDeleteOpen}
+            actionFn={async () => {
+              let response = await deleteProduct(productId);
+              toast({
+                title: response.message,
+                variant: response.success === true ? "default" : "destructive",
+              });
+              router.push("/products");
+            }}
+          />
           <div className="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
-            <div className="flex items-center gap-4">
-              <Link href="/products">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  type="button"
-                  className="h-7 w-7"
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                  <span className="sr-only">Kembali</span>
-                </Button>
-              </Link>
-              <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
-                Produk
-              </h1>
-              <div className="hidden items-center gap-2 md:ml-auto md:flex">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex gap-2">
+                <Link href="/products">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    type="button"
+                    className="h-7 w-7"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                    <span className="sr-only">Kembali</span>
+                  </Button>
+                </Link>
+                <h1 className="flex-1 shrink-0 whitespace-nowrap text-xl font-semibold tracking-tight sm:grow-0">
+                  Produk
+                </h1>
+              </div>
+              <div className="hidden items-center gap-2 md:flex">
                 <Button
                   variant="destructive"
                   size="sm"
@@ -123,7 +125,7 @@ const FormDetails = ({
                     <Input control={form.control} name="price" label="Harga" />
                   </CardContent>
                 </Card>
-                <Card x-chunk="dashboard-07-chunk-3">
+                <Card>
                   <CardHeader>
                     <CardTitle>Status</CardTitle>
                   </CardHeader>
@@ -138,7 +140,7 @@ const FormDetails = ({
                     />
                   </CardContent>
                 </Card>
-                <Card x-chunk="dashboard-07-chunk-3">
+                <Card>
                   <CardHeader>
                     <CardTitle>Kategori</CardTitle>
                   </CardHeader>

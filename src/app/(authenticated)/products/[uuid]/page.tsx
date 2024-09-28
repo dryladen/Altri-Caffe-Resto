@@ -20,24 +20,22 @@ export default async function page({ params }: Props) {
     return <div>Product not found</div>;
   }
   return (
-    <>
-      <FormDetails
-        productId={params.uuid}
-        defaultValues={{
-          mode: "update",
-          id: productData[0].id,
-          name: productData[0].name,
-          price: productData[0].price,
-          description: productData[0].description,
-          statusProduct: productData[0].statusProduct,
-          category_id: productData[0].category_id,
-        }}
-        categoriesData={categoriesData}
-      >
-        <Suspense fallback="Loading...">
-          <ImageList uuid={params.uuid}/>
-        </Suspense>
-      </FormDetails>
-    </>
+    <FormDetails
+      productId={params.uuid}
+      defaultValues={{
+        mode: "update",
+        id: productData[0].id,
+        name: productData[0].name,
+        price: productData[0].price,
+        description: productData[0].description,
+        statusProduct: productData[0].statusProduct,
+        category_id: productData[0].category_id,
+      }}
+      categoriesData={categoriesData}
+    >
+      <Suspense fallback="Loading...">
+        <ImageList uuid={params.uuid} />
+      </Suspense>
+    </FormDetails>
   );
 }
