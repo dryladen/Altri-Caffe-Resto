@@ -1,5 +1,4 @@
 "use client";
-import React, { useContext } from "react";
 import {
   Tooltip,
   TooltipContent,
@@ -10,46 +9,94 @@ import Image from "next/image";
 import { navigation } from "@/lib/navigation";
 import { usePathname } from "next/navigation";
 import UserContext from "@/lib/UserContext";
+import { useContext, useState } from "react";
+import { set } from "zod";
+import { Button } from "./ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 const SideBar = () => {
   const pathname = usePathname();
   const { user } = useContext(UserContext);
+  const [isOpen, setIsOpen] = useState(true);
   type UserRole = keyof typeof navigation;
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
-      <nav className="flex flex-col grow items-center gap-4 px-2 sm:py-5">
-        <Link
-          href="#"
-          className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 p-1 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
-        >
-          <Image
-            src="/logo.png"
-            alt="logo"
-            className="transition-all group-hover:scale-110 w-auto"
-            width={64}
-            height={64}
-          />
-          <span className="sr-only">Altri Caffe & Resto</span>
-        </Link>
+    <aside
+      className={`fixed z-10 inset-y-0 left-0 hidden flex-col border-r bg-background sm:flex ${
+        isOpen && "w-52"
+      }`}
+    >
+      <Link
+        href="#"
+        className="group flex h-16 shrink-0 items-center justify-center gap-2 px-2  bg-primary text-lg font-semibold text-primary-foreground w-full md:text-base"
+      >
+        <Image
+          src="/logo.png"
+          alt="logo"
+          className={`${isOpen && "hidden"} transition-all group-hover:scale-110 w-8 h-8 bg-primary`}
+          width={64}
+          height={64}
+        />
+        <span className={`${isOpen ? "flex" : "hidden"}`}>
+          Altri Caffe & Resto
+        </span>
+      </Link>
+      <nav className="flex flex-col grow items-center gap-4 px-2 sm:py-4">
         {user?.user_role &&
-          navigation[user?.user_role as UserRole].map((item) => (
-            <Tooltip key={item.name}>
-              <TooltipTrigger asChild>
-                <Link
-                  href={item.href}
-                  className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors md:h-8 md:w-8 ${
-                    pathname === item.href
-                      ? "text-white bg-primary"
-                      : "text-muted-foreground"
-                  }`}
-                >
-                  <item.icon className="h-5 w-5  hover:scale-[1.15]" />
-                  <span className="sr-only">{item.name}</span>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent side="right">{item.name}</TooltipContent>
-            </Tooltip>
-          ))}
+          navigation[user?.user_role as UserRole].map((item) =>
+            isOpen ? (
+              <Link
+                href={item.href}
+                className={`flex h-9 items-center justify-start rounded-lg px-4 text-sm transition-colors md:h-8 gap-2 w-full ${
+                  pathname === item.href
+                    ? "text-white bg-primary"
+                    : "text-muted-foreground"
+                }`}
+              >
+                <item.icon className="h-5 w-5  hover:scale-[1.15]" />
+                <span className="">{item.name}</span>
+              </Link>
+            ) : (
+              <Tooltip key={item.name} delayDuration={0}>
+                <TooltipTrigger asChild>
+                  <Link
+                    href={item.href}
+                    className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors md:h-8 md:w-8 ${
+                      pathname === item.href
+                        ? "text-white bg-primary"
+                        : "text-muted-foreground"
+                    }`}
+                  >
+                    <item.icon className="h-5 w-5  hover:scale-[1.15]" />
+                    <span className="sr-only">{item.name}</span>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right">{item.name}</TooltipContent>
+              </Tooltip>
+            )
+          )}
       </nav>
+      <Tooltip delayDuration={0}>
+        <TooltipTrigger asChild>
+          <Button
+            variant="default"
+            size="icon"
+            onClick={toggleSidebar}
+            className="absolute -right-3 top-80 z-50 hidden sm:flex w-fit h-fit p-1"
+          >
+            {isOpen ? (
+              <ChevronLeft className="h-4 w-4" />
+            ) : (
+              <ChevronRight className="h-4 w-4" />
+            )}
+            <span className="sr-only">Toggle Sidebar</span>
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side="right">Toggle Sidebar</TooltipContent>
+      </Tooltip>
     </aside>
   );
 };
