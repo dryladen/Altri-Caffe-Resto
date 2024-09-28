@@ -10,7 +10,6 @@ import { navigation } from "@/lib/navigation";
 import { usePathname } from "next/navigation";
 import UserContext from "@/lib/UserContext";
 import { useContext, useState } from "react";
-import { set } from "zod";
 import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 const SideBar = () => {

@@ -1,7 +1,6 @@
 import SideBar from "@/components/SideBar";
 import Navbar from "@/components/navbar/Navbar";
 
-
 export default async function DashboardLayout({
   children,
 }: {
