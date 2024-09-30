@@ -14,12 +14,13 @@ import {
   User,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { deleteOrder, updateOrderStatus } from "./action";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { AccordionTrigger } from "@/components/ui/accordion";
 import { AccordionContent } from "@radix-ui/react-accordion";
+import UserContext from "@/lib/UserContext";
 
 type Props = {
   data: SelectOrderModel;
@@ -27,7 +28,7 @@ type Props = {
 const OrderItem = ({ data }: Props) => {
   const router = useRouter();
   const [deleteOpen, setDeleteOpen] = useState(false);
-
+  const { user } = useContext(UserContext);
   const updateStatus = async (status: "pending" | "proses" | "done") => {
     const newStatus = status === "pending" ? "proses" : "done";
     const response = await updateOrderStatus(data.id, newStatus);
@@ -60,10 +61,6 @@ const OrderItem = ({ data }: Props) => {
             day: "numeric",
           })}
         </div>
-        {/* <AccordionTrigger>
-          <ReceiptText size={16} className="text-primary" />
-          List Pesanan
-        </AccordionTrigger> */}
       </div>
       <div className="flex flex-col gap-1 p-4">
         <div className="flex justify-between items-start">
@@ -107,7 +104,7 @@ const OrderItem = ({ data }: Props) => {
             }).format(data.total_payment)}
           </span>
           <div className="flex gap-4">
-            {data.statusOrder === "pending" && (
+            {(data.statusOrder === "pending" || user.user_role === "admin") && (
               <Button
                 size="sm"
                 className="bg-red-500 p-2 text-white hover:bg-white hover:text-red-500 border-[1px] hover:border-red-500"

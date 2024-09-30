@@ -7,13 +7,15 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { navigation } from "@/lib/navigation";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import UserContext from "@/lib/UserContext";
-import { useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import SidebarSkeleton from "./loading/SidebarSkeleton";
 const SideBar = () => {
   const pathname = usePathname();
+  const [loading, setLoading] = useState(true);
   const { user } = useContext(UserContext);
   const [isOpen, setIsOpen] = useState(true);
   type UserRole = keyof typeof navigation;
@@ -21,8 +23,17 @@ const SideBar = () => {
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
+  const renderSidebar = useCallback(() => {
+    if (user && user.user_role) setLoading(false);
+  }, [user]);
 
-  return (
+  useEffect(() => {
+    renderSidebar();
+  }, [renderSidebar]);
+
+  return loading ? (
+    <SidebarSkeleton />
+  ) : (
     <aside
       className={`sticky top-0 z-10 max-h-screen hidden flex-col border-r bg-background sm:flex ${
         isOpen ? "w-52" : "w-14"

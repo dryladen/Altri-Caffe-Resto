@@ -29,23 +29,25 @@ const AvatarUser = ({ user }: { user: User | null }) => {
         .eq("id", user?.id)
         .single();
       if (error && status !== 406) {
-        console.log(error);
-        console.log(status);
         throw error;
       }
       if (data) {
-        const { data: gambar, error } = await supabase.storage
-        .from("avatars")
-        .download(data.avatar_url);
-        if (error) {
-          throw error;
+        if (!data.avatar_url.includes("https://lh3.googleusercontent.com")) {
+          const { data: gambar, error } = await supabase.storage
+            .from("avatars")
+            .download(data.avatar_url);
+          if (error) {
+            throw error;
+          }
+          const url = URL.createObjectURL(gambar);
+          setAvatarUrl(url);
+        } else {
+          setAvatarUrl(data.avatar_url);
         }
-        const url = URL.createObjectURL(gambar);
-        setAvatarUrl(url);
         setUsername(data.username);
       }
     } catch (error) {
-      alert("Error loading user data!");
+      // alert("Error loading user data!");
       console.error(error);
     }
   }, [user, supabase]);
