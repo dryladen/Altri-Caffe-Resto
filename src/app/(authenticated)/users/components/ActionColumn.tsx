@@ -47,7 +47,7 @@ export function ActionColumn<TData>({ row }: ActionColumnProps<TData>) {
           <DropdownMenuLabel>Fitur</DropdownMenuLabel>
           <DropdownMenuItem>
             <Link
-              href={`/products/${row.getValue("id")}`}
+              href={`/users/${row.getValue("id")}`}
               className="flex items-center"
             >
               <ReceiptText className="h-4 w-4 mr-2 text-gray-500" />
