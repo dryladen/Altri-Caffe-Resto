@@ -9,6 +9,7 @@ const reports = () => {
         <li>Laporan Produk Terlaris:</li>
         <li>Laporan Bahan baku yang terpakai</li>
         <li>Laporan Keuangan</li>
+        <li>Semua laporan dapat di download ke pdf</li>
       </ul>
     </div>
   );
