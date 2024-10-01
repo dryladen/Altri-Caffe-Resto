@@ -92,7 +92,7 @@ export default function AddProductModal() {
           <DialogHeader>
             <DialogTitle>Add New Product</DialogTitle>
             <DialogDescription>
-              Enter the details of the new product here. Click save when you're done.
+              Enter the details of the new product here. Click save when
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
